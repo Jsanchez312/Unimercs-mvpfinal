@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" width="1920" height="1200">
+  <defs>
+    <radialGradient id="stage_bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#182420"/>
+      <stop offset="60%" stop-color="#0E1513"/>
+      <stop offset="100%" stop-color="#070908"/>
+    </radialGradient>
+    <filter id="device_shadow">
+      <feDropShadow dx="0" dy="30" stdDeviation="40" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#C8A96A" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Studio Stage Background -->
+  <rect width="1920" height="1200" fill="url(#stage_bg)"/>
+
+  <!-- Top Title Header -->
+  <g transform="translate(100, 60)">
+    <rect width="1720" height="60" rx="16" fill="#141C19" stroke="#23312C"/>
+    <text x="30" y="38" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#FFFFFF">12 · PANEL DE ADMINISTRACIÓN & MODERACIÓN</text>
+    <rect x="1380" y="14" width="310" height="32" rx="16" fill="#1F3D36"/>
+    <text x="1535" y="35" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#FFE4A0">MOCKUP OFICIAL · PUJ BOGOTÁ</text>
+  </g>
+
+  <!-- MacBook Pro 16" Mockup Frame -->
+  <g transform="translate(140, 150)" filter="url(#device_shadow)">
+    <!-- Aluminum Outer Bezel -->
+    <rect width="1640" height="960" rx="28" fill="#1A201E" stroke="#374540" stroke-width="4"/>
+    
+    <!-- Notch / Camera & Browser Bar -->
+    <rect x="4" y="4" width="1632" height="42" rx="24 24 0 0" fill="#121715"/>
+    <!-- Window Control Buttons -->
+    <circle cx="36" cy="25" r="6" fill="#FF5F56"/>
+    <circle cx="58" cy="25" r="6" fill="#FFBD2E"/>
+    <circle cx="80" cy="25" r="6" fill="#27C93F"/>
+
+    <!-- URL Pill Bar -->
+    <g transform="translate(480, 10)">
+      <rect width="680" height="26" rx="13" fill="#1B2421" stroke="#2D3B36"/>
+      <text x="340" y="17" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" fill="#A4B5AC">🔒 https://unimercs.javeriana.edu.co/src/test/html/admin.html</text>
+    </g>
+
+    <!-- Inner Screen Display Area (1632 x 910) -->
+    <g transform="translate(4, 46)">
+      <rect width="1632" height="910" fill="#F4EFE6"/>
+      <g transform="scale(1.02, 1.0340909090909092)">
+        
+      <!-- Dark Theme Admin Dashboard -->
+      <rect width="1600" height="880" fill="#0E0A24"/>
+      
+      <!-- Top Bar -->
+      <rect width="1600" height="64" fill="#161138" stroke="#2D245A"/>
+      <text x="40" y="42" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#FFE4A0">UniMercs Admin Portal</text>
+      <text x="1400" y="40" font-family="'DM Mono', monospace" font-size="13" fill="#9E9BBF">Rol: Administrador PUJ</text>
+
+      <!-- Stat Cards -->
+      <g transform="translate(40, 90)">
+        <rect width="360" height="120" rx="16" fill="#161138" stroke="#2D245A"/>
+        <text x="25" y="45" font-family="'DM Mono', monospace" font-size="13" fill="#9E9BBF">USUARIOS ACTIVOS</text>
+        <text x="25" y="90" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="36" fill="#FFF">1,248</text>
+
+        <g transform="translate(385, 0)">
+          <rect width="360" height="120" rx="16" fill="#161138" stroke="#2D245A"/>
+          <text x="25" y="45" font-family="'DM Mono', monospace" font-size="13" fill="#9E9BBF">PUBLICACIONES EN CAMPUS</text>
+          <text x="25" y="90" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="36" fill="#C8A96A">624</text>
+        </g>
+
+        <g transform="translate(770, 0)">
+          <rect width="360" height="120" rx="16" fill="#161138" stroke="#2D245A"/>
+          <text x="25" y="45" font-family="'DM Mono', monospace" font-size="13" fill="#9E9BBF">TRANSACCIONES SAFEZONE</text>
+          <text x="25" y="90" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="36" fill="#10B981">892</text>
+        </g>
+
+        <g transform="translate(1155, 0)">
+          <rect width="360" height="120" rx="16" fill="#161138" stroke="#2D245A"/>
+          <text x="25" y="45" font-family="'DM Mono', monospace" font-size="13" fill="#9E9BBF">REPORTES PENDIENTES</text>
+          <text x="25" y="90" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="36" fill="#EF4444">0</text>
+        </g>
+      </g>
+
+      <!-- Table Section -->
+      <g transform="translate(40, 240)">
+        <rect width="1520" height="580" rx="18" fill="#161138" stroke="#2D245A"/>
+        <text x="30" y="45" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#FFF">Moderación Reciente de Publicaciones</text>
+
+        <!-- Rows -->
+        <g transform="translate(30, 80)">
+          <rect width="1460" height="60" rx="10" fill="#1C1547"/>
+          <text x="30" y="36" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#FFF">Cálculo Stewart 8va Edición</text>
+          <text x="450" y="36" font-family="'DM Mono', monospace" font-size="14" fill="#C8A96A">$45.000 COP</text>
+          <text x="750" y="36" font-family="'DM Mono', monospace" font-size="13" fill="#9E9BBF">Mateo Sánchez (PUJ Verificado)</text>
+          <rect x="1280" y="14" width="140" height="32" rx="16" fill="#10B981"/>
+          <text x="1350" y="35" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" font-weight="700" fill="#000">APROBADO ✓</text>
+
+          <g transform="translate(0, 80)">
+            <rect width="1460" height="60" rx="10" fill="#1C1547"/>
+            <text x="30" y="36" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#FFF">Calculadora TI-84 Plus CE</text>
+            <text x="450" y="36" font-family="'DM Mono', monospace" font-size="14" fill="#C8A96A">$120.000 COP</text>
+            <text x="750" y="36" font-family="'DM Mono', monospace" font-size="13" fill="#9E9BBF">Germán Rodríguez</text>
+            <rect x="1280" y="14" width="140" height="32" rx="16" fill="#10B981"/>
+            <text x="1350" y="35" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" font-weight="700" fill="#000">APROBADO ✓</text>
+          </g>
+        </g>
+      </g>
+    
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+      <defs>
+        <linearGradient id="s6_bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#182C24"/>
+          <stop offset="100%" stop-color="#0E1714"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="1920" height="1080" fill="url(#s6_bg)"/>
+
+      <!-- Map Graphic / Isometric Campus Base -->
+      <g transform="translate(160, 160)">
+        <!-- Stylized Map Canvas -->
+        <rect width="900" height="780" rx="30" fill="#243E34" stroke="#375D4E" stroke-width="4"/>
+        
+        <!-- Campus Pathways / Streets -->
+        <path d="M 0 320 Q 400 280 900 340" fill="none" stroke="#3D6857" stroke-width="36"/>
+        <path d="M 450 0 L 450 780" fill="none" stroke="#3D6857" stroke-width="44"/>
+        <path d="M 180 0 L 750 780" fill="none" stroke="#335849" stroke-width="20"/>
+
+        <!-- Buildings Blocks (Isometric 3D stylized) -->
+        <rect x="80" y="100" width="180" height="140" rx="14" fill="#172721" stroke="#487562" stroke-width="2"/>
+        <text x="170" y="175" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" fill="#8BB3A0">Ed. 21 Maldonado</text>
+
+        <rect x="580" y="120" width="220" height="160" rx="14" fill="#172721" stroke="#487562" stroke-width="2"/>
+        <text x="690" y="205" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" fill="#8BB3A0">Ed. 67 Arboleda</text>
+
+        <rect x="140" y="440" width="220" height="200" rx="14" fill="#172721" stroke="#487562" stroke-width="2"/>
+        <text x="250" y="545" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" fill="#8BB3A0">Ed. 40 Giraldo</text>
+
+        <!-- Big Highlight: Ed. 02 Biblioteca Central with Glowing Radar -->
+        <g transform="translate(560, 480)">
+          <!-- Glowing Pulsing Circles -->
+          <circle cx="80" cy="80" r="140" fill="#C8A96A" opacity="0.1"/>
+          <circle cx="80" cy="80" r="90" fill="#25D366" opacity="0.2"/>
+          <circle cx="80" cy="80" r="50" fill="#25D366" opacity="0.4"/>
+          
+          <rect width="180" height="140" rx="16" fill="#1F3D36" stroke="#C8A96A" stroke-width="4"/>
+          <text x="90" y="65" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#FFF">EDIFICIO 02</text>
+          <text x="90" y="90" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" fill="#C8A96A">Biblioteca Central</text>
+
+          <!-- Animated Map Pin -->
+          <g transform="translate(60, -30)" filter="url(#shadow)">
+            <path d="M 20 0 C 8 0 0 10 0 20 C 0 35 20 55 20 55 C 20 55 40 35 40 20 C 40 10 32 0 20 0 Z" fill="#25D366"/>
+            <circle cx="20" cy="18" r="8" fill="#FFF"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- Right Column: Real Student Handover Photo Mockup -->
+      <g transform="translate(1120, 160)" filter="url(#shadow)">
+        <rect width="640" height="780" rx="30" fill="#F4EFE6"/>
+        
+        <!-- Live Scene Image Simulation -->
+        <g transform="translate(30, 30)">
+          <rect width="580" height="440" rx="20" fill="#1F3D36"/>
+          <!-- Two students silhouette meeting -->
+          <circle cx="200" cy="180" r="50" fill="#C8A96A"/>
+          <path d="M 130 320 C 130 250 270 250 270 320 Z" fill="#3D6857"/>
+
+          <circle cx="380" cy="180" r="50" fill="#FFEBB8"/>
+          <path d="M 310 320 C 310 250 450 250 450 320 Z" fill="#3D6857"/>
+
+          <!-- Book in Hand Exchange -->
+          <rect x="250" y="240" width="80" height="100" rx="6" fill="#C8A96A" stroke="#FFF" stroke-width="3"/>
+          <text x="290" y="295" text-anchor="middle" font-size="12" font-weight="bold">📚 PUJ</text>
+
+          <!-- Augmented Reality Badge -->
+          <rect x="150" y="380" width="280" height="38" rx="19" fill="#16130FEE" stroke="#25D366" stroke-width="2"/>
+          <text x="290" y="404" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#25D366">🛡️ SafeZone Verificada 24/7</text>
+        </g>
+
+        <!-- SafeZone Detail Card -->
+        <g transform="translate(40, 500)">
+          <text x="0" y="30" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="24" fill="#16130F">Biblioteca Central Jorge Palacios</text>
+          <text x="0" y="60" font-family="'DM Mono', monospace" font-size="14" fill="#756F64">Hall de entrada frente a torniquetes · Ed. 02</text>
+          
+          <g transform="translate(0, 85)">
+            <rect width="560" height="42" rx="10" fill="#E8EFE8"/>
+            <text x="20" y="26" font-family="'DM Mono', monospace" font-size="13" fill="#1F3D36">✓ Cámaras de seguridad y vigilancia institucional</text>
+          </g>
+          <g transform="translate(0, 135)">
+            <rect width="560" height="42" rx="10" fill="#E8EFE8"/>
+            <text x="20" y="26" font-family="'DM Mono', monospace" font-size="13" fill="#1F3D36">✓ Alto flujo de estudiantes · Punto 100% confiable</text>
+          </g>
+
+          <text x="0" y="225" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="18" fill="#1F3D36">¡Entrega exitosa en menos de 2 minutos!</text>
+        </g>
+      </g>
+
+      <!-- Header -->
+      <g transform="translate(100, 60)">
+        <text x="0" y="0" font-family="'DM Mono', monospace" font-size="18" font-weight="500" fill="#C8A96A" letter-spacing="4">ESCENA 06 · 00:38 - 00:46</text>
+        <text x="0" y="38" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="36" fill="#F4EFE6">SafeZones: Encuentros Seguros y Confiables en Campus</text>
+      </g>
+    
+</svg>

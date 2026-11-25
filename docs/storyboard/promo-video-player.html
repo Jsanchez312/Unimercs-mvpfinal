@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniMercs · Animated Promo Video Simulator & Storyboard Player</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0D1110;
+      --card-bg: #141B18;
+      --border: #23312C;
+      --green: #1F3D36;
+      --green-light: #2D5A4F;
+      --gold: #C8A96A;
+      --gold-bright: #FFE4A0;
+      --paper: #F4EFE6;
+      --ink: #16130F;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--paper);
+      font-family: var(--font-brand);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Bar */
+    header {
+      background: rgba(13, 17, 16, 0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-badge {
+      background: var(--gold);
+      color: var(--ink);
+      font-weight: 800;
+      font-size: 18px;
+      padding: 4px 12px;
+      border-radius: 8px;
+      letter-spacing: -0.5px;
+    }
+    .app-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .tagline {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      font-family: var(--font-brand);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--paper);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background: var(--green-light);
+      border-color: var(--gold);
+      color: #fff;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+    }
+    .btn-gold:hover {
+      background: var(--gold-bright);
+      color: #000;
+      transform: translateY(-1px);
+    }
+
+    /* Main Grid Layout */
+    .app-workspace {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      flex: 1;
+      height: calc(100vh - 66px);
+      overflow: hidden;
+    }
+
+    /* Video Player Area */
+    .player-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at center, #172420 0%, #0D1110 80%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .viewport-container {
+      position: relative;
+      background: #000;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(200, 169, 106, 0.25);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Aspect ratio switches */
+    .viewport-container.mode-16-9 {
+      width: min(920px, 94%);
+      aspect-ratio: 16 / 9;
+    }
+    .viewport-container.mode-9-16 {
+      width: 360px;
+      aspect-ratio: 9 / 16;
+    }
+
+    /* Scene Slides */
+    .scene-viewport {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .scene-frame {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform: scale(1.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .scene-frame.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+    .scene-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #0D1110;
+    }
+
+    /* Camera Motion Classes */
+    .motion-push-in img {
+      animation: pushInAnim 8s infinite alternate ease-in-out;
+    }
+    .motion-pan-left img {
+      animation: panLeftAnim 8s infinite alternate ease-in-out;
+    }
+    .motion-pulse img {
+      animation: pulseAnim 2s infinite ease-in-out;
+    }
+    @keyframes pushInAnim {
+      0% { transform: scale(1.0); }
+      100% { transform: scale(1.08); }
+    }
+    @keyframes panLeftAnim {
+      0% { transform: scale(1.05) translateX(2%); }
+      100% { transform: scale(1.05) translateX(-2%); }
+    }
+    @keyframes pulseAnim {
+      0%, 100% { transform: scale(1.0); }
+      50% { transform: scale(1.03); }
+    }
+
+    /* Overlay Captions & Beat indicators */
+    .voiceover-overlay {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      right: 24px;
+      background: rgba(16, 19, 18, 0.85);
+      border: 1px solid rgba(200, 169, 106, 0.4);
+      border-radius: 14px;
+      padding: 12px 18px;
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .voiceover-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .voiceover-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    /* Live Timecode Badge */
+    .timecode-badge {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--gold-bright);
+      z-index: 10;
+      letter-spacing: 1px;
+    }
+
+    .resolution-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(31, 61, 54, 0.8);
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #fff;
+      z-index: 10;
+    }
+
+    /* Audio Waves & Beat Indicator */
+    .audio-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      position: absolute;
+      bottom: 18px;
+      right: 18px;
+      background: rgba(0,0,0,0.6);
+      padding: 6px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      z-index: 10;
+    }
+    .audio-bar {
+      width: 3px;
+      height: 14px;
+      background: var(--gold);
+      border-radius: 2px;
+      animation: barBounce 0.5s ease-in-out infinite alternate;
+    }
+    .audio-bar:nth-child(2) { animation-delay: 0.15s; height: 18px; }
+    .audio-bar:nth-child(3) { animation-delay: 0.3s; height: 10px; }
+    .audio-bar:nth-child(4) { animation-delay: 0.1s; height: 16px; }
+    @keyframes barBounce {
+      from { transform: scaleY(0.4); opacity: 0.5; }
+      to { transform: scaleY(1.2); opacity: 1; }
+    }
+    .audio-indicator.muted .audio-bar {
+      animation: none;
+      transform: scaleY(0.2);
+      opacity: 0.3;
+    }
+
+    /* Player Controls Bar */
+    .controls-bar {
+      width: min(920px, 94%);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px 20px;
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .timeline-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .timeline-scrubber {
+      flex: 1;
+      height: 8px;
+      background: #23312C;
+      border-radius: 4px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .timeline-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-light), var(--gold));
+      width: 0%;
+      border-radius: 4px;
+      transition: width 0.1s linear;
+    }
+    .time-readout {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--gold);
+      width: 90px;
+      text-align: right;
+    }
+
+    .control-buttons-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .control-left, .control-center, .control-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--paper);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    .icon-btn:hover {
+      background: var(--green);
+      border-color: var(--gold);
+      color: #fff;
+    }
+    .play-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--gold);
+      color: var(--ink);
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .play-btn:hover {
+      background: var(--gold-bright);
+      transform: scale(1.05);
+    }
+
+    /* Script & Details Sidebar */
+    .sidebar {
+      background: var(--card-bg);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--card-bg);
+      z-index: 10;
+    }
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-subtitle {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    /* Scene Navigation Items */
+    .scene-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+    }
+    .scene-card {
+      background: #101614;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .scene-card:hover {
+      border-color: var(--green-light);
+      background: #141C19;
+      transform: translateX(3px);
+    }
+    .scene-card.active {
+      border-color: var(--gold);
+      background: #172420;
+      box-shadow: 0 4px 16px rgba(200, 169, 106, 0.15);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-index {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .card-time {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #8C9994;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .card-script {
+      font-size: 12px;
+      color: #C0C8C4;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .tag-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--gold);
+      background: rgba(200, 169, 106, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Thumbnail Carousel Reel (Bottom of Player) */
+    .storyboard-strip {
+      width: min(920px, 94%);
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .thumb-item {
+      min-width: 100px;
+      height: 56px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+    }
+    .thumb-item:hover, .thumb-item.active {
+      opacity: 1;
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .thumb-label {
+      position: absolute;
+      bottom: 2px;
+      right: 4px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    /* Modal / Popups */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 100;
+      display: none;
+      place-items: center;
+      padding: 24px;
+    }
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 28px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .app-workspace {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .sidebar {
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="brand-group">
+      <div class="logo-badge">u</div>
+      <div>
+        <div class="app-title">UNIMERCS · Promo Video Simulator</div>
+        <div class="tagline">Campus Hustle, Handled · Pontificia Universidad Javeriana</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" id="btnToggleAspect">📱 Cambiar a 9:16 Vertical</button>
+      <button class="btn" id="btnToggleAudio">🔊 Sonido: ON</button>
+      <button class="btn btn-gold" id="btnOpenScriptModal">📜 Ver Guion Completo</button>
+    </div>
+  </header>
+
+  <!-- Workspace Container -->
+  <main class="app-workspace">
+    
+    <!-- Left: Interactive Video Player -->
+    <section class="player-section">
+      
+      <!-- Video Viewport Frame -->
+      <div class="viewport-container mode-16-9" id="viewportContainer">
+        
+        <!-- Live Badges -->
+        <div class="timecode-badge" id="timecodeDisplay">00:00 / 01:00</div>
+        <div class="resolution-badge" id="aspectBadge">16:9 · 1080p</div>
+
+        <!-- Audio Pulse Visualizer -->
+        <div class="audio-indicator" id="audioIndicator">
+          <div class="audio-bar"></div>
+          <div class="audio-bar"></div>
+          <div class="audio-bar"></div>
+          <div class="audio-bar"></div>
+        </div>
+
+        <!-- Scene Viewport (Frames) -->
+        <div class="scene-viewport" id="sceneViewport">
+          <!-- Scene 1 -->
+          <div class="scene-frame motion-push-in active" data-scene="0" data-start="0" data-end="7">
+            <img src="scene_01_the_problem.svg" alt="Scene 01 - The Problem" />
+          </div>
+          <!-- Scene 2 -->
+          <div class="scene-frame motion-pulse" data-scene="1" data-start="7" data-end="14">
+            <img src="scene_02_the_solution.svg" alt="Scene 02 - The Solution" />
+          </div>
+          <!-- Scene 3 -->
+          <div class="scene-frame motion-pan-left" data-scene="2" data-start="14" data-end="22">
+            <img src="scene_03_instant_publishing.svg" alt="Scene 03 - Instant Publishing" />
+          </div>
+          <!-- Scene 4 -->
+          <div class="scene-frame motion-push-in" data-scene="3" data-start="22" data-end="30">
+            <img src="scene_04_campus_discovery.svg" alt="Scene 04 - Campus Discovery" />
+          </div>
+          <!-- Scene 5 -->
+          <div class="scene-frame motion-pulse" data-scene="4" data-start="30" data-end="38">
+            <img src="scene_05_trust_and_whatsapp.svg" alt="Scene 05 - Trust & WhatsApp" />
+          </div>
+          <!-- Scene 6 -->
+          <div class="scene-frame motion-push-in" data-scene="5" data-start="38" data-end="46">
+            <img src="scene_06_safezones_delivery.svg" alt="Scene 06 - SafeZones" />
+          </div>
+          <!-- Scene 7 -->
+          <div class="scene-frame motion-pan-left" data-scene="6" data-start="46" data-end="53">
+            <img src="scene_07_student_storefront.svg" alt="Scene 07 - Student Storefront" />
+          </div>
+          <!-- Scene 8 -->
+          <div class="scene-frame motion-pulse" data-scene="7" data-start="53" data-end="60">
+            <img src="scene_08_brand_anthem_cta.svg" alt="Scene 08 - Brand Anthem" />
+          </div>
+        </div>
+
+        <!-- Voiceover Subtitles Overlay -->
+        <div class="voiceover-overlay">
+          <div class="voiceover-badge" id="subSceneBadge">ESCENA 01 · EL PROBLEMA (00:00 - 00:07)</div>
+          <div class="voiceover-text" id="subTextDisplay">"Admitámoslo: todos tenemos en el cuarto ese libro carísimo que ya aprobamos... esa calculadora del semestre pasado... acumulando polvo."</div>
+        </div>
+
+      </div>
+
+      <!-- Video Control Bar -->
+      <div class="controls-bar">
+        <!-- Progress Bar Scrubber -->
+        <div class="timeline-container">
+          <div class="timeline-scrubber" id="timelineScrubber">
+            <div class="timeline-fill" id="timelineFill"></div>
+          </div>
+          <div class="time-readout" id="timeReadout">00:00 / 01:00</div>
+        </div>
+
+        <!-- Buttons Row -->
+        <div class="control-buttons-row">
+          <div class="control-left">
+            <button class="icon-btn" id="btnPrevScene" title="Escena anterior">⏮</button>
+            <button class="icon-btn play-btn" id="btnPlayPause" title="Reproducir / Pausa">▶</button>
+            <button class="icon-btn" id="btnNextScene" title="Siguiente escena">⏭</button>
+            <button class="icon-btn" id="btnRestart" title="Reiniciar">🔄</button>
+          </div>
+
+          <div class="control-center">
+            <span style="font-family: var(--font-mono); font-size: 12px; color: var(--gold);" id="nowPlayingTitle">Escena 1 de 8: El Escritorio Saturado</span>
+          </div>
+
+          <div class="control-right">
+            <button class="btn" id="btnSpeedToggle">1.0x</button>
+            <button class="btn" id="btnLoopToggle">🔁 Loop</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thumbnail Strip Reel -->
+      <div class="storyboard-strip" id="thumbStrip">
+        <div class="thumb-item active" data-index="0"><img src="scene_01_the_problem.svg"><span class="thumb-label">01</span></div>
+        <div class="thumb-item" data-index="1"><img src="scene_02_the_solution.svg"><span class="thumb-label">02</span></div>
+        <div class="thumb-item" data-index="2"><img src="scene_03_instant_publishing.svg"><span class="thumb-label">03</span></div>
+        <div class="thumb-item" data-index="3"><img src="scene_04_campus_discovery.svg"><span class="thumb-label">04</span></div>
+        <div class="thumb-item" data-index="4"><img src="scene_05_trust_and_whatsapp.svg"><span class="thumb-label">05</span></div>
+        <div class="thumb-item" data-index="5"><img src="scene_06_safezones_delivery.svg"><span class="thumb-label">06</span></div>
+        <div class="thumb-item" data-index="6"><img src="scene_07_student_storefront.svg"><span class="thumb-label">07</span></div>
+        <div class="thumb-item" data-index="7"><img src="scene_08_brand_anthem_cta.svg"><span class="thumb-label">08</span></div>
+      </div>
+
+    </section>
+
+    <!-- Right: Scene Cards & Production Notes Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">🎬 Guion & Desglose de Producción</div>
+        <div class="sidebar-subtitle">8 Secuencias · 60 Segundos · 116 BPM</div>
+      </div>
+
+      <div class="scene-list" id="sceneCardList">
+        <!-- Card 1 -->
+        <div class="scene-card active" data-index="0">
+          <div class="card-top">
+            <span class="card-index">ESCENA 01</span>
+            <span class="card-time">00:00 - 00:07 (7s)</span>
+          </div>
+          <div class="card-title">El Escritorio Saturado (El Gancho)</div>
+          <div class="card-script">"Admitámoslo: todos tenemos en el cuarto ese libro carísimo que ya aprobamos... acumulando polvo."</div>
+          <div class="card-tags">
+            <span class="tag-pill">Cenital Push-in</span>
+            <span class="tag-pill">Foley Libro</span>
+            <span class="tag-pill">116 BPM</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="scene-card" data-index="1">
+          <div class="card-top">
+            <span class="card-index">ESCENA 02</span>
+            <span class="card-time">00:07 - 00:14 (7s)</span>
+          </div>
+          <div class="card-title">La Revelación UniMercs</div>
+          <div class="card-script">"Llegó UniMercs: el marketplace creado por y para la comunidad Javeriana. Donde lo que no usas se vuelve plata."</div>
+          <div class="card-tags">
+            <span class="tag-pill">Device 3D Tilt</span>
+            <span class="tag-pill">Beat Drop</span>
+            <span class="tag-pill">Verde Esmeralda</span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="scene-card" data-index="2">
+          <div class="card-top">
+            <span class="card-index">ESCENA 03</span>
+            <span class="card-time">00:14 - 00:22 (8s)</span>
+          </div>
+          <div class="card-title">Publicación Relámpago</div>
+          <div class="card-script">"Publicar toma menos de un minuto: fotos desde tu celular, precio justo, descripción honesta y al aire."</div>
+          <div class="card-tags">
+            <span class="tag-pill">POV Cámara</span>
+            <span class="tag-pill">Shutter SFX</span>
+            <span class="tag-pill">Price Ticker</span>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="scene-card" data-index="3">
+          <div class="card-top">
+            <span class="card-index">ESCENA 04</span>
+            <span class="card-time">00:22 - 00:30 (8s)</span>
+          </div>
+          <div class="card-title">Búsqueda Inteligente en Campus</div>
+          <div class="card-script">"¿Buscas algo para el semestre? Explora por carrera, filtra por precio y encuentra productos reales a pasos de ti."</div>
+          <div class="card-tags">
+            <span class="tag-pill">Typewriter UI</span>
+            <span class="tag-pill">Filtros Chips</span>
+            <span class="tag-pill">Césped Javeriano</span>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="scene-card" data-index="4">
+          <div class="card-top">
+            <span class="card-index">ESCENA 05</span>
+            <span class="card-time">00:30 - 00:38 (8s)</span>
+          </div>
+          <div class="card-title">Confianza, Reputación y WhatsApp</div>
+          <div class="card-script">"Revisa fotos reales, valida la reputación del vendedor y coordina directo por WhatsApp. Sin comisiones sorpresa."</div>
+          <div class="card-tags">
+            <span class="tag-pill">Estrellas 4.9★</span>
+            <span class="tag-pill">WhatsApp Ping</span>
+            <span class="tag-pill">Cero Comisión</span>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="scene-card" data-index="5">
+          <div class="card-top">
+            <span class="card-index">ESCENA 06</span>
+            <span class="card-time">00:38 - 00:46 (8s)</span>
+          </div>
+          <div class="card-title">SafeZones: Entrega Segura en PUJ</div>
+          <div class="card-script">"¿El encuentro? Cero estrés. Usa las SafeZones oficiales: Biblioteca Central y cafeterías vigiladas para intercambiar seguros."</div>
+          <div class="card-tags">
+            <span class="tag-pill">Mapa Isométrico</span>
+            <span class="tag-pill">Sonar Radar</span>
+            <span class="tag-pill">Fist Bump</span>
+          </div>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="scene-card" data-index="6">
+          <div class="card-top">
+            <span class="card-index">ESCENA 07</span>
+            <span class="card-time">00:46 - 00:53 (7s)</span>
+          </div>
+          <div class="card-title">Vitrina Estudiantil & Tiendas</div>
+          <div class="card-script">"Vendas un solo artículo o muevas tu propio emprendimiento en la U, este es tu espacio: personaliza tu perfil y vitrina."</div>
+          <div class="card-tags">
+            <span class="tag-pill">Perfil Tienda</span>
+            <span class="tag-pill">Split Screen</span>
+            <span class="tag-pill">Campus Hustle</span>
+          </div>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="scene-card" data-index="7">
+          <div class="card-top">
+            <span class="card-index">ESCENA 08</span>
+            <span class="card-time">00:53 - 01:00 (7s)</span>
+          </div>
+          <div class="card-title">Cierre Épico & Call to Action</div>
+          <div class="card-script">"Haz espacio. Ahorra. Conecta. UniMercs: Campus hustle, handled. ¡Empieza hoy con tu correo javeriano!"</div>
+          <div class="card-tags">
+            <span class="tag-pill">Logo Dorado 3D</span>
+            <span class="tag-pill">Piano Sub-Hit</span>
+            <span class="tag-pill">unimercs.app</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Script Modal -->
+  <div class="modal-overlay" id="scriptModal">
+    <div class="modal-content">
+      <button class="modal-close" id="btnCloseScriptModal">&times;</button>
+      <h2 style="font-size: 24px; color: var(--gold); margin-bottom: 8px;">Guion Maestro Completo de Locución (VO)</h2>
+      <p style="font-family: var(--font-mono); font-size: 13px; color: #8C9994; margin-bottom: 20px;">Locutor: Joven universitario, tono empático, ágil, sin tecnicismos exagerados.</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 16px; font-size: 15px; line-height: 1.6;">
+        <div>
+          <strong style="color: var(--gold-bright);">[00:00 - 00:07 | Tono cercano, empático]</strong><br>
+          "Admitámoslo: todos tenemos en el cuarto ese libro carísimo que ya aprobamos... esa calculadora guardada... o cosas que ya no usamos acumulando polvo."
+        </div>
+        <div>
+          <strong style="color: var(--gold-bright);">[00:07 - 00:14 | Tono enérgico, fresco]</strong><br>
+          "Llegó UniMercs: el marketplace creado por y para la comunidad Javeriana. Donde lo que ya no usas se convierte en plata para tu bolsillo."
+        </div>
+        <div>
+          <strong style="color: var(--gold-bright);">[00:14 - 00:22 | Tono ágil, claro]</strong><br>
+          "Publicar toma menos de un minuto: fotos desde tu celular, precio justo, estado del producto y listo. Sin intermediarios ni enredos."
+        </div>
+        <div>
+          <strong style="color: var(--gold-bright);">[00:22 - 00:30 | Tono entusiasta, práctico]</strong><br>
+          "¿Y si estás buscando algo para el semestre? Explora por carrera, filtra por precio y encuentra productos reales de estudiantes a pasos de ti."
+        </div>
+        <div>
+          <strong style="color: var(--gold-bright);">[00:30 - 00:38 | Tono confiable, directo]</strong><br>
+          "Revisa fotos reales, valida la reputación del vendedor y coordina directo por WhatsApp. Sin comisiones sorpresa."
+        </div>
+        <div>
+          <strong style="color: var(--gold-bright);">[00:38 - 00:46 | Tono de tranquilidad]</strong><br>
+          "¿El encuentro? Cero estrés. Usa las SafeZones oficiales en el campus: Biblioteca Central, cafeterías y plazas con vigilancia para intercambiar seguros."
+        </div>
+        <div>
+          <strong style="color: var(--gold-bright);">[00:46 - 00:53 | Tono inspirador]</strong><br>
+          "Vendas un solo artículo o muevas tu propio emprendimiento en la U, este es tu espacio."
+        </div>
+        <div>
+          <strong style="color: var(--gold-bright);">[00:53 - 01:00 | Tono de cierre contundente]</strong><br>
+          "Haz espacio. Ahorra. Conecta. UniMercs: Campus hustle, handled. ¡Pruébalo hoy!"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Synthesizer & Video Player Logic -->
+  <script>
+    const scenesData = [
+      {
+        id: 0,
+        start: 0,
+        end: 7,
+        title: "Escena 1 de 8: El Escritorio Saturado",
+        subBadge: "ESCENA 01 · EL PROBLEMA (00:00 - 00:07)",
+        script: '"Admitámoslo: todos tenemos en el cuarto ese libro carísimo que ya aprobamos... esa calculadora del semestre pasado... acumulando polvo."'
+      },
+      {
+        id: 1,
+        start: 7,
+        end: 14,
+        title: "Escena 2 de 8: La Revelación UniMercs",
+        subBadge: "ESCENA 02 · LA SOLUCIÓN (00:07 - 00:14)",
+        script: '"Llegó UniMercs: el marketplace creado por y para la comunidad Javeriana. Donde lo que ya no usas se convierte en plata para tu almuerzo."'
+      },
+      {
+        id: 2,
+        start: 14,
+        end: 22,
+        title: "Escena 3 de 8: Publicación Relámpago",
+        subBadge: "ESCENA 03 · PUBLICA EN 60s (00:14 - 00:22)",
+        script: '"Publicar toma menos de un minuto: fotos desde tu celular, precio justo, descripción y al aire. Sin formularios eternos."'
+      },
+      {
+        id: 3,
+        start: 22,
+        end: 30,
+        title: "Escena 4 de 8: Búsqueda Inteligente en Campus",
+        subBadge: "ESCENA 04 · EXPLORACIÓN (00:22 - 00:30)",
+        script: '"¿Buscas algo para el semestre? Explora por carrera, filtra por precio y encuentra productos reales de estudiantes a pasos de ti."'
+      },
+      {
+        id: 4,
+        start: 30,
+        end: 38,
+        title: "Escena 5 de 8: Confianza y WhatsApp",
+        subBadge: "ESCENA 05 · CONEXIÓN DIRECTA (00:30 - 00:38)",
+        script: '"Revisa fotos reales, valida la reputación del vendedor y coordina directo por WhatsApp. Sin comisiones sorpresa."'
+      },
+      {
+        id: 5,
+        start: 38,
+        end: 46,
+        title: "Escena 6 de 8: SafeZones en Campus",
+        subBadge: "ESCENA 06 · SAFEZONES PUJ (00:38 - 00:46)",
+        script: '"¿El encuentro? Cero estrés. Usa las SafeZones oficiales en el campus: Biblioteca Central, cafeterías y plazas con vigilancia para intercambiar seguros."'
+      },
+      {
+        id: 6,
+        start: 46,
+        end: 53,
+        title: "Escena 7 de 8: Vitrina Estudiantil y Tiendas",
+        subBadge: "ESCENA 07 · TIENDAS Y EMPRENDIMIENTO (00:46 - 00:53)",
+        script: '"Vendas un solo artículo o muevas tu propio emprendimiento en la U, este es tu espacio: personaliza tu perfil y vitrina."'
+      },
+      {
+        id: 7,
+        start: 53,
+        end: 60,
+        title: "Escena 8 de 8: Cierre Épico y Call to Action",
+        subBadge: "ESCENA 08 · EL CIERRE (00:53 - 01:00)",
+        script: '"Haz espacio. Ahorra. Conecta. UniMercs: Campus hustle, handled. ¡Entra hoy con tu correo javeriano!"'
+      }
+    ];
+
+    const TOTAL_DURATION = 60; // 60 seconds
+    let currentTime = 0;
+    let isPlaying = false;
+    let playbackSpeed = 1.0;
+    let isLooping = true;
+    let audioEnabled = true;
+    let currentSceneIndex = 0;
+    let animFrameId = null;
+    let lastTimestamp = null;
+
+    // Web Audio Synthesizer (Zero dependencies SFX generator)
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(freq, duration, type = 'sine', gainVal = 0.15) {
+      if (!audioEnabled || !audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // audio context blocked or unsupported
+      }
+    }
+
+    function playSceneTransitionSFX(sceneIdx) {
+      if (!audioEnabled) return;
+      initAudio();
+      if (sceneIdx === 0) {
+        // Sub thud
+        playTone(90, 0.4, 'sine', 0.25);
+      } else if (sceneIdx === 1) {
+        // Beat drop & chime
+        playTone(180, 0.3, 'sine', 0.3);
+        setTimeout(() => playTone(587.33, 0.4, 'triangle', 0.2), 150);
+      } else if (sceneIdx === 2) {
+        // Camera click
+        playTone(800, 0.05, 'square', 0.15);
+        setTimeout(() => playTone(1200, 0.08, 'square', 0.1), 60);
+      } else if (sceneIdx === 3) {
+        // UI whoosh
+        playTone(340, 0.25, 'sine', 0.2);
+      } else if (sceneIdx === 4) {
+        // Arpeggio stars
+        [523, 659, 783, 1046].forEach((f, i) => {
+          setTimeout(() => playTone(f, 0.2, 'triangle', 0.15), i * 70);
+        });
+      } else if (sceneIdx === 5) {
+        // Radar sonar
+        playTone(440, 0.6, 'sine', 0.2);
+      } else if (sceneIdx === 6) {
+        // Cash chime
+        playTone(987, 0.15, 'sine', 0.2);
+        setTimeout(() => playTone(1318, 0.35, 'triangle', 0.2), 100);
+      } else if (sceneIdx === 7) {
+        // Grand piano chord
+        [261, 329, 392, 523].forEach((f) => playTone(f, 0.9, 'triangle', 0.15));
+      }
+    }
+
+    // DOM Elements
+    const viewportContainer = document.getElementById('viewportContainer');
+    const sceneFrames = document.querySelectorAll('.scene-frame');
+    const timelineScrubber = document.getElementById('timelineScrubber');
+    const timelineFill = document.getElementById('timelineFill');
+    const timeReadout = document.getElementById('timeReadout');
+    const timecodeDisplay = document.getElementById('timecodeDisplay');
+    const nowPlayingTitle = document.getElementById('nowPlayingTitle');
+    const subSceneBadge = document.getElementById('subSceneBadge');
+    const subTextDisplay = document.getElementById('subTextDisplay');
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const btnPrevScene = document.getElementById('btnPrevScene');
+    const btnNextScene = document.getElementById('btnNextScene');
+    const btnRestart = document.getElementById('btnRestart');
+    const btnSpeedToggle = document.getElementById('btnSpeedToggle');
+    const btnLoopToggle = document.getElementById('btnLoopToggle');
+    const btnToggleAspect = document.getElementById('btnToggleAspect');
+    const btnToggleAudio = document.getElementById('btnToggleAudio');
+    const aspectBadge = document.getElementById('aspectBadge');
+    const audioIndicator = document.getElementById('audioIndicator');
+    const thumbItems = document.querySelectorAll('.thumb-item');
+    const sceneCards = document.querySelectorAll('.scene-card');
+    const scriptModal = document.getElementById('scriptModal');
+    const btnOpenScriptModal = document.getElementById('btnOpenScriptModal');
+    const btnCloseScriptModal = document.getElementById('btnCloseScriptModal');
+
+    function formatTime(sec) {
+      const s = Math.floor(sec);
+      const m = Math.floor(s / 60);
+      const remS = s % 60;
+      return `${String(m).padStart(2, '0')}:${String(remS).padStart(2, '0')}`;
+    }
+
+    function updateActiveScene(newIdx) {
+      if (newIdx === currentSceneIndex && sceneFrames[newIdx].classList.contains('active')) return;
+      currentSceneIndex = newIdx;
+
+      // Update frame visibility
+      sceneFrames.forEach((frame, idx) => {
+        frame.classList.toggle('active', idx === currentSceneIndex);
+      });
+
+      // Update thumb strip
+      thumbItems.forEach((thumb, idx) => {
+        thumb.classList.toggle('active', idx === currentSceneIndex);
+      });
+
+      // Update sidebar cards
+      sceneCards.forEach((card, idx) => {
+        card.classList.toggle('active', idx === currentSceneIndex);
+      });
+
+      // Update Voiceover & Title
+      const sc = scenesData[currentSceneIndex];
+      nowPlayingTitle.textContent = sc.title;
+      subSceneBadge.textContent = sc.subBadge;
+      subTextDisplay.textContent = sc.script;
+
+      playSceneTransitionSFX(currentSceneIndex);
+    }
+
+    function renderTime() {
+      const progress = (currentTime / TOTAL_DURATION) * 100;
+      timelineFill.style.width = `${progress}%`;
+      timeReadout.textContent = `${formatTime(currentTime)} / ${formatTime(TOTAL_DURATION)}`;
+      timecodeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(TOTAL_DURATION)}`;
+
+      // Find current scene
+      let foundIdx = 0;
+      for (let i = 0; i < scenesData.length; i++) {
+        if (currentTime >= scenesData[i].start && currentTime < scenesData[i].end) {
+          foundIdx = i;
+          break;
+        }
+        if (currentTime >= 60) foundIdx = 7;
+      }
+      updateActiveScene(foundIdx);
+    }
+
+    function tick(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const delta = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      if (isPlaying) {
+        currentTime += delta * playbackSpeed;
+        if (currentTime >= TOTAL_DURATION) {
+          if (isLooping) {
+            currentTime = 0;
+          } else {
+            currentTime = TOTAL_DURATION;
+            pause();
+          }
+        }
+        renderTime();
+      }
+
+      animFrameId = requestAnimationFrame(tick);
+    }
+
+    function play() {
+      initAudio();
+      isPlaying = true;
+      btnPlayPause.textContent = '⏸';
+      lastTimestamp = null;
+    }
+
+    function pause() {
+      isPlaying = false;
+      btnPlayPause.textContent = '▶';
+    }
+
+    function togglePlay() {
+      if (isPlaying) pause();
+      else play();
+    }
+
+    function seekTo(sec) {
+      currentTime = Math.max(0, Math.min(TOTAL_DURATION, sec));
+      renderTime();
+    }
+
+    // Scrubber click/drag
+    timelineScrubber.addEventListener('click', (e) => {
+      const rect = timelineScrubber.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const ratio = clickX / rect.width;
+      seekTo(ratio * TOTAL_DURATION);
+    });
+
+    // Controls
+    btnPlayPause.addEventListener('click', togglePlay);
+    btnRestart.addEventListener('click', () => {
+      seekTo(0);
+      play();
+    });
+
+    btnPrevScene.addEventListener('click', () => {
+      const targetIdx = Math.max(0, currentSceneIndex - 1);
+      seekTo(scenesData[targetIdx].start);
+    });
+
+    btnNextScene.addEventListener('click', () => {
+      const targetIdx = Math.min(scenesData.length - 1, currentSceneIndex + 1);
+      seekTo(scenesData[targetIdx].start);
+    });
+
+    // Speed button
+    const speeds = [0.5, 1.0, 1.5, 2.0];
+    let speedIdx = 1;
+    btnSpeedToggle.addEventListener('click', () => {
+      speedIdx = (speedIdx + 1) % speeds.length;
+      playbackSpeed = speeds[speedIdx];
+      btnSpeedToggle.textContent = `${playbackSpeed.toFixed(1)}x`;
+    });
+
+    // Loop button
+    btnLoopToggle.addEventListener('click', () => {
+      isLooping = !isLooping;
+      btnLoopToggle.style.color = isLooping ? 'var(--gold)' : '#888';
+    });
+
+    // Aspect ratio toggle
+    let isVertical = false;
+    btnToggleAspect.addEventListener('click', () => {
+      isVertical = !isVertical;
+      if (isVertical) {
+        viewportContainer.className = 'viewport-container mode-9-16';
+        aspectBadge.textContent = '9:16 · TikTok / Reels';
+        btnToggleAspect.textContent = '🖥️ Cambiar a 16:9 Cine';
+      } else {
+        viewportContainer.className = 'viewport-container mode-16-9';
+        aspectBadge.textContent = '16:9 · 1080p';
+        btnToggleAspect.textContent = '📱 Cambiar a 9:16 Vertical';
+      }
+    });
+
+    // Audio toggle
+    btnToggleAudio.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      btnToggleAudio.textContent = audioEnabled ? '🔊 Sonido: ON' : '🔇 Sonido: OFF';
+      audioIndicator.classList.toggle('muted', !audioEnabled);
+      if (audioEnabled) initAudio();
+    });
+
+    // Thumbnail strip clicks
+    thumbItems.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const idx = parseInt(thumb.getAttribute('data-index'));
+        seekTo(scenesData[idx].start);
+      });
+    });
+
+    // Sidebar card clicks
+    sceneCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.getAttribute('data-index'));
+        seekTo(scenesData[idx].start);
+      });
+    });
+
+    // Modal
+    btnOpenScriptModal.addEventListener('click', () => {
+      scriptModal.style.display = 'grid';
+    });
+    btnCloseScriptModal.addEventListener('click', () => {
+      scriptModal.style.display = 'none';
+    });
+    scriptModal.addEventListener('click', (e) => {
+      if (e.target === scriptModal) scriptModal.style.display = 'none';
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.code === 'ArrowRight') {
+        seekTo(currentTime + 5);
+      } else if (e.code === 'ArrowLeft') {
+        seekTo(currentTime - 5);
+      }
+    });
+
+    // Start tick loop
+    renderTime();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>

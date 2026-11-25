@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi Perfil | unimercs Javeriana</title>
+  <meta name="description" content="Gestiona tu perfil, publicaciones, inventario, mensajes y calificaciones en unimercs Javeriana" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css" />
+
+  <style>
+    :root {
+      --voltage: #1F3D36;
+      --voltage-hover: #172F2A;
+      --volt: #C8A96A;
+      --volt-hover: #B89958;
+      --midnight: #16130F;
+      --paper: #F4EFE6;
+      --ground: #F4EFE6;
+      --line: #E2DBD0;
+      --muted: #756F64;
+      --card-radius: 20px;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    body {
+      background: var(--ground);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Top Hero Banner (Page Mockup) */
+    .profile-hero-section {
+      padding: 36px 0 24px;
+    }
+    .profile-hero-card {
+      background: var(--voltage);
+      color: #FFFFFF;
+      border-radius: 26px;
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+      box-shadow: 0 12px 36px rgba(31, 61, 54, 0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-hero-user-info {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .profile-hero-avatar-wrap {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--volt);
+      border: 4px solid var(--volt);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+    .profile-hero-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .verified-badge-tag {
+      background: var(--volt);
+      color: var(--midnight);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .profile-hero-name {
+      font-size: clamp(26px, 3.5vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 4px;
+      line-height: 1.15;
+    }
+    .profile-hero-subtitle {
+      font-size: 14.5px;
+      color: #E2DDFF;
+      margin: 0;
+    }
+
+    .profile-hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-hero-edit {
+      background: var(--volt);
+      color: var(--midnight);
+      border: 0;
+      border-radius: 9999px;
+      padding: 12px 24px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-hero-edit:hover {
+      background: var(--volt-hover);
+      transform: translateY(-2px);
+    }
+    .btn-hero-share {
+      background: transparent;
+      color: #FFFFFF;
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      border-radius: 9999px;
+      padding: 11px 22px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-hero-share:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #FFFFFF;
+    }
+
+    /* 3 Stat Counter Cards */
+    .stat-counters-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 760px) {
+      .stat-counters-grid { grid-template-columns: 1fr; }
+    }
+    .stat-counter-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 24px 28px;
+      box-shadow: 0 4px 16px rgba(22, 19, 15, 0.03);
+    }
+    .stat-counter-val {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--midnight);
+      margin-bottom: 4px;
+      line-height: 1;
+    }
+    .stat-counter-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Main Split Layout */
+    .profile-split-layout {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 32px;
+      padding-bottom: 80px;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .profile-split-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Left Sidebar */
+    .profile-sidebar-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 24px;
+      padding: 24px 18px;
+      box-shadow: 0 4px 16px rgba(22, 19, 15, 0.03);
+    }
+    .sidebar-sec-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      padding-left: 8px;
+    }
+    .sidebar-menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sidebar-menu-item {
+      padding: 10px 16px;
+      border-radius: 9999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--midnight);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sidebar-menu-item:hover {
+      background: var(--paper);
+      color: var(--voltage);
+    }
+    .sidebar-menu-item.active {
+      background: var(--volt);
+      color: var(--midnight);
+      font-weight: 700;
+    }
+
+    .btn-logout-sidebar {
+      margin-top: 24px;
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 9999px;
+      background: #FFFFFF;
+      color: var(--midnight);
+      padding: 10px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .btn-logout-sidebar:hover {
+      border-color: #EF4444;
+      color: #EF4444;
+      background: #FEF2F2;
+    }
+
+    /* Right Tabs Bar */
+    .profile-tabs-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .profile-tab-btn {
+      padding: 9px 20px;
+      border-radius: 9999px;
+      border: 1.5px solid var(--line);
+      background: #FFFFFF;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--midnight);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .profile-tab-btn:hover { border-color: var(--midnight); }
+    .profile-tab-btn.active {
+      background: var(--midnight);
+      color: #FFFFFF;
+      border-color: var(--midnight);
+    }
+
+    /* Publications Grid (3 columns) */
+    .profile-posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    @media (max-width: 900px) { .profile-posts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .profile-posts-grid { grid-template-columns: 1fr; } }
+
+    .my-post-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 14px;
+      border: 1.5px solid var(--line);
+      box-shadow: 0 4px 16px rgba(22, 19, 15, 0.04);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .my-post-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(31, 61, 54, 0.1);
+      border-color: #D3C9FB;
+    }
+    .my-post-img-box {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      background: var(--paper);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .my-post-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .my-post-status-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .status-activa { background: var(--volt); color: var(--midnight); }
+    .status-vendida { background: #E2E8F0; color: #475569; }
+    .status-reservado { background: #FEF08A; color: #854D0E; }
+
+    .my-post-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .my-post-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--midnight);
+      margin: 0 0 6px;
+      line-height: 1.25;
+    }
+    .my-post-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 6px;
+      margin-bottom: 10px;
+    }
+    .my-post-price {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--midnight);
+    }
+
+    /* Stock Management Controls (+ / -) */
+    .stock-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--paper);
+      padding: 6px 10px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 12.5px;
+    }
+    .btn-stock-adjust {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-stock-adjust:hover { background: var(--voltage); color: white; border-color: var(--voltage); }
+
+    .post-actions-flex {
+      display: flex;
+      gap: 6px;
+    }
+    .btn-post-action {
+      flex: 1;
+      padding: 6px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: #FFFFFF;
+      text-align: center;
+    }
+    .btn-post-delete { color: #EF4444; }
+    .btn-post-delete:hover { background: #FEF2F2; border-color: #EF4444; }
+
+    /* Recent Messages Bottom Card (Page Mockup) */
+    .recent-messages-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 24px;
+      padding: 28px 32px;
+      box-shadow: 0 4px 16px rgba(22, 19, 15, 0.03);
+    }
+    .recent-msg-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .recent-msg-heading {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--midnight);
+    }
+    .recent-msg-link {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--voltage);
+      text-decoration: none;
+    }
+
+    .msg-item-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid #F1EEFD;
+    }
+    .msg-item-row:last-child { border-bottom: 0; }
+    .msg-avatar-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .msg-avatar-circle.lime { background: var(--volt); }
+    .msg-avatar-circle.purple { background: var(--voltage); }
+    .msg-avatar-circle.midnight { background: var(--midnight); }
+
+    .msg-body-col { flex: 1; min-width: 0; }
+    .msg-sender-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--midnight);
+      margin-bottom: 2px;
+    }
+    .msg-text-snippet {
+      font-size: 13px;
+      color: #555172;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .msg-time-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Modal Edit Profile */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(22, 19, 15, 0.65);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(22, 19, 15, 0.35);
+      border: 1px solid var(--line);
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--midnight);
+      margin-bottom: 6px;
+    }
+    .form-input-pill {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 9999px;
+      padding: 11px 18px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--midnight);
+      outline: none;
+      background: var(--paper);
+    }
+    .form-input-pill:focus {
+      border-color: var(--voltage);
+      background: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <div class="container">
+      <!-- Top Hero Banner (Matching Screenshot) -->
+      <section class="profile-hero-section">
+        <div class="profile-hero-card">
+          <div class="profile-hero-user-info">
+            <div class="profile-hero-avatar-wrap">
+              <img id="heroAvatar" class="profile-hero-avatar-img" src="" alt="Avatar" />
+            </div>
+            <div>
+              <span class="verified-badge-tag">ESTUDIANTE VERIFICADO</span>
+              <h1 class="profile-hero-name" id="heroName">Cargando...</h1>
+              <p class="profile-hero-subtitle" id="heroSubtitle">Pontificia Universidad Javeriana · Estudiante</p>
+            </div>
+          </div>
+
+          <div class="profile-hero-actions">
+            <a href="store.html" class="btn-hero-edit" id="btnViewMyStore" style="background:#FFFFFF; color:var(--midnight); border:1.5px solid var(--midnight); text-decoration:none; display:inline-flex; align-items:center; gap:6px;">Ver mi tienda pública</a>
+            <button type="button" class="btn-hero-edit" id="btnOpenEditProfile">Editar perfil</button>
+            <button type="button" class="btn-hero-share" id="btnShareProfile">Compartir</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 Stat Counter Cards -->
+      <section class="stat-counters-grid">
+        <div class="stat-counter-card">
+          <div class="stat-counter-val" id="countActivePosts">0</div>
+          <div class="stat-counter-label">Publicaciones Activas</div>
+        </div>
+        <div class="stat-counter-card">
+          <div class="stat-counter-val" id="countSoldPosts">0</div>
+          <div class="stat-counter-label">Artículos Vendidos</div>
+        </div>
+        <div class="stat-counter-card">
+          <div class="stat-counter-val" id="statRatingAverage">5.0</div>
+          <div class="stat-counter-label">Valoración Promedio</div>
+        </div>
+      </section>
+
+      <!-- Main Split Layout -->
+      <div class="profile-split-layout">
+        <!-- Left Sidebar (MI CUENTA) -->
+        <aside class="profile-sidebar-card">
+          <div class="sidebar-sec-label">MI CUENTA</div>
+          <nav class="sidebar-menu-list">
+            <a class="sidebar-menu-item active" id="menu-personal" onclick="switchSidebarTab('personal')">Información personal</a>
+            <a class="sidebar-menu-item" id="menu-verif" onclick="switchSidebarTab('verif')">Verificación</a>
+            <a class="sidebar-menu-item" id="menu-safezones" href="safezones.html">Puntos seguros favoritos</a>
+            <a class="sidebar-menu-item" id="menu-notifs" onclick="switchSidebarTab('notifs')">Notificaciones</a>
+            <a class="sidebar-menu-item" id="menu-privacy" href="privacy.html">Privacidad</a>
+          </nav>
+          <button type="button" class="btn-logout-sidebar" id="btnLogout">Cerrar sesión</button>
+        </aside>
+
+        <!-- Right Content Area -->
+        <div>
+          <!-- Filter Tabs Row -->
+          <div class="profile-tabs-row">
+            <button class="profile-tab-btn active" id="tab-posts" onclick="switchMainTab('posts')">Mis publicaciones</button>
+            <button class="profile-tab-btn" id="tab-saved" onclick="switchMainTab('saved')">Vistos recientemente</button>
+            <button class="profile-tab-btn" id="tab-reviews" onclick="switchMainTab('reviews')">Reseñas</button>
+          </div>
+
+          <!-- Publications Grid (3 columns) -->
+          <div id="tabContentPosts">
+            <div class="profile-posts-grid" id="myPostsGrid"></div>
+          </div>
+
+          <!-- Saved / Viewed Tab Content -->
+          <div id="tabContentSaved" style="display:none;">
+            <div class="profile-posts-grid" id="savedPostsGrid"></div>
+          </div>
+
+          <!-- Reviews Tab Content -->
+          <div id="tabContentReviews" style="display:none; background:#fff; border-radius:20px; padding:24px; border:1.5px solid var(--line); margin-bottom:30px;">
+            <h3 style="margin:0 0 16px; font-size:18px;">Calificaciones y opiniones recibidas</h3>
+            <div id="myReviewsList"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Editar Perfil -->
+  <div class="modal-overlay" id="editProfileModal">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <h2 style="margin:0; font-size:22px; font-weight:700;">Editar Perfil</h2>
+        <button type="button" class="btn-close-modal" id="btnCloseEditProfile" style="background:var(--paper); border:0; border-radius:50%; width:32px; height:32px; cursor:pointer; font-weight:700;">✕</button>
+      </div>
+
+      <form id="editProfileForm">
+        <div class="form-group" style="text-align:center;">
+          <div style="width:80px; height:80px; border-radius:50%; margin:0 auto 10px; overflow:hidden; border:3px solid var(--volt); background:var(--paper);">
+            <img id="editProfileAvatarPreview" src="" style="width:100%; height:100%; object-fit:cover;" />
+          </div>
+          <input type="file" id="profilePicInput" accept="image/*" style="display:none;" />
+          <button type="button" class="btn" style="font-size:12px; padding:6px 14px;" onclick="document.getElementById('profilePicInput').click()">Cambiar foto</button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editName">Nombre completo</label>
+          <input type="text" id="editName" class="form-input-pill" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editPhone">WhatsApp / Teléfono</label>
+          <input type="tel" id="editPhone" class="form-input-pill" placeholder="310 123 4567" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editPersonalEmail">Correo personal de respaldo</label>
+          <input type="email" id="editPersonalEmail" class="form-input-pill" placeholder="ejemplo@gmail.com" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="editStoreName">Nombre de tienda (Opcional)</label>
+          <input type="text" id="editStoreName" class="form-input-pill" placeholder="Mi tienda" />
+          <label class="form-label" for="editStoreDescription" style="margin-top:14px">Descripción de tienda</label>
+          <textarea id="editStoreDescription" class="form-input-pill" placeholder="Cuenta qué ofreces y cómo funciona tu tienda" style="min-height:84px;resize:vertical"></textarea>
+          <label class="form-label" for="editStoreBanner" style="margin-top:14px">Imagen de banner de tienda (URL opcional)</label>
+          <input type="url" id="editStoreBanner" class="form-input-pill" placeholder="https://..." />
+        </div>
+
+        <button type="submit" class="btn btn-voltage" style="width:100%; padding:12px; margin-top:10px;">Guardar cambios</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+  <script>
+    UniMercs.mount('profile');
+
+    const API_BASE = 'http://localhost:5000/api';
+    const token = localStorage.getItem('unimercs_token');
+    let currentUser = JSON.parse(localStorage.getItem('unimercs_current_user') || 'null');
+
+    if (!token || !currentUser) {
+      alert('Debes iniciar sesión para ver tu perfil.');
+      window.location.href = 'login.html';
+    }
+
+    let myPosts = [];
+
+    function initProfileUI() {
+      if (!currentUser) return;
+      document.getElementById('heroName').textContent = currentUser.name || 'Estudiante';
+      document.getElementById('heroSubtitle').textContent = `${currentUser.university || 'Pontificia Universidad Javeriana'} · ${currentUser.accountType === 'store' ? (currentUser.storeName || 'Tienda Virtual') : 'Estudiante Javeriano'}`;
+      
+      const initials = encodeURIComponent((currentUser.name || 'U').split(' ').map(x => x[0]).slice(0, 2).join(''));
+      const pic = currentUser.profilePicture
+        ? (currentUser.profilePicture.startsWith('http') || currentUser.profilePicture.startsWith('data:')
+            ? currentUser.profilePicture
+            : `http://localhost:5000${currentUser.profilePicture}`)
+        : `https://ui-avatars.com/api/?name=${initials}&background=5B2EFF&color=fff&bold=true`;
+      
+      document.getElementById('heroAvatar').src = pic;
+      document.getElementById('editProfileAvatarPreview').src = pic;
+
+      document.getElementById('statRatingAverage').textContent = Number(currentUser.ratingAverage || 5.0).toFixed(1);
+      const storeBtn = document.getElementById('btnViewMyStore');
+      if (storeBtn) {
+        storeBtn.href = `store.html?seller=${encodeURIComponent(currentUser.name || 'Mi Tienda')}&id=${encodeURIComponent(currentUser.id || currentUser._id || '')}`;
+        storeBtn.style.display = currentUser.accountType === 'store' ? 'inline-flex' : 'none';
+      }
+    }
+
+    async function loadMyPosts() {
+      try {
+        const res = await fetch(`${API_BASE}/posts?sellerId=${currentUser.id || currentUser._id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        myPosts = await res.json();
+        
+        const activeCount = myPosts.filter(p => p.status === 'Disponible' || !p.status).length;
+        const soldCount = myPosts.filter(p => p.status === 'Vendido').length;
+        
+        document.getElementById('countActivePosts').textContent = activeCount.toString().padStart(2, '0');
+        document.getElementById('countSoldPosts').textContent = soldCount.toString().padStart(2, '0');
+
+        renderMyPosts();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function renderMyPosts() {
+      const grid = document.getElementById('myPostsGrid');
+      if (!myPosts.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:50px; background:#fff; border-radius:20px; border:1px dashed var(--line); color:var(--muted);">Aún no tienes publicaciones. <a href="post.html" style="color:var(--voltage); font-weight:700;">¡Publica tu primer artículo!</a></div>';
+        return;
+      }
+
+      grid.innerHTML = myPosts.map(p => {
+        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+        const isSold = p.status === 'Vendido';
+        const isReserved = p.status === 'Reservado';
+        const statusClass = isSold ? 'status-vendida' : (isReserved ? 'status-reservado' : 'status-activa');
+        const statusText = p.status || 'ACTIVA';
+
+        return `
+          <div class="my-post-card">
+            <div class="my-post-img-box">
+              <span class="my-post-status-badge ${statusClass}">${statusText.toUpperCase()}</span>
+              <img src="${img}" alt="${p.title}" />
+            </div>
+
+            <div class="my-post-meta">${p.category || 'Varios'}</div>
+            <h3 class="my-post-title">${p.title}</h3>
+
+            <div class="my-post-price-row">
+              <span class="my-post-price">$${Number(p.price).toLocaleString('es-CO')}</span>
+            </div>
+
+            <div class="stock-controls-row">
+              <span>Stock: <strong>${p.stock !== undefined ? p.stock : 1}</strong></span>
+              <div style="display:flex; gap:4px;">
+                <button type="button" class="btn-stock-adjust" onclick="adjustStock('${p._id}', -1)">-</button>
+                <button type="button" class="btn-stock-adjust" onclick="adjustStock('${p._id}', 1)">+</button>
+              </div>
+            </div>
+
+            <div class="post-actions-flex">
+              <select onchange="updateStatus('${p._id}', this.value)" style="font-size:11px; padding:4px 6px; border-radius:8px; border:1px solid var(--line); background:#fff;">
+                <option value="Disponible" ${p.status === 'Disponible' ? 'selected' : ''}>Disponible</option>
+                <option value="Reservado" ${p.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
+                <option value="Vendido" ${p.status === 'Vendido' ? 'selected' : ''}>Vendido</option>
+              </select>
+              <button class="btn-post-action btn-post-delete" onclick="deletePost('${p._id}')">Eliminar</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.adjustStock = async function(postId, delta) {
+      const p = myPosts.find(x => x._id === postId);
+      if (!p) return;
+      const current = p.stock !== undefined ? p.stock : 1;
+      const newStock = Math.max(0, current + delta);
+
+      try {
+        const res = await fetch(`${API_BASE}/posts/${postId}/stock`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ stock: newStock })
+        });
+        if (res.ok) loadMyPosts();
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    window.updateStatus = async function(postId, newStatus) {
+      try {
+        const res = await fetch(`${API_BASE}/posts/${postId}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ status: newStatus })
+        });
+        if (res.ok) loadMyPosts();
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    window.deletePost = async function(postId) {
+      if (!confirm('¿Deseas eliminar esta publicación permanentemente?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/posts/${postId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) loadMyPosts();
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    // Edit Profile Modal
+    document.getElementById('btnOpenEditProfile').addEventListener('click', () => {
+      document.getElementById('editName').value = currentUser.name || '';
+      document.getElementById('editPhone').value = currentUser.phone || '';
+      document.getElementById('editPersonalEmail').value = currentUser.personalEmail || '';
+      document.getElementById('editStoreName').value = currentUser.storeName || '';
+      document.getElementById('editStoreDescription').value = currentUser.storeDescription || '';
+      document.getElementById('editStoreBanner').value = currentUser.storeBanner || '';
+      document.getElementById('editProfileModal').classList.add('open');
+    });
+
+    document.getElementById('btnCloseEditProfile').addEventListener('click', () => {
+      document.getElementById('editProfileModal').classList.remove('open');
+    });
+
+    // Handle Picture change
+    document.getElementById('profilePicInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          document.getElementById('editProfileAvatarPreview').src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('editName').value.trim();
+      const phone = document.getElementById('editPhone').value.trim();
+      const personalEmail = document.getElementById('editPersonalEmail').value.trim();
+      const storeName = document.getElementById('editStoreName').value.trim();
+      const storeDescription = document.getElementById('editStoreDescription').value.trim();
+      const storeBanner = document.getElementById('editStoreBanner').value.trim();
+      const picFile = document.getElementById('profilePicInput').files[0];
+
+      try {
+        let avatarUrl = currentUser.profilePicture;
+        if (picFile) {
+          const formPic = new FormData();
+          formPic.append('avatar', picFile);
+          const uploadRes = await fetch(`${API_BASE}/auth/avatar`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: formPic
+          });
+          const uploadData = await uploadRes.json();
+          if (uploadData.profilePicture) avatarUrl = uploadData.profilePicture;
+        }
+
+        const res = await fetch(`${API_BASE}/auth/profile`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ name, phone, personalEmail, storeName, storeDescription, storeBanner, profilePicture: avatarUrl })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          currentUser = data.user;
+          localStorage.setItem('unimercs_current_user', JSON.stringify(data.user));
+          alert('Perfil actualizado correctamente');
+          document.getElementById('editProfileModal').classList.remove('open');
+          initProfileUI();
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
+
+    // Logout
+    document.getElementById('btnLogout').addEventListener('click', () => {
+      localStorage.removeItem('unimercs_token');
+      localStorage.removeItem('unimercs_current_user');
+      window.location.href = 'index.html';
+    });
+
+    // Tab switcher
+    window.switchMainTab = function(tab) {
+      document.querySelectorAll('.profile-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`tab-${tab}`).classList.add('active');
+
+      document.getElementById('tabContentPosts').style.display = tab === 'posts' ? 'block' : 'none';
+      document.getElementById('tabContentSaved').style.display = tab === 'saved' ? 'block' : 'none';
+      document.getElementById('tabContentReviews').style.display = tab === 'reviews' ? 'block' : 'none';
+
+      if (tab === 'saved') loadSavedPosts();
+      if (tab === 'reviews') loadMyReviews();
+    };
+
+    function loadSavedPosts() {
+      const grid = document.getElementById('savedPostsGrid');
+      const viewedKey = `unimercs_viewed_${currentUser.id || currentUser._id}`;
+      const saved = JSON.parse(localStorage.getItem(viewedKey) || '[]');
+      if (!saved.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--muted); background:#fff; border-radius:20px; border:1.5px dashed var(--line);">Aún no has explorado productos recientemente.</div>';
+        return;
+      }
+      grid.innerHTML = saved.map(p => `
+        <div class="my-post-card" onclick="window.location.href='explore.html'">
+          <div class="my-post-img-box">
+            <img src="${p.imageUrl || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80'}" alt="${p.title}" />
+          </div>
+          <h3 class="my-post-title">${p.title}</h3>
+          <div class="my-post-price-row">
+            <span class="my-post-price">$${Number(p.price).toLocaleString('es-CO')}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadMyReviews() {
+      const list = document.getElementById('myReviewsList');
+      try {
+        const res = await fetch(`${API_BASE}/reviews/seller/${currentUser.id || currentUser._id}`);
+        const data = await res.json();
+        if (!data.reviews || !data.reviews.length) {
+          list.innerHTML = '<div style="color:var(--muted); font-size:13.5px; padding:10px 0;">Aún no tienes calificaciones de otros estudiantes.</div>';
+        } else {
+          list.innerHTML = data.reviews.map(r => `
+            <div style="border-bottom:1px solid var(--line); padding:10px 0;">
+              <strong>${r.buyerName}</strong> <span style="color:#F59E0B;">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+              <p style="margin:4px 0 0; font-size:13.5px; color:#756F64;">${r.comment}</p>
+            </div>
+          `).join('');
+        }
+      } catch (e) {
+        list.innerHTML = '<div style="color:#ef4444;">Error cargando opiniones</div>';
+      }
+    }
+
+    window.switchSidebarTab = function(tab) {
+      document.querySelectorAll('.sidebar-menu-item').forEach(m => m.classList.remove('active'));
+      if (document.getElementById(`menu-${tab}`)) {
+        document.getElementById(`menu-${tab}`).classList.add('active');
+      }
+      if (tab === 'personal') {
+        document.getElementById('btnOpenEditProfile').click();
+      } else if (tab === 'verif') {
+        alert('Tu cuenta se encuentra verificada mediante correo institucional @javeriana.edu.co.');
+      } else if (tab === 'notifs') {
+        alert('Tienes tus preferencias de notificación activas para correo institucional.');
+      }
+    };
+
+    document.getElementById('btnShareProfile').addEventListener('click', () => {
+      const uid = currentUser.id || currentUser._id;
+      const publicUrl = `${window.location.origin}/store.html?id=${encodeURIComponent(uid)}`;
+      navigator.clipboard?.writeText(publicUrl);
+      alert('Enlace de perfil público copiado.');
+    });
+
+    initProfileUI();
+    loadMyPosts();
+  </script>
+</body>
+</html>

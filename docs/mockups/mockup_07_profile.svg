@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" width="1920" height="1200">
+  <defs>
+    <radialGradient id="stage_bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#182420"/>
+      <stop offset="60%" stop-color="#0E1513"/>
+      <stop offset="100%" stop-color="#070908"/>
+    </radialGradient>
+    <filter id="device_shadow">
+      <feDropShadow dx="0" dy="30" stdDeviation="40" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#C8A96A" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Studio Stage Background -->
+  <rect width="1920" height="1200" fill="url(#stage_bg)"/>
+
+  <!-- Top Title Header -->
+  <g transform="translate(100, 60)">
+    <rect width="1720" height="60" rx="16" fill="#141C19" stroke="#23312C"/>
+    <text x="30" y="38" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#FFFFFF">07 · MI PERFIL & PANEL DE USUARIO</text>
+    <rect x="1380" y="14" width="310" height="32" rx="16" fill="#1F3D36"/>
+    <text x="1535" y="35" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#FFE4A0">MOCKUP OFICIAL · PUJ BOGOTÁ</text>
+  </g>
+
+  <!-- MacBook Pro 16" Mockup Frame -->
+  <g transform="translate(140, 150)" filter="url(#device_shadow)">
+    <!-- Aluminum Outer Bezel -->
+    <rect width="1640" height="960" rx="28" fill="#1A201E" stroke="#374540" stroke-width="4"/>
+    
+    <!-- Notch / Camera & Browser Bar -->
+    <rect x="4" y="4" width="1632" height="42" rx="24 24 0 0" fill="#121715"/>
+    <!-- Window Control Buttons -->
+    <circle cx="36" cy="25" r="6" fill="#FF5F56"/>
+    <circle cx="58" cy="25" r="6" fill="#FFBD2E"/>
+    <circle cx="80" cy="25" r="6" fill="#27C93F"/>
+
+    <!-- URL Pill Bar -->
+    <g transform="translate(480, 10)">
+      <rect width="680" height="26" rx="13" fill="#1B2421" stroke="#2D3B36"/>
+      <text x="340" y="17" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" fill="#A4B5AC">🔒 https://unimercs.javeriana.edu.co/src/test/html/profile.html</text>
+    </g>
+
+    <!-- Inner Screen Display Area (1632 x 910) -->
+    <g transform="translate(4, 46)">
+      <rect width="1632" height="910" fill="#F4EFE6"/>
+      <g transform="scale(1.02, 1.0340909090909092)">
+        
+      <rect width="1600" height="74" fill="#FFFFFF" stroke="#E2DBD0"/>
+      <text x="80" y="48" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="28" fill="#1F3D36">unimercs</text>
+
+      <g transform="translate(80, 110)">
+        <!-- Left Sidebar User Card -->
+        <g transform="translate(0, 0)">
+          <rect width="420" height="740" rx="20" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <circle cx="210" cy="100" r="50" fill="#C8A96A"/>
+          <text x="210" y="115" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="38" fill="#1F3D36">JS</text>
+          <text x="210" y="180" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="22" fill="#16130F">Juan Pablo Sánchez</text>
+          <text x="210" y="205" text-anchor="middle" font-family="'DM Mono', monospace" font-size="13" fill="#756F64">sanchez.jp@javeriana.edu.co</text>
+          
+          <rect x="80" y="225" width="260" height="32" rx="16" fill="#E8EFE8"/>
+          <text x="210" y="246" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#1F3D36">🛡️ Carné Javeriano Validado</text>
+
+          <g transform="translate(30, 300)">
+            <rect width="360" height="46" rx="10" fill="#1F3D36"/>
+            <text x="20" y="28" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" fill="#FFF">📦 Mis Publicaciones (3)</text>
+            <rect y="60" width="360" height="46" rx="10" fill="#F8F6F1"/>
+            <text x="20" y="88" font-family="'Space Grotesk', sans-serif" font-size="14" fill="#555">💬 Mensajes de Compradores</text>
+            <rect y="120" width="360" height="46" rx="10" fill="#F8F6F1"/>
+            <text x="20" y="148" font-family="'Space Grotesk', sans-serif" font-size="14" fill="#555">⭐ Mis Calificaciones (4.9)</text>
+          </g>
+        </g>
+
+        <!-- Right Active Listings -->
+        <g transform="translate(460, 0)">
+          <rect width="980" height="740" rx="20" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <text x="40" y="55" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="26" fill="#16130F">Mis Artículos en Venta</text>
+
+          <g transform="translate(40, 90)">
+            <!-- Item Row 1 -->
+            <rect width="900" height="110" rx="14" fill="#F8F6F1" stroke="#E2DBD0"/>
+            <rect x="15" y="15" width="80" height="80" rx="10" fill="#1F3D36"/>
+            <text x="55" y="65" text-anchor="middle" font-size="34">📘</text>
+            <text x="120" y="50" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#16130F">Cálculo Stewart 8va Edición</text>
+            <text x="120" y="75" font-family="'DM Mono', monospace" font-size="13" fill="#756F64">Activo · 14 vistas hoy</text>
+            <text x="680" y="62" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="22" fill="#1F3D36">$45.000 COP</text>
+            <rect x="800" y="38" width="80" height="34" rx="8" fill="#1F3D36"/>
+            <text x="840" y="59" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="12" fill="#FFF">Editar</text>
+
+            <!-- Item Row 2 -->
+            <g transform="translate(0, 130)">
+              <rect width="900" height="110" rx="14" fill="#F8F6F1" stroke="#E2DBD0"/>
+              <rect x="15" y="15" width="80" height="80" rx="10" fill="#202A26"/>
+              <text x="55" y="65" text-anchor="middle" font-size="34">📟</text>
+              <text x="120" y="50" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#16130F">Calculadora TI-84 Plus CE</text>
+              <text x="120" y="75" font-family="'DM Mono', monospace" font-size="13" fill="#756F64">Activo · 28 vistas</text>
+              <text x="680" y="62" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="22" fill="#1F3D36">$120.000 COP</text>
+              <rect x="800" y="38" width="80" height="34" rx="8" fill="#1F3D36"/>
+              <text x="840" y="59" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="12" fill="#FFF">Editar</text>
+            </g>
+          </g>
+        </g>
+      </g>
+    
+      </g>
+    </g>
+  </g>
+</svg>

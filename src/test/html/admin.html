@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="site.css" />
+  <title>Panel de Administracion | UniMercs Javeriana</title>
+  <meta name="description" content="Portal unico de administracion, moderacion, inventario y seguridad de UniMercs" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root{
+      --bg: #0E0A24;
+      --card-bg: #161138;
+      --card-border: #2D245A;
+      --fg: #F4EFE6;
+      --muted: #9E9BBF;
+      --primary: #1F3D36;
+      --primary-dark: #172F2A;
+      --volt: #C8A96A;
+      --teal-accent: #C8A96A;
+      --danger: #EF4444;
+      --warning: #F59E0B;
+      --success: #10B981;
+      --radius: 12px;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    *{box-sizing:border-box}
+    html,body{min-height:100%; margin:0; padding:0;}
+    body{
+      font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      background:var(--bg);
+      color:var(--fg);
+      -webkit-font-smoothing:antialiased;
+      line-height:1.5;
+    }
+
+    /* Admin Login Gate */
+    .admin-login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at top, #1e293b 0%, #0b1329 100%);
+    }
+
+    .admin-login-card {
+      background: #152238;
+      border: 1px solid #1e3a5f;
+      border-radius: 14px;
+      padding: 36px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.5);
+    }
+
+    .admin-login-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 6px;
+      text-align: center;
+    }
+
+    .admin-login-sub {
+      color: var(--muted);
+      font-size: 13.5px;
+      text-align: center;
+      margin: 0 0 24px;
+    }
+
+    .admin-header{
+      background:rgba(21, 34, 56, 0.95);
+      border-bottom:1px solid var(--card-border);
+      position:sticky; top:0; z-index:50;
+    }
+    .header-inner{
+      max-width:1300px; margin:0 auto; padding:16px 24px;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .brand-title{ font-size:18px; font-weight:700; display:flex; align-items:center; gap:8px; color:#fff; text-decoration:none; }
+    .badge-admin{ background:#1e3a5f; color:#93c5fd; font-size:11px; padding:3px 8px; border-radius:4px; font-weight:700; }
+
+    .header-actions{ display:flex; gap:10px; align-items:center; }
+    .btn-outline{
+      background:transparent; color:#94a3b8; border:1px solid var(--card-border);
+      padding:7px 14px; border-radius:6px; font-size:13px; font-weight:500; cursor:pointer; text-decoration:none;
+      transition:all 0.15s;
+    }
+    .btn-outline:hover{ background:#1e3a5f; color:#fff; }
+
+    .main-container{ max-width:1300px; margin:0 auto; padding:28px 24px 60px; }
+
+    .stats-grid{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:28px;
+    }
+    .stat-card{
+      background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:18px;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .stat-title{ font-size:12.5px; color:var(--muted); font-weight:500; margin-bottom:4px; }
+    .stat-value{ font-size:24px; font-weight:700; color:#fff; }
+    .stat-badge{ padding:4px 10px; border-radius:14px; font-size:11px; font-weight:600; }
+    .badge-red{ background:rgba(239,68,68,0.15); color:#fca5a5; }
+    .badge-blue{ background:rgba(59,130,246,0.15); color:#93c5fd; }
+    .badge-green{ background:rgba(16,185,129,0.15); color:#6ee7b7; }
+    .badge-yellow{ background:rgba(245,158,11,0.15); color:#fcd34d; }
+
+    .tabs-nav{
+      display:flex; gap:6px; border-bottom:1px solid var(--card-border); margin-bottom:24px; overflow-x:auto;
+    }
+    .tab-btn{
+      background:transparent; border:0; color:var(--muted); padding:10px 16px; font-size:14px;
+      font-weight:500; cursor:pointer; border-bottom:2px solid transparent; transition:all 0.15s; white-space:nowrap;
+    }
+    .tab-btn:hover{ color:#fff; }
+    .tab-btn.active{ color:#93c5fd; border-bottom-color:#3b82f6; font-weight:600; }
+
+    .tab-content{ display:none; }
+    .tab-content.active{ display:block; }
+
+    .section-card{
+      background:var(--card-bg); border:1px solid var(--card-border); border-radius:12px; padding:22px;
+      overflow-x:auto;
+    }
+    .section-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px; }
+    .section-title{ font-size:16px; font-weight:600; color:#fff; margin:0; }
+
+    .data-table{ width:100%; border-collapse:collapse; text-align:left; font-size:13px; }
+    .data-table th{ background:#0b1329; color:var(--muted); padding:10px 12px; font-weight:600; border-bottom:1px solid var(--card-border); }
+    .data-table td{ padding:12px; border-bottom:1px solid rgba(30,58,95,0.6); color:#cbd5e1; }
+    .data-table tr:hover td{ background:rgba(30,58,95,0.25); }
+
+    .btn-action{
+      padding:5px 10px; border-radius:4px; font-size:11.5px; font-weight:500; border:0; cursor:pointer;
+      margin-right:4px;
+    }
+    .btn-danger{ background:#ef4444; color:white; }
+    .btn-danger:hover{ background:#dc2626; }
+    .btn-warning{ background:#f59e0b; color:black; }
+    .btn-warning:hover{ background:#d97706; }
+    .btn-success{ background:#10b981; color:white; }
+    .btn-success:hover{ background:#059669; }
+    .btn-primary{ background:#3b82f6; color:white; }
+    .btn-primary:hover{ background:#2563eb; }
+
+    .status-pill{ padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; text-transform:uppercase; display:inline-block; }
+    .status-pendiente{ background:rgba(245,158,11,0.2); color:#fcd34d; }
+    .status-resuelto{ background:rgba(16,185,129,0.2); color:#6ee7b7; }
+    .status-descartado{ background:rgba(148,163,184,0.2); color:#cbd5e1; }
+    .status-active{ background:rgba(16,185,129,0.2); color:#6ee7b7; }
+    .status-suspended{ background:rgba(245,158,11,0.2); color:#fcd34d; }
+    .status-banned{ background:rgba(239,68,68,0.2); color:#fca5a5; }
+
+    .form-input, .form-select{
+      width:100%; border:1px solid var(--card-border); border-radius:6px;
+      padding:9px 12px; font-size:13.5px; background:#0b1329; color:#fff; font-family:inherit;
+    }
+    .form-input:focus, .form-select:focus{ outline:0; border-color:#3b82f6; }
+
+    .btn-submit-login{
+      width:100%; background:#3b82f6; color:#fff; border:0; padding:12px; border-radius:8px;
+      font-weight:700; font-size:14.5px; cursor:pointer; margin-top:14px;
+    }
+    .btn-submit-login:hover{ background:#2563eb; }
+
+    .backup-box{
+      background:#0b1329; border:1px solid var(--card-border); border-radius:10px; padding:24px;
+      text-align:center; max-width:540px; margin:0 auto;
+    }
+    .backup-box p{ color:var(--muted); font-size:13.5px; margin-bottom:18px; }
+    .btn-backup{
+      background:#3b82f6; color:white; border:0; padding:10px 20px;
+      border-radius:6px; font-size:14px; font-weight:600; cursor:pointer;
+    }
+    .btn-backup:hover{ background:#2563eb; }
+
+    /* Dashboard X inspired visual system */
+    :root { --bg:#060e28; --card-bg:#0b1635; --card-border:#16264c; --fg:#f2f5ff; --muted:#8491ad; --primary:#bf35ff; --primary-dark:#9a1ee6; --teal-accent:#16d8ff; --success:#11d99b; --warning:#ffb01f; }
+    body { background:linear-gradient(135deg,#071039 0%,#050a20 60%); }
+    #admin-dashboard-view { min-height:100vh; background:radial-gradient(circle at 70% -20%,rgba(108,46,255,.22),transparent 38%),#060e28; }
+    .admin-app-shell { min-height:100vh; display:grid; grid-template-columns:254px minmax(0,1fr); }
+    .admin-sidebar { position:sticky; top:0; height:100vh; padding:26px 16px; background:#07112b; border-right:1px solid #17254a; display:flex; flex-direction:column; }
+    .sidebar-brand { display:flex; align-items:center; gap:9px; padding:0 11px 27px; color:#fff; font-size:18px; font-weight:800; text-decoration:none; }
+    .sidebar-logo { width:22px; height:22px; border-radius:7px; background:linear-gradient(135deg,#13dbff 10%,#b92dff 60%); display:inline-block; }
+    .sidebar-caption { color:#61708f; text-transform:uppercase; font-weight:800; letter-spacing:.09em; font-size:10px; padding:14px 11px 8px; }
+    .sidebar-link { width:100%; border:0; background:transparent; color:#94a0bd; border-radius:7px; text-align:left; padding:10px 12px; margin:2px 0; font:600 13px Inter,sans-serif; cursor:pointer; display:flex; align-items:center; gap:10px; }
+    .sidebar-link:hover,.sidebar-link.active { background:#111e43; color:#fff; box-shadow:inset 3px 0 #c133ff; }
+    .sidebar-link .nav-icon { color:#cb39ff; width:15px; text-align:center; }
+    .sidebar-footer { margin-top:auto; padding:15px 11px 0; border-top:1px solid #17254a; color:#8090ae; font-size:11px; }
+    .sidebar-footer strong { display:block; color:#f2f5ff; font-size:12px; margin-bottom:3px; }
+    .admin-workspace { min-width:0; }
+    .admin-header { background:rgba(7,17,43,.82); backdrop-filter:blur(14px); border-bottom:1px solid #17254a; }
+    .header-inner { max-width:none; padding:17px 30px; }
+    .header-inner .brand-title { display:none; }
+    .header-inner:before { content:'Panel de control'; font-weight:800; font-size:17px; color:#fff; }
+    .badge-admin { background:rgba(190,48,255,.16); color:#e6a8ff; border:1px solid rgba(190,48,255,.26); }
+    .btn-outline { border-color:#283962; color:#a6b1ca; }.btn-outline:hover { background:#172851; }
+    .main-container { max-width:1500px; padding:30px; }
+    .dashboard-welcome { display:flex; justify-content:space-between; align-items:end; gap:18px; margin:0 0 26px; }
+    .dashboard-welcome h1 { margin:0; font-size:27px; letter-spacing:-.7px; color:#fff; }.dashboard-welcome p { margin:5px 0 0; color:#8290ad; font-size:13px; }
+    .stats-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-bottom:26px; }
+    .stat-card { background:linear-gradient(135deg,#0d193a,#0a1430); border-color:#172a55; border-radius:9px; padding:17px; position:relative; overflow:hidden; }
+    .stat-card:before { content:''; width:4px; height:100%; position:absolute; left:0; top:0; background:linear-gradient(#14d9ff,#bb31ff); opacity:.7; }
+    .stat-title { color:#8290ad; font-size:12px; }.stat-value { font-size:25px; }.stat-badge { border-radius:5px; }
+    .tabs-nav { display:none; }
+    .admin-analytics { display:grid; grid-template-columns:minmax(0,1.7fr) minmax(250px,.8fr); gap:14px; margin:0 0 26px; }
+    .analytics-card { background:#0b1635; border:1px solid #172a55; border-radius:10px; padding:20px; min-height:220px; }
+    .analytics-heading { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; color:#fff; font-size:14px; font-weight:700; }.analytics-heading span { color:#7f8eac; font-weight:600; font-size:11px; }
+    .line-chart { height:148px; width:100%; overflow:visible; }.chart-grid line { stroke:#1c2d56; stroke-width:1; }.chart-line { fill:none; stroke:#c033ff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }.chart-area { fill:url(#chart-glow); opacity:.35; }.chart-dot { fill:#16d8ff; stroke:#07122e; stroke-width:4; }
+    .signal-list { list-style:none; padding:0; margin:0; display:grid; gap:14px; }.signal-list li { display:flex; justify-content:space-between; align-items:center; color:#9da9c0; font-size:12px; }.signal-list strong { display:block; color:#fff; font-size:17px; margin-top:3px; }.signal-dot { width:9px; height:9px; border-radius:50%; display:inline-block; margin-right:7px; }.signal-cyan{background:#16d8ff}.signal-purple{background:#c033ff}.signal-green{background:#11d99b}
+    .section-card { background:#0b1635; border-color:#172a55; border-radius:10px; box-shadow:0 14px 34px rgba(0,0,0,.17); }
+    .section-title { font-size:17px; }.data-table th { background:#091331; color:#7f8eac; }.data-table td { border-bottom-color:#17254a; color:#bdc7dc; }.data-table tr:hover td { background:#101f45; }
+    .btn-primary,.btn-submit-login,.btn-backup { background:linear-gradient(90deg,#9d2cf0,#d135ff); }.btn-primary:hover,.btn-submit-login:hover,.btn-backup:hover { background:linear-gradient(90deg,#8320d6,#b923e2); }
+    .admin-login-screen { background:radial-gradient(circle at 20% 10%,#8524e6 0,transparent 30%),#071039; }.admin-login-card { background:#0b1635; border-color:#263965; }.form-input,.form-select { background:#071330; border-color:#263a69; }
+    #site-footer { display:none; }
+    @media(max-width:860px){.admin-app-shell{grid-template-columns:1fr}.admin-sidebar{position:relative;height:auto;display:block;padding:16px}.sidebar-brand{padding-bottom:10px}.sidebar-caption,.sidebar-footer{display:none}.sidebar-link{display:inline-flex;width:auto;margin:2px;font-size:12px}.main-container{padding:22px 16px}.stats-grid{grid-template-columns:repeat(2,1fr)}.admin-analytics{grid-template-columns:1fr}.header-inner{padding:15px 16px}}
+    @media(max-width:520px){.stats-grid{grid-template-columns:1fr}.dashboard-welcome{display:block}.header-actions #admin-user-display{display:none}}
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN LOGIN VIEW (Si no está logueado como admin) -->
+  <div id="admin-login-view" class="admin-login-screen" style="display:none;">
+    <div class="admin-login-card">
+      <div style="text-align:center; margin-bottom:16px;">
+        <span class="badge-admin" style="font-size:13px; padding:4px 10px;">Portal de Administracion</span>
+      </div>
+      <h1 class="admin-login-title">Inicio de Sesion Administrador</h1>
+      <p class="admin-login-sub">Acceso restringido para el administrador del sistema UniMercs Javeriana.</p>
+
+      <div id="admin-login-error" style="color:#ef4444; background:rgba(239,68,68,0.1); border:1px solid #ef4444; border-radius:6px; padding:10px; font-size:13px; margin-bottom:16px; display:none;"></div>
+
+      <form id="form-admin-login">
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:12.5px; font-weight:600; color:#cbd5e1; margin-bottom:5px;">Correo de Administrador</label>
+          <input type="email" id="adm-email" class="form-input" placeholder="admin@javeriana.edu.co" required />
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:12.5px; font-weight:600; color:#cbd5e1; margin-bottom:5px;">Contrasena</label>
+          <input type="password" id="adm-password" class="form-input" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn-submit-login" id="btn-adm-login-submit">Ingresar al Dashboard</button>
+      </form>
+      <div style="text-align:center; margin-top:16px;">
+        <a href="index.html" style="color:var(--muted); font-size:12.5px; text-decoration:none;">Volver al Catalogo Principal</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD VIEW -->
+  <div id="admin-dashboard-view" style="display:none;">
+    <div class="admin-app-shell">
+    <aside class="admin-sidebar">
+      <a href="admin.html" class="sidebar-brand"><span class="sidebar-logo"></span>UniMercs X</a>
+      <div class="sidebar-caption">Panel principal</div>
+      <button class="sidebar-link active" data-tab="tab-reports"><span class="nav-icon">◆</span>Moderación</button>
+      <button class="sidebar-link" data-tab="tab-users"><span class="nav-icon">♙</span>Usuarios y roles</button>
+      <button class="sidebar-link" data-tab="tab-posts"><span class="nav-icon">▣</span>Publicaciones</button>
+      <button class="sidebar-link" data-tab="tab-safezones"><span class="nav-icon">⌖</span>Puntos seguros</button>
+      <div class="sidebar-caption">Sistema</div>
+      <button class="sidebar-link" data-tab="tab-audit"><span class="nav-icon">◫</span>Auditoría</button>
+      <button class="sidebar-link" data-tab="tab-backup"><span class="nav-icon">↓</span>Respaldo</button>
+      <div class="sidebar-footer"><strong id="sidebar-admin-name">Administrador</strong>Gestión de UniMercs</div>
+    </aside>
+    <div class="admin-workspace">
+    <header class="admin-header">
+      <div class="header-inner">
+        <a href="admin.html" class="brand-title">
+          <span>UniMercs</span>
+          <span class="badge-admin">Admin Dashboard</span>
+        </a>
+        <div class="header-actions">
+          <span id="admin-user-display" style="font-size:13px; color:#93c5fd; font-weight:600;"></span>
+          <a href="index.html" class="btn-outline">Ver Tienda</a>
+          <button id="logout-btn" class="btn-outline">Cerrar Sesion</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <div class="dashboard-welcome"><div><h1>Bienvenido de nuevo</h1><p>Administra la actividad y seguridad de UniMercs desde un solo lugar.</p></div><span class="badge-admin">Panel en vivo</span></div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div>
+            <div class="stat-title">Usuarios Registrados</div>
+            <div class="stat-value" id="stat-users">-</div>
+          </div>
+          <div class="stat-badge badge-blue">Total</div>
+        </div>
+        <div class="stat-card">
+          <div>
+            <div class="stat-title">Publicaciones Activas</div>
+            <div class="stat-value" id="stat-posts">-</div>
+          </div>
+          <div class="stat-badge badge-green">Inventario</div>
+        </div>
+        <div class="stat-card">
+          <div>
+            <div class="stat-title">Reportes Pendientes</div>
+            <div class="stat-value" id="stat-reports">-</div>
+          </div>
+          <div class="stat-badge badge-yellow">Revision</div>
+        </div>
+        <div class="stat-card">
+          <div>
+            <div class="stat-title">Cuentas Sancionadas</div>
+            <div class="stat-value" id="stat-banned">-</div>
+          </div>
+          <div class="stat-badge badge-red">Baneados</div>
+        </div>
+      </div>
+
+      <section class="admin-analytics" aria-label="Resumen visual del panel">
+        <article class="analytics-card">
+          <div class="analytics-heading">Actividad de la comunidad <span>Últimos 7 días</span></div>
+          <svg class="line-chart" viewBox="0 0 650 150" preserveAspectRatio="none" role="img" aria-label="Tendencia de actividad semanal">
+            <defs><linearGradient id="chart-glow" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#c033ff"/><stop offset="1" stop-color="#07122e"/></linearGradient></defs>
+            <g class="chart-grid"><line x1="0" y1="25" x2="650" y2="25"/><line x1="0" y1="75" x2="650" y2="75"/><line x1="0" y1="125" x2="650" y2="125"/></g>
+            <path class="chart-area" d="M0,120 C60,98 85,105 130,82 S210,117 260,76 S355,44 405,82 S505,113 550,62 S615,45 650,31 L650,150 L0,150Z"/>
+            <path class="chart-line" d="M0,120 C60,98 85,105 130,82 S210,117 260,76 S355,44 405,82 S505,113 550,62 S615,45 650,31"/>
+            <circle class="chart-dot" cx="550" cy="62" r="5"/>
+          </svg>
+        </article>
+        <article class="analytics-card"><div class="analytics-heading">Señales del sistema <span>Ahora</span></div><ul class="signal-list"><li><span><i class="signal-dot signal-cyan"></i>Usuarios</span><strong id="signal-users">—</strong></li><li><span><i class="signal-dot signal-purple"></i>Publicaciones</span><strong id="signal-posts">—</strong></li><li><span><i class="signal-dot signal-green"></i>Reportes por resolver</span><strong id="signal-reports">—</strong></li></ul></article>
+      </section>
+
+      <!-- Navigation Tabs -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-reports">Moderacion de Reportes</button>
+        <button class="tab-btn" data-tab="tab-users">Gestion de Usuarios y Roles</button>
+        <button class="tab-btn" data-tab="tab-posts">Inventario y Publicaciones</button>
+        <button class="tab-btn" data-tab="tab-safezones">Puntos Seguros Campus</button>
+        <button class="tab-btn" data-tab="tab-audit">Auditoria del Sistema</button>
+        <button class="tab-btn" data-tab="tab-backup">Copia de Seguridad</button>
+      </div>
+
+      <!-- TAB 1: Reportes -->
+      <div id="tab-reports" class="tab-content active">
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">Cola de Reportes y Moderacion</h2>
+            <div>
+              <select id="filter-report-status" style="background:#0b1329; color:#fff; border:1px solid var(--card-border); padding:6px 10px; border-radius:6px; font-size:13px;">
+                <option value="all">Todos</option>
+                <option value="pendiente" selected>Pendientes</option>
+                <option value="resuelto">Resueltos</option>
+                <option value="descartado">Descartados</option>
+              </select>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Reportado por</th>
+                <th>Tipo</th>
+                <th>Motivo</th>
+                <th>Descripcion</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="reports-tbody">
+              <tr><td colspan="7" style="text-align:center;">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 2: Usuarios y Roles -->
+      <div id="tab-users" class="tab-content">
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">Gestion de Usuarios y Roles Javeriana</h2>
+            <input type="text" id="search-users" placeholder="Buscar usuario o correo..." style="background:#0b1329; color:#fff; border:1px solid var(--card-border); padding:6px 12px; border-radius:6px; width:260px; font-size:13px;" />
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>Rol / Tipo de Cuenta</th>
+                <th>Calificacion</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="7" style="text-align:center;">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: Inventario y Publicaciones -->
+      <div id="tab-posts" class="tab-content">
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">Control Total de Inventario y Publicaciones</h2>
+            <input type="text" id="search-posts-admin" placeholder="Buscar producto, SKU o vendedor..." style="background:#0b1329; color:#fff; border:1px solid var(--card-border); padding:6px 12px; border-radius:6px; width:280px; font-size:13px;" />
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Articulo</th>
+                <th>Categoria</th>
+                <th>Estado Amazon</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>SKU</th>
+                <th>Disponibilidad</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="posts-admin-tbody">
+              <tr><td colspan="8" style="text-align:center;">Cargando inventario...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 4: Puntos Seguros Campus -->
+      <div id="tab-safezones" class="tab-content">
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">Puntos de Encuentro Seguros (SafeZones Javeriana)</h2>
+            <a href="safezones.html" target="_blank" class="btn-action btn-primary" style="text-decoration:none; padding:6px 14px;">Abrir Mapa Interactivo</a>
+          </div>
+          <div id="safezones-admin-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px;">
+            <!-- Cargado dinamicamente -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: Auditoria -->
+      <div id="tab-audit" class="tab-content">
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">Registro de Auditoria del Sistema (ISO/IEC 25010)</h2>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Fecha y Hora</th>
+                <th>Administrador</th>
+                <th>Accion</th>
+                <th>Objetivo</th>
+                <th>Detalles</th>
+              </tr>
+            </thead>
+            <tbody id="audit-tbody">
+              <tr><td colspan="5" style="text-align:center;">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 6: Backup -->
+      <div id="tab-backup" class="tab-content">
+        <div class="section-card">
+          <div class="backup-box">
+            <h2 style="color:#fff; margin-top:0; font-size:18px;">Respaldo Integral de Base de Datos</h2>
+            <p>Descarga una copia completa en JSON de todos los usuarios, publicaciones, inventarios, safe zones, calificaciones y registros de auditoria.</p>
+            <button class="btn-backup" id="btn-download-backup">Descargar Copia de Seguridad</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:5000/api';
+    let token = localStorage.getItem('unimercs_token');
+    let currentUser = JSON.parse(localStorage.getItem('unimercs_current_user') || 'null');
+
+    function checkAdminAuth() {
+      if (!token || !currentUser || currentUser.role !== 'admin') {
+        document.getElementById('admin-login-view').style.display = 'flex';
+        document.getElementById('admin-dashboard-view').style.display = 'none';
+      } else {
+        document.getElementById('admin-login-view').style.display = 'none';
+        document.getElementById('admin-dashboard-view').style.display = 'block';
+        document.getElementById('admin-user-display').textContent = `Admin: ${currentUser.name}`;
+        document.getElementById('sidebar-admin-name').textContent = currentUser.name;
+        initAdminDashboard();
+      }
+    }
+
+    // Login de Administrador
+    document.getElementById('form-admin-login').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('adm-email').value.trim();
+      const password = document.getElementById('adm-password').value;
+      const errBox = document.getElementById('admin-login-error');
+      const submitBtn = document.getElementById('btn-adm-login-submit');
+
+      errBox.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verificando credenciales...';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/admin-login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Error en inicio de sesion');
+
+        token = data.token;
+        currentUser = data.user;
+        localStorage.setItem('unimercs_token', token);
+        localStorage.setItem('unimercs_current_user', JSON.stringify(currentUser));
+
+        checkAdminAuth();
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Ingresar al Dashboard';
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('unimercs_token');
+      localStorage.removeItem('unimercs_current_user');
+      token = null;
+      currentUser = null;
+      checkAdminAuth();
+    });
+
+    // Navegacion por pestañas
+    document.querySelectorAll('.tab-btn, .sidebar-link').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn, .sidebar-link').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    function getAmazonConditionLabel(cond) {
+      const map = {
+        'new': 'Nuevo',
+        'used_like_new': 'Como nuevo',
+        'barely used': 'Como nuevo',
+        'used_very_good': 'Muy bueno',
+        'used_good': 'Bueno',
+        'used_acceptable': 'Aceptable',
+        'used': 'Usado',
+        'renewed': 'Reacondicionado',
+        'refurbished': 'Reacondicionado'
+      };
+      return map[cond] || 'Usado';
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch(`${API_BASE}/admin/dashboard-stats`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (res.ok) {
+          document.getElementById('stat-users').textContent = data.totalUsers;
+          document.getElementById('stat-posts').textContent = data.totalPosts;
+          document.getElementById('stat-reports').textContent = data.pendingReports;
+          document.getElementById('stat-banned').textContent = data.bannedUsers;
+          document.getElementById('signal-users').textContent = data.totalUsers;
+          document.getElementById('signal-posts').textContent = data.totalPosts;
+          document.getElementById('signal-reports').textContent = data.pendingReports;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function loadReports() {
+      const status = document.getElementById('filter-report-status').value;
+      const tbody = document.getElementById('reports-tbody');
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando reportes...</td></tr>';
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/reports?status=${status}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const reports = await res.json();
+
+        if (!reports.length) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8;">No hay reportes en este estado.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = reports.map(r => `
+          <tr>
+            <td>${new Date(r.createdAt).toLocaleDateString()} ${new Date(r.createdAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</td>
+            <td><strong>${r.reporterName}</strong><br><small style="color:#94a3b8">${r.reporterEmail}</small></td>
+            <td><span class="status-pill">${r.targetType.toUpperCase()}</span><br><strong>${r.targetTitle || r.targetId}</strong></td>
+            <td><span style="color:#fcd34d;">${r.reason}</span></td>
+            <td>${r.description}</td>
+            <td><span class="status-pill status-${r.status}">${r.status}</span></td>
+            <td>
+              ${r.status === 'pendiente' ? `
+                <button class="btn-action btn-success" onclick="resolveReport('${r._id}', 'resuelto')">Resolver</button>
+                <button class="btn-action btn-warning" onclick="resolveReport('${r._id}', 'descartado')">Descartar</button>
+              ` : `
+                <small style="color:#94a3b8;">${r.actionTaken || 'Completado'}</small>
+              `}
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" style="color:#ef4444; text-align:center;">Error: ${err.message}</td></tr>`;
+      }
+    }
+
+    window.resolveReport = async function(reportId, newStatus) {
+      let actionTaken = prompt(`Accion tomada:`, newStatus === 'resuelto' ? 'Sancion aplicada' : 'Reporte descartado');
+      if (actionTaken === null) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/reports/${reportId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ status: newStatus, actionTaken })
+        });
+        if (res.ok) {
+          alert('Reporte actualizado.');
+          loadReports();
+          loadStats();
+          loadAuditLogs();
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    let allUsersAdmin = [];
+    async function loadUsers(search = '') {
+      const tbody = document.getElementById('users-tbody');
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando usuarios...</td></tr>';
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/users?search=${encodeURIComponent(search)}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        allUsersAdmin = await res.json();
+
+        if (!allUsersAdmin.length) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8;">No se encontraron usuarios.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = allUsersAdmin.map(u => `
+          <tr>
+            <td><strong>${u.name}</strong>${u.storeName ? `<br><small style="color:#38bdf8;">Tienda: ${u.storeName}</small>` : ''}</td>
+            <td>${u.email}</td>
+            <td>${u.phone || '-'}</td>
+            <td>
+              <select onchange="updateUserRole('${u._id}', this.value)" style="background:#0b1329; color:#93c5fd; border:1px solid var(--card-border); padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600;">
+                <option value="buyer" ${u.accountType === 'buyer' && u.role !== 'admin' ? 'selected' : ''}>Comprador</option>
+                <option value="seller" ${u.accountType === 'seller' && u.role !== 'admin' ? 'selected' : ''}>Vendedor</option>
+                <option value="store" ${u.accountType === 'store' && u.role !== 'admin' ? 'selected' : ''}>Tienda Virtual</option>
+                <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Administrador</option>
+              </select>
+            </td>
+            <td>${u.ratingAverage || '5.0'} / 5 (${u.ratingCount || 0})</td>
+            <td><span class="status-pill status-${u.status}">${u.status}</span></td>
+            <td>
+              ${u.status === 'active' ? `
+                <button class="btn-action btn-warning" onclick="suspendUser('${u._id}', '${u.name}')">Suspender</button>
+                <button class="btn-action btn-danger" onclick="banUser('${u._id}', '${u.name}')">Banear</button>
+              ` : `
+                <button class="btn-action btn-success" onclick="activateUser('${u._id}', '${u.name}')">Reactivar</button>
+              `}
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" style="color:#ef4444; text-align:center;">Error: ${err.message}</td></tr>`;
+      }
+    }
+
+    window.updateUserRole = async function(userId, newRoleValue) {
+      const isMakeAdmin = newRoleValue === 'admin';
+      const role = isMakeAdmin ? 'admin' : 'user';
+      const accountType = isMakeAdmin ? 'seller' : newRoleValue;
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/users/${userId}/role`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ role, accountType })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Error al actualizar rol');
+        alert(data.message);
+        loadUsers();
+        loadAuditLogs();
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    window.banUser = async function(userId, userName) {
+      const reason = prompt(`Motivo de baneo para ${userName}:`, 'Infraccion de politicas');
+      if (!reason) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/users/${userId}/ban`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ reason })
+        });
+        const data = await res.json();
+        alert(data.message);
+        loadUsers();
+        loadStats();
+        loadAuditLogs();
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    window.suspendUser = async function(userId, userName) {
+      const reason = prompt(`Motivo de suspension para ${userName}:`, 'Revision preventiva');
+      if (!reason) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/users/${userId}/suspend`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ reason })
+        });
+        const data = await res.json();
+        alert(data.message);
+        loadUsers();
+        loadStats();
+        loadAuditLogs();
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    window.activateUser = async function(userId, userName) {
+      if (!confirm(`¿Reactivar usuario ${userName}?`)) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/users/${userId}/activate`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        alert(data.message);
+        loadUsers();
+        loadStats();
+        loadAuditLogs();
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    // TAB 3: Inventario y Publicaciones
+    let allPostsAdmin = [];
+    async function loadAdminPosts(search = '') {
+      const tbody = document.getElementById('posts-admin-tbody');
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">Cargando inventario...</td></tr>';
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/posts`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        allPostsAdmin = await res.json();
+
+        let filtered = allPostsAdmin;
+        if (search) {
+          const s = search.toLowerCase();
+          filtered = allPostsAdmin.filter(p => (p.title || '').toLowerCase().includes(s) || (p.sku || '').toLowerCase().includes(s) || (p.category || '').toLowerCase().includes(s));
+        }
+
+        if (!filtered.length) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#94a3b8;">No se encontraron articulos en inventario.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(p => `
+          <tr>
+            <td><strong>${p.title}</strong><br><small style="color:var(--muted);">${p.safeZone || 'Campus Javeriana'}</small></td>
+            <td>${p.category}</td>
+            <td><span class="badge-admin">${getAmazonConditionLabel(p.condition)}</span></td>
+            <td>$${Number(p.price || 0).toLocaleString('es-CO')} COP</td>
+            <td>
+              <div style="display:inline-flex; align-items:center; gap:6px;">
+                <button class="btn-action" style="background:#1e3a5f; color:#fff;" onclick="adminUpdateStock('${p._id}', 'decrement')">-</button>
+                <strong>${p.stock !== undefined ? p.stock : 1}</strong>
+                <button class="btn-action" style="background:#1e3a5f; color:#fff;" onclick="adminUpdateStock('${p._id}', 'increment')">+</button>
+              </div>
+            </td>
+            <td><code>${p.sku || 'N/A'}</code></td>
+            <td>
+              <select onchange="adminUpdateStatus('${p._id}', this.value)" style="background:#0b1329; color:#fff; border:1px solid var(--card-border); padding:3px 6px; border-radius:4px; font-size:12px;">
+                <option value="Disponible" ${p.status === 'Disponible' ? 'selected' : ''}>Disponible</option>
+                <option value="Reservado" ${p.status === 'Reservado' ? 'selected' : ''}>Reservado</option>
+                <option value="Vendido" ${p.status === 'Vendido' ? 'selected' : ''}>Vendido</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn-action btn-danger" onclick="adminDeletePost('${p._id}', '${p.title}')">Eliminar</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" style="color:#ef4444; text-align:center;">Error: ${err.message}</td></tr>`;
+      }
+    }
+
+    window.adminUpdateStock = async function(postId, action) {
+      try {
+        const res = await fetch(`${API_BASE}/posts/${postId}/stock`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ action })
+        });
+        if (res.ok) {
+          loadAdminPosts(document.getElementById('search-posts-admin').value);
+          loadStats();
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    window.adminUpdateStatus = async function(postId, newStatus) {
+      try {
+        const res = await fetch(`${API_BASE}/posts/${postId}/status`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+        if (res.ok) {
+          loadAdminPosts(document.getElementById('search-posts-admin').value);
+          loadStats();
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    window.adminDeletePost = async function(postId, title) {
+      if (!confirm(`¿Eliminar la publicacion "${title}" de la plataforma?`)) return;
+      try {
+        const res = await fetch(`${API_BASE}/admin/posts/${postId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          alert('Publicacion eliminada.');
+          loadAdminPosts(document.getElementById('search-posts-admin').value);
+          loadStats();
+          loadAuditLogs();
+        }
+      } catch (err) {
+        alert(err.message);
+      }
+    };
+
+    // TAB 4: SafeZones
+    async function loadSafezonesAdmin() {
+      const container = document.getElementById('safezones-admin-grid');
+      try {
+        const res = await fetch(`${API_BASE}/safezones`);
+        const data = await res.json();
+        container.innerHTML = data.safeZones.map(s => `
+          <div style="background:#0b1329; border:1px solid var(--card-border); border-radius:8px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+              <strong style="color:#fff; font-size:14px;">${s.name}</strong>
+              <span class="stat-badge badge-green" style="font-size:10px;">${s.building}</span>
+            </div>
+            <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">${s.location} · Horario: ${s.schedule}</div>
+            <div style="font-size:12px; color:#cbd5e1; margin-bottom:10px;">${s.description}</div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              ${s.features.map(f => `<span style="background:#1e3a5f; color:#93c5fd; font-size:10.5px; padding:2px 6px; border-radius:4px;">${f}</span>`).join('')}
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        container.innerHTML = `<div style="color:#ef4444;">Error al cargar SafeZones: ${err.message}</div>`;
+      }
+    }
+
+    // TAB 5: Auditoria
+    async function loadAuditLogs() {
+      const tbody = document.getElementById('audit-tbody');
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Cargando...</td></tr>';
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/audit-logs`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const logs = await res.json();
+
+        if (!logs.length) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#94a3b8;">Sin registros de auditoria.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = logs.map(l => `
+          <tr>
+            <td>${new Date(l.createdAt).toLocaleString()}</td>
+            <td><strong>${l.adminEmail}</strong></td>
+            <td><span class="status-pill status-${l.action.includes('BAN') ? 'banned' : 'active'}">${l.action}</span></td>
+            <td><code>${l.targetType} / ${l.targetId}</code></td>
+            <td>${l.details}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444; text-align:center;">Error: ${err.message}</td></tr>`;
+      }
+    }
+
+    // Backup
+    document.getElementById('btn-download-backup').addEventListener('click', async () => {
+      try {
+        const res = await fetch(`${API_BASE}/admin/backup`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `unimercs_backup_${Date.now()}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        loadAuditLogs();
+      } catch (err) {
+        alert('Error al generar backup: ' + err.message);
+      }
+    });
+
+    document.getElementById('filter-report-status').addEventListener('change', loadReports);
+    document.getElementById('search-users').addEventListener('input', (e) => loadUsers(e.target.value));
+    document.getElementById('search-posts-admin').addEventListener('input', (e) => loadAdminPosts(e.target.value));
+
+    function initAdminDashboard() {
+      loadStats();
+      loadReports();
+      loadUsers();
+      loadAdminPosts();
+      loadSafezonesAdmin();
+      loadAuditLogs();
+    }
+
+    // Comprobar autenticacion al cargar
+    checkAdminAuth();
+  </script>
+  <div id="site-footer"></div>
+  <script src="site.js"></script><script>UniMercs.mount()</script>
+</body>
+</html>

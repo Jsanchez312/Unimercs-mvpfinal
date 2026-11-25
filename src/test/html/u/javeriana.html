@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="El marketplace de la comunidad Javeriana, impulsado por unimercs.">
+  <title>unimercs × Javeriana</title>
+  <style>
+    html, body, #unimercs-javeriana { width: 100%; min-height: 100%; margin: 0; border: 0; }
+    #unimercs-javeriana { display: block; min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <!-- The main Unimercs page is deliberately used as the source so its layout,
+       products, navigation, and interactions stay identical to the main site. -->
+  <iframe id="unimercs-javeriana" title="unimercs para la Universidad Javeriana" src="../index.html"></iframe>
+
+  <script>
+    const frame = document.getElementById('unimercs-javeriana');
+    const pujMark = `
+      <svg viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="Pontificia Universidad Javeriana">
+        <path d="M20 2 35 7v13c0 8.8-6.4 14.7-15 18C11.4 34.7 5 28.8 5 20V7l15-5Z" fill="#fff" opacity=".96"/>
+        <path d="M20 4.7 32.7 9v10.8c0 7.2-5 12.4-12.7 15.5C12.3 32.2 7.3 27 7.3 19.8V9L20 4.7Z" fill="#003B70"/>
+        <path d="M18 9h4v6h6v4h-6v8h-4v-8h-6v-4h6V9Z" fill="#F2A900"/>
+        <text x="20" y="33" text-anchor="middle" font-size="5" font-weight="700" fill="#F2A900" font-family="Georgia, serif">PUJ</text>
+      </svg>`;
+
+    function addJaverianaTheme() {
+      const doc = frame.contentDocument;
+      if (!doc) return;
+
+      doc.title = 'unimercs × Javeriana | Marketplace universitario';
+      const theme = doc.createElement('style');
+      theme.textContent = `
+        :root {
+          --voltage: #003B70;
+          --voltage-dark: #002B52;
+          --voltage-soft: #E7F0F7;
+          --volt: #F2A900;
+          --volt-dark: #D99400;
+          --midnight: #001F3F;
+          --midnight-light: #003B70;
+          --paper: #F7F8FA;
+          --ground: #F7F8FA;
+          --line: #D6E0E8;
+          --muted: #5D6B78;
+          --text-dark: #001F3F;
+          --volt-hover: #FFD05A;
+        }
+        .brand { gap: 9px; }
+        .brand .javeriana-wordmark { font-size: 12px; letter-spacing: .01em; font-weight: 600; color: #003B70; border-left: 1px solid #D6E0E8; padding-left: 9px; }
+        .cat-badge-icon-box.purple-accent { background: #003B70; border-color: #003B70; }
+        .cat-badge-icon-box.lime-accent { background: #F2A900; border-color: #F2A900; }
+        .cat-badge-icon-box.outline-lavender { border-color: #B7CDE0; color: #003B70; }
+        .cat-badge-icon-box.outline-purple { border-color: #003B70; color: #003B70; }
+        .cat-badge-icon-box.outline-lime { border-color: #F2A900; }
+        .hero-banner-purple::after { background: radial-gradient(circle, rgba(242,169,0,.22) 0%, rgba(0,59,112,0) 70%); }
+        .brand-product-card:hover { border-color: #9EBAD2; }
+        .footer-main, footer { background: #001F3F !important; }
+      `;
+      doc.head.appendChild(theme);
+
+      const logo = doc.querySelector('.brand');
+      if (logo) {
+        logo.setAttribute('aria-label', 'unimercs para la Pontificia Universidad Javeriana');
+        logo.innerHTML = `${pujMark}<span style="font-weight:700;letter-spacing:-0.03em;color:#001F3F;">unimercs</span><span class="javeriana-wordmark">Javeriana</span>`;
+      }
+
+      const announcement = doc.querySelector('.announcement');
+      if (announcement) announcement.innerHTML = 'Marketplace exclusivo para la comunidad Javeriana <a href="register.html">Verifica tu correo @javeriana.edu.co →</a>';
+
+      const resize = () => {
+        const height = Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight);
+        if (height) frame.style.height = height + 'px';
+      };
+      resize();
+      new ResizeObserver(resize).observe(doc.body);
+      setTimeout(resize, 500);
+    }
+
+    frame.addEventListener('load', addJaverianaTheme);
+  </script>
+</body>
+</html>

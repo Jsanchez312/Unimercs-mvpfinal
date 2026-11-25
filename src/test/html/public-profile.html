@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil público | UniMercs</title>
+  <link rel="stylesheet" href="site.css" />
+  <style>
+    .public-profile { padding:52px 0 88px; background:var(--ground); min-height:65vh; }
+    .public-profile-card { max-width:980px; margin:auto; background:#fff; border:1px solid var(--line); border-radius:26px; overflow:hidden; box-shadow:0 18px 45px rgba(22,19,15,.08); }
+    .public-profile-cover { height:190px; background:linear-gradient(120deg,#1F3D36,#47766a); }
+    .public-profile-main { padding:0 40px 40px; }
+    .public-avatar { width:112px; height:112px; margin-top:-56px; border:5px solid #fff; background:#e8eee9; border-radius:50%; object-fit:cover; display:block; }
+    .public-profile-meta { display:flex; gap:32px; align-items:flex-start; justify-content:space-between; }
+    .public-profile-name { margin:18px 0 6px; font-size:34px; letter-spacing:-.04em; color:var(--midnight); }
+    .public-profile-info { color:var(--muted); margin:0; }
+    .public-profile-stats { display:flex; gap:38px; margin-top:28px; padding-top:22px; border-top:1px solid var(--line); }
+    .public-stat strong { display:block; font-size:19px; color:var(--midnight); }
+    .public-stat span { color:var(--muted); font-size:13px; }
+    .public-products { max-width:920px; margin:32px auto 0; }
+    .public-products h2 { font-size:24px; margin-bottom:18px; color:var(--midnight); }
+    .public-products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .public-product { background:#fff; border:1px solid var(--line); border-radius:18px; overflow:hidden; text-decoration:none; color:inherit; transition:transform .18s,box-shadow .18s; }
+    .public-product:hover { transform:translateY(-4px); box-shadow:0 12px 26px rgba(22,19,15,.1); }
+    .public-product img { width:100%; height:190px; object-fit:cover; display:block; background:#ece8df; }
+    .public-product div { padding:15px; } .public-product h3 { font-size:15px; margin:0 0 7px; } .public-product p { margin:0; font-weight:700; color:var(--voltage); }
+    @media(max-width:680px){ .public-profile-main{padding:0 20px 28px}.public-profile-meta{display:block}.public-products-grid{grid-template-columns:1fr 1fr}.public-profile{padding-top:26px} }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="public-profile">
+    <div class="container">
+      <section class="public-profile-card" aria-live="polite">
+        <div class="public-profile-cover"></div>
+        <div class="public-profile-main">
+          <div class="public-profile-meta">
+            <div>
+              <img id="profileAvatar" class="public-avatar" alt="Foto de perfil" />
+              <h1 id="profileName" class="public-profile-name">Cargando perfil</h1>
+              <p id="profileUniversity" class="public-profile-info"></p>
+              <p id="profileSince" class="public-profile-info" style="margin-top:8px"></p>
+            </div>
+            <a href="index.html" class="btn btn-primary" style="margin-top:24px">Volver al inicio</a>
+          </div>
+          <div class="public-profile-stats">
+            <div class="public-stat"><strong id="profileRating">Sin reseñas</strong><span>Calificación recibida</span></div>
+            <div class="public-stat"><strong id="profilePosts">0</strong><span>Publicaciones activas</span></div>
+            <div class="public-stat"><strong id="profileType">Usuario</strong><span>Tipo de cuenta</span></div>
+          </div>
+        </div>
+      </section>
+      <section class="public-products">
+        <h2>Publicaciones de este usuario</h2>
+        <div id="productsGrid" class="public-products-grid"></div>
+      </section>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="site.js"></script>
+  <script>
+    UniMercs.mount('');
+    const API = 'http://localhost:5000/api';
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    const resolve = value => value ? (value.startsWith('http') || value.startsWith('data:') ? value : `http://localhost:5000${value}`) : '';
+    const escapeHtml = value => String(value || '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    async function loadProfile() {
+      if (!id) { document.getElementById('profileName').textContent = 'Perfil no encontrado'; return; }
+      try {
+        const [profileRes, postsRes] = await Promise.all([fetch(`${API}/auth/public/${id}`), fetch(`${API}/posts?sellerId=${encodeURIComponent(id)}`)]);
+        if (!profileRes.ok) throw new Error('Perfil no encontrado');
+        const user = await profileRes.json();
+        if (user.accountType === 'store') { location.replace(`store.html?id=${encodeURIComponent(id)}`); return; }
+        const posts = postsRes.ok ? await postsRes.json() : [];
+        document.title = `${user.name} | UniMercs`;
+        document.getElementById('profileName').textContent = user.name;
+        document.getElementById('profileUniversity').textContent = user.university || 'Comunidad UniMercs';
+        document.getElementById('profileSince').textContent = user.memberSince ? `Miembro desde ${new Date(user.memberSince).toLocaleDateString('es-CO',{month:'long',year:'numeric'})}` : '';
+        document.getElementById('profileRating').textContent = user.ratingCount ? `${Number(user.ratingAverage || 0).toFixed(1)} / 5` : 'Sin reseñas';
+        document.getElementById('profilePosts').textContent = posts.length;
+        document.getElementById('profileType').textContent = user.accountType === 'buyer' ? 'Comprador' : 'Vendedor';
+        const avatar = document.getElementById('profileAvatar');
+        avatar.src = resolve(user.profilePicture) || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=1F3D36&color=F4EFE6&bold=true`;
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = posts.length ? posts.map(post => {
+          const photo = resolve((post.images && post.images[0]) || post.imageUrl) || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+          return `<a class="public-product" href="product-detail.html?id=${post._id}"><img src="${photo}" alt="${escapeHtml(post.title)}"><div><h3>${escapeHtml(post.title)}</h3><p>$${Number(post.price).toLocaleString('es-CO')}</p></div></a>`;
+        }).join('') : '<p style="grid-column:1/-1;color:var(--muted)">Este usuario no tiene publicaciones activas.</p>';
+      } catch (err) { document.getElementById('profileName').textContent = 'No fue posible cargar este perfil'; }
+    }
+    loadProfile();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1781 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tienda | unimercs</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <style>
+    /* ═══════════════════════════════════════════
+       CSS CUSTOM PROPERTIES — Brand Identity
+    ═══════════════════════════════════════════ */
+    :root {
+      --emerald:        #1F3D36;
+      --emerald-hover:  #172F2A;
+      --champagne:      #C8A96A;
+      --champagne-hover:#B89958;
+      --obsidian:       #16130F;
+      --ivory:          #F4EFE6;
+      --ivory-paper:    #FAF7F2;
+
+      --voltage:        var(--emerald);
+      --voltage-hover:  var(--emerald-hover);
+      --volt:           var(--champagne);
+      --midnight:       var(--obsidian);
+      --paper:          var(--ivory-paper);
+      --ground:         var(--ivory);
+      --line:           #E2DBD0;
+      --muted:          #756F64;
+      --font-brand:     'Space Grotesk', system-ui, sans-serif;
+      --font-mono:      'DM Mono', monospace;
+
+      --radius-card:    22px;
+      --radius-pill:    9999px;
+      --shadow-card:    0 4px 18px rgba(22,19,15,.06);
+      --shadow-hover:   0 12px 36px rgba(22,19,15,.13);
+      --transition:     0.22s cubic-bezier(.16,1,.3,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      background: var(--ground);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── SHARED GLOBAL ─────────────────────────── */
+    #site-nav  { display: contents; }
+    #site-footer { display: contents; }
+
+    main { flex: 1; }
+
+    a { color: inherit; }
+
+    /* ═══════════════════════════════════════════
+       STORE HERO / PROFILE CARD
+    ═══════════════════════════════════════════ */
+    .store-hero-wrap {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid var(--line);
+    }
+
+    .store-hero {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 48px 24px 40px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) {
+      .store-hero {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: 24px;
+      }
+    }
+
+    /* Avatar */
+    .store-avatar-wrap { position: relative; cursor: pointer; }
+
+    .store-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--volt);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+      font-weight: 700;
+      font-size: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 4px solid var(--line);
+      box-shadow: 0 8px 28px rgba(200,169,106,.25);
+      transition: transform var(--transition), box-shadow var(--transition);
+      user-select: none;
+    }
+
+    .store-avatar:hover {
+      transform: scale(1.04);
+      box-shadow: 0 14px 40px rgba(200,169,106,.4);
+    }
+
+    .store-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .store-avatar-badge {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #25D366;
+      border: 3px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    }
+
+    .store-avatar-badge svg { display: block; }
+
+    /* Store info column */
+    .store-info { display: flex; flex-direction: column; gap: 10px; }
+
+    .store-name-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .store-name {
+      font-size: clamp(26px,3.6vw,40px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .store-verified-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--voltage);
+      background: rgba(31,61,54,.09);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+
+    .store-rating-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .store-stars {
+      color: var(--volt);
+      font-size: 18px;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .store-rating-num {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--volt);
+    }
+
+    .store-review-count {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .store-campus {
+      font-size: 14px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .store-campus svg { flex-shrink: 0; }
+
+    .store-bio {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #5a5550;
+      max-width: 580px;
+      margin: 4px 0 0;
+    }
+
+    /* Stat pills */
+    .store-stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .stat-pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--midnight);
+      background: var(--ground);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .stat-pill svg { color: var(--volt); }
+
+    /* CTA buttons */
+    .store-cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25D366;
+      color: #FFFFFF;
+      font-family: var(--font-brand);
+      font-size: 14.5px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: 0 4px 14px rgba(37,211,102,.28);
+    }
+
+    .btn-whatsapp:hover {
+      background: #1fba5a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(37,211,102,.38);
+    }
+
+    .btn-follow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--voltage);
+      font-family: var(--font-brand);
+      font-size: 14.5px;
+      font-weight: 700;
+      padding: 11px 24px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      border: 2px solid var(--voltage);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-follow:hover,
+    .btn-follow.following {
+      background: var(--voltage);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(31,61,54,.22);
+    }
+
+    /* ═══════════════════════════════════════════
+       TABS ROW
+    ═══════════════════════════════════════════ */
+    .tabs-wrap {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    /* If site-nav header is sticky, offset by roughly 72px */
+    /* (handled via JS scroll if needed) */
+
+    .tabs-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      gap: 0;
+    }
+
+    .tab-btn {
+      padding: 18px 24px;
+      font-family: var(--font-brand);
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      position: relative;
+      bottom: -1.5px; /* overlap border-bottom of wrap */
+    }
+
+    .tab-btn:hover { color: var(--midnight); }
+
+    .tab-btn.active {
+      color: var(--voltage);
+      border-bottom-color: var(--volt);
+    }
+
+    /* ═══════════════════════════════════════════
+       MAIN CONTENT AREA
+    ═══════════════════════════════════════════ */
+    .store-content {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── TAB PANELS ──────────────────────────── */
+    .tab-panel { display: none; }
+    .tab-panel.active {
+      display: block;
+      animation: fadeUp 0.3s var(--transition) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════
+       PRODUCT GRID
+    ═══════════════════════════════════════════ */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 760px)  { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .products-grid { grid-template-columns: 1fr; } }
+
+    /* Product card */
+    .product-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(200,169,106,.5);
+    }
+
+    .product-card:hover .card-link { color: var(--voltage); }
+
+    .card-image-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: var(--ground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .card-image-wrap img { transform: scale(1.05); }
+
+    /* squircle placeholder when no image */
+    .card-placeholder {
+      width: 72px;
+      height: 72px;
+      border-radius: 24px;
+      border: 5px solid rgba(255,255,255,.85);
+      display: block;
+    }
+
+    .card-condition-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,.92);
+      color: var(--midnight);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+
+    .card-body {
+      padding: 14px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .card-category {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--midnight);
+      line-height: 1.35;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-price {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--midnight);
+      margin-top: 4px;
+    }
+
+    .card-link {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+      margin-top: 4px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .empty-state-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--ground);
+      border: 2px dashed var(--line);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    .empty-state-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--midnight);
+    }
+
+    .empty-state-sub {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 320px;
+    }
+
+    /* ═══════════════════════════════════════════
+       REVIEWS TAB
+    ═══════════════════════════════════════════ */
+    .reviews-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 840px) {
+      .reviews-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Rating overview card */
+    .rating-overview {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-card);
+      position: sticky;
+      top: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .rating-big-num {
+      font-family: var(--font-mono);
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--volt);
+      line-height: 1;
+    }
+
+    .rating-big-stars {
+      color: var(--volt);
+      font-size: 24px;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+
+    .rating-count-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: -8px;
+    }
+
+    /* Star breakdown bars */
+    .star-bars { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+
+    .star-bar-row {
+      display: grid;
+      grid-template-columns: 28px 1fr 28px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .star-bar-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .star-bar-track {
+      height: 7px;
+      background: var(--ground);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .star-bar-fill {
+      height: 100%;
+      background: var(--volt);
+      border-radius: 9999px;
+      transition: width 0.6s cubic-bezier(.16,1,.3,1);
+    }
+
+    .star-bar-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Reviews list */
+    .reviews-list { display: flex; flex-direction: column; gap: 18px; }
+
+    .review-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-card);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-card);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .review-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--voltage);
+      color: var(--volt);
+      font-family: var(--font-brand);
+      font-weight: 700;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .reviewer-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+    .reviewer-meta { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+
+    .reviewer-name { font-size: 15px; font-weight: 700; color: var(--midnight); }
+
+    .reviewer-date {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    .review-stars {
+      color: var(--volt);
+      font-size: 14px;
+      letter-spacing: -1px;
+    }
+
+    .review-text {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #5a5550;
+      margin: 0;
+    }
+
+    /* Leave review button */
+    .leave-review-bar {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1.5px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .leave-review-bar p {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .btn-leave-review {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--voltage);
+      color: #FFFFFF;
+      font-family: var(--font-brand);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-leave-review:hover {
+      background: var(--voltage-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(31,61,54,.22);
+    }
+
+    /* ═══════════════════════════════════════════
+       MODAL — LEAVE REVIEW
+    ═══════════════════════════════════════════ */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(22,19,15,.45);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--paper);
+      border-radius: 28px;
+      padding: 36px 32px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 24px 64px rgba(22,19,15,.24);
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.28s cubic-bezier(.16,1,.3,1);
+      position: relative;
+    }
+
+    .modal-backdrop.open .modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1;
+      transition: color 0.2s;
+      padding: 4px;
+    }
+
+    .modal-close:hover { color: var(--midnight); }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+    }
+
+    .modal-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0 0 24px;
+    }
+
+    /* Star picker */
+    .star-picker {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .star-pick {
+      font-size: 34px;
+      cursor: pointer;
+      color: var(--line);
+      transition: color 0.15s, transform 0.15s;
+      line-height: 1;
+      padding: 0;
+      background: none;
+      border: none;
+    }
+
+    .star-pick:hover,
+    .star-pick.lit { color: var(--volt); }
+
+    .star-pick:hover { transform: scale(1.18); }
+
+    .modal-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .modal-textarea {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-family: var(--font-brand);
+      font-size: 14.5px;
+      background: #FFFFFF;
+      color: var(--midnight);
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .modal-textarea:focus { border-color: var(--voltage); }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-modal-cancel {
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-brand);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 20px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid var(--line);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-modal-cancel:hover {
+      border-color: var(--muted);
+      color: var(--midnight);
+    }
+
+    .btn-modal-submit {
+      background: var(--voltage);
+      color: #FFFFFF;
+      font-family: var(--font-brand);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-modal-submit:hover {
+      background: var(--voltage-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(31,61,54,.22);
+    }
+
+    /* ═══════════════════════════════════════════
+       SKELETON LOADER
+    ═══════════════════════════════════════════ */
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position: 600px 0; }
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--line) 25%, #EDE8DF 50%, var(--line) 75%);
+      background-size: 600px 100%;
+      animation: shimmer 1.4s infinite linear;
+      border-radius: 10px;
+    }
+
+    .skeleton-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .skeleton-img  { aspect-ratio: 1/1; }
+    .skeleton-body { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .skeleton-line { height: 12px; }
+    .skeleton-line.w-60 { width: 60%; }
+    .skeleton-line.w-80 { width: 80%; }
+    .skeleton-line.w-40 { width: 40%; }
+
+    /* ── LOADING SPINNER ─── */
+    .spinner-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 0;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3.5px solid var(--line);
+      border-top-color: var(--voltage);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ═══════════════════════════════════════════
+       BREADCRUMB
+    ═══════════════════════════════════════════ */
+    .store-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 20px 24px 0;
+    }
+
+    .store-breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .store-breadcrumb a:hover { color: var(--voltage); }
+    .store-breadcrumb .sep { opacity: 0.5; }
+
+    /* ── TOAST ──────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--midnight);
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 22px;
+      border-radius: 14px;
+      box-shadow: 0 12px 32px rgba(0,0,0,.2);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s var(--transition);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success .toast-icon { color: #25D366; }
+    .toast.error   .toast-icon { color: #FF5C5C; }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE ADJUSTMENTS
+    ═══════════════════════════════════════════ */
+    @media (max-width: 700px) {
+      .store-bio   { max-width: 100%; }
+      .store-stats-row, .store-cta-row { justify-content: center; }
+    }
+
+    @media (max-width: 640px) {
+      .leave-review-bar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── SHARED NAV ────────────────────────── -->
+  <div id="site-nav"></div>
+
+  <!-- ══════════════════════════════════════════
+       BREADCRUMB
+  ══════════════════════════════════════════ -->
+  <div class="store-breadcrumb">
+    <a href="explore.html">Explorar</a>
+    <span class="sep">›</span>
+    <span>Tienda de <span id="bc-seller-name">vendedor</span></span>
+  </div>
+
+  <main>
+
+    <!-- ══════════════════════════════════════
+         STORE HERO
+    ══════════════════════════════════════ -->
+    <section class="store-hero-wrap">
+      <div class="store-hero">
+
+        <!-- Avatar -->
+        <div class="store-avatar-wrap" id="avatar-wa-link" title="Contactar por WhatsApp">
+          <div class="store-avatar" id="store-avatar">VM</div>
+          <!-- WhatsApp online badge -->
+          <div class="store-avatar-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.1-.472-.149-.67.15-.198.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.075-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005C18.61 23.796 24 18.461 24 11.903 24 5.335 18.61 0 12.05 0zm0 21.733a9.872 9.872 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374A9.855 9.855 0 012.167 11.9c.003-5.408 4.407-9.808 9.883-9.808 5.476 0 9.879 4.4 9.879 9.808 0 5.408-4.403 9.833-9.879 9.833z" fill-rule="evenodd" clip-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div class="store-info">
+          <div class="store-name-row">
+            <h1 class="store-name" id="store-seller-name">Tienda UniMercs</h1>
+            <span class="store-verified-tag">✓ Estudiante Verificado</span>
+          </div>
+
+          <div class="store-rating-row">
+            <span class="store-stars" id="store-stars">★★★★★</span>
+            <span class="store-rating-num" id="store-rating-num">4.8</span>
+            <span class="store-review-count" id="store-review-count">(8 reseñas)</span>
+          </div>
+
+          <div class="store-campus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+            <span id="store-campus">Pontificia Universidad Javeriana · Bogotá</span>
+          </div>
+
+          <p class="store-bio" id="store-bio">
+            Vendo libros de ingeniería y accesorios de dorm. Todo en excelente estado. Estudiante de Ing. Industrial, últimos semestres. Entrego en puntos seguros del campus.
+          </p>
+
+          <div class="store-stats-row">
+            <span class="stat-pill" id="stat-posts">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              8 publicaciones
+            </span>
+            <span class="stat-pill" id="stat-since">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Desde Oct 2024
+            </span>
+            <span class="stat-pill" id="stat-response">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              Responde en &lt; 1 hr
+            </span>
+          </div>
+
+          <div class="store-cta-row">
+            <a class="btn-whatsapp" id="cta-whatsapp" href="#" onclick="openWhatsApp(); return false;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.1-.472-.149-.67.15-.198.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.075-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005C18.61 23.796 24 18.461 24 11.903 24 5.335 18.61 0 12.05 0zm0 21.733a9.872 9.872 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374A9.855 9.855 0 012.167 11.9c.003-5.408 4.407-9.808 9.883-9.808 5.476 0 9.879 4.4 9.879 9.808 0 5.408-4.403 9.833-9.879 9.833z" fill-rule="evenodd" clip-rule="evenodd"/>
+              </svg>
+              Contactar por WhatsApp
+            </a>
+            <button class="btn-follow" id="btn-follow" onclick="toggleFollow(this)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+              Seguir tienda
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         TABS
+    ══════════════════════════════════════ -->
+    <div class="tabs-wrap">
+      <div class="tabs-inner">
+        <button class="tab-btn active" data-tab="publicaciones" onclick="switchTab('publicaciones', this)">
+          Publicaciones
+        </button>
+        <button class="tab-btn" data-tab="resenas" onclick="switchTab('resenas', this)">
+          Reseñas
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         CONTENT
+    ══════════════════════════════════════ -->
+    <div class="store-content">
+
+      <!-- ── PUBLICACIONES TAB ─────────────── -->
+      <div id="tab-publicaciones" class="tab-panel active">
+        <!-- skeleton shown while loading -->
+        <div class="products-grid" id="products-grid">
+          <!-- skeleton cards -->
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line w-40"></div>
+              <div class="skeleton skeleton-line w-80"></div>
+              <div class="skeleton skeleton-line w-60"></div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line w-40"></div>
+              <div class="skeleton skeleton-line w-80"></div>
+              <div class="skeleton skeleton-line w-60"></div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line w-40"></div>
+              <div class="skeleton skeleton-line w-80"></div>
+              <div class="skeleton skeleton-line w-60"></div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton skeleton-line w-40"></div>
+              <div class="skeleton skeleton-line w-80"></div>
+              <div class="skeleton skeleton-line w-60"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RESEÑAS TAB ───────────────────── -->
+      <div id="tab-resenas" class="tab-panel">
+        <div class="reviews-layout">
+
+          <!-- Rating overview -->
+          <div class="rating-overview">
+            <div>
+              <div class="rating-big-num" id="overview-num">4.8</div>
+              <div class="rating-big-stars" id="overview-stars">★★★★★</div>
+              <div class="rating-count-label" id="overview-count">8 reseñas totales</div>
+            </div>
+            <div class="star-bars" id="star-bars">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Review cards + CTA -->
+          <div>
+            <div class="reviews-list" id="reviews-list">
+              <div class="spinner-wrap"><div class="spinner"></div></div>
+            </div>
+            <div class="leave-review-bar" id="leave-review-bar" style="display:none">
+              <p>¿Compraste algo a este vendedor?</p>
+              <button class="btn-leave-review" onclick="openReviewModal()">
+                Dejar reseña
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /store-content -->
+
+  </main>
+
+  <!-- ── SHARED FOOTER ─────────────────────── -->
+  <div id="site-footer"></div>
+
+  <!-- ══════════════════════════════════════════
+       REVIEW MODAL
+  ══════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="review-modal" onclick="handleBackdropClick(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeReviewModal()" aria-label="Cerrar">✕</button>
+      <h2 class="modal-title">Dejar una reseña</h2>
+      <p class="modal-subtitle" id="modal-seller-tag">Para <strong>Valentina Morales</strong></p>
+
+      <div>
+        <div class="star-picker" id="star-picker">
+          <button class="star-pick" data-val="1" onclick="pickStar(1)">★</button>
+          <button class="star-pick" data-val="2" onclick="pickStar(2)">★</button>
+          <button class="star-pick" data-val="3" onclick="pickStar(3)">★</button>
+          <button class="star-pick" data-val="4" onclick="pickStar(4)">★</button>
+          <button class="star-pick" data-val="5" onclick="pickStar(5)">★</button>
+        </div>
+
+        <label class="modal-label" for="review-text">Tu comentario</label>
+        <textarea
+          class="modal-textarea"
+          id="review-text"
+          placeholder="Cuéntale a la comunidad cómo fue tu experiencia con este vendedor…"
+          maxlength="500"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" onclick="closeReviewModal()">Cancelar</button>
+        <button class="btn-modal-submit" onclick="submitReview()">Publicar reseña</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST ────────────────────────────── -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon">✓</span>
+    <span id="toast-msg">Operación exitosa</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
+  <script src="site.js"></script>
+  <script>
+    // ═══════════════════════════════════════════
+    //  BOOT — mount shared nav/footer
+    // ═══════════════════════════════════════════
+    UniMercs.mount('explore');
+
+    // ═══════════════════════════════════════════
+    //  CONFIG
+    // ═══════════════════════════════════════════
+    const API_BASE = 'http://localhost:5000/api';
+
+    // Placeholder squircle palette (used when no image)
+    const CARD_PALETTES = [
+      { bg: '#1F3D36', border: '#C8A96A' },
+      { bg: '#C8A96A', border: '#1F3D36' },
+      { bg: '#F4EFE6', border: '#1F3D36' },
+      { bg: '#16130F', border: '#C8A96A' },
+    ];
+
+    // ── URL PARAMS ──────────────────────────────
+    const params   = new URLSearchParams(location.search);
+    const sellerName = params.get('seller') || 'Valentina Morales';
+    const sellerId   = params.get('id')     || null;
+
+    // ── STATE ───────────────────────────────────
+    let sellerPhone  = null;    // E.164, e.g. "573001234567"
+    let pickedRating = 0;
+    let sellerData   = null;
+
+    // ═══════════════════════════════════════════
+    //  MOCK DATA (fallback)
+    // ═══════════════════════════════════════════
+    const MOCK_SELLER = {
+      name:         'Valentina Morales',
+      rating:       4.8,
+      reviewCount:  8,
+      postCount:    8,
+      since:        'Oct 2024',
+      responseTime: '< 1 hr',
+      bio:          'Vendo libros de ingeniería y accesorios de dorm. Todo en excelente estado. Estudiante de Ing. Industrial, últimos semestres. Entrego en puntos seguros del campus.',
+      campus:       'Pontificia Universidad Javeriana · Bogotá',
+      phone:        null,
+    };
+
+    const MOCK_PRODUCTS = [
+      {
+        _id: 'm1', title: 'Fundamentos de Termodinámica – Wark',
+        price: 35000, category: 'Libros', condition: 'Buen estado',
+        image: null, palette: CARD_PALETTES[0],
+      },
+      {
+        _id: 'm2', title: 'Lámpara de escritorio LED ajustable',
+        price: 28000, category: 'Dorm', condition: 'Como nuevo',
+        image: null, palette: CARD_PALETTES[1],
+      },
+      {
+        _id: 'm3', title: 'Calculadora Casio fx-991EX',
+        price: 85000, category: 'Electrónica', condition: 'Como nuevo',
+        image: null, palette: CARD_PALETTES[2],
+      },
+      {
+        _id: 'm4', title: 'Pack organizadores de cajón × 6',
+        price: 18000, category: 'Dorm', condition: 'Buen estado',
+        image: null, palette: CARD_PALETTES[3],
+      },
+    ];
+
+    const MOCK_REVIEWS = [
+      {
+        _id: 'r1', buyerName: 'Carlos R.', date: 'Oct 2024', rating: 5,
+        text: 'Excelente vendedor. El libro llegó en perfecto estado y la entrega fue súper rápida. 100% recomendado.',
+      },
+      {
+        _id: 'r2', buyerName: 'Sofía M.', date: 'Sep 2024', rating: 5,
+        text: 'Muy buena comunicación. La lámpara funcionaba perfectamente y el proceso fue claro.',
+      },
+      {
+        _id: 'r3', buyerName: 'Andrés P.', date: 'Nov 2024', rating: 4,
+        text: 'Todo bien, el producto era tal cual lo describió. El punto de entrega muy conveniente en la Javeriana.',
+      },
+    ];
+
+    const MOCK_RATING_BREAKDOWN = { 5: 5, 4: 2, 3: 1, 2: 0, 1: 0 };
+
+    // ═══════════════════════════════════════════
+    //  INIT
+    // ═══════════════════════════════════════════
+    window.addEventListener('DOMContentLoaded', () => {
+      populateBreadcrumb();
+      loadSeller();
+      loadProducts();
+      loadReviews();
+      checkLoginForReview();
+    });
+
+    // ── BREADCRUMB ──────────────────────────────
+    function populateBreadcrumb() {
+      document.getElementById('bc-seller-name').textContent = sellerName;
+    }
+
+    // ═══════════════════════════════════════════
+    //  SELLER DATA
+    // ═══════════════════════════════════════════
+    async function loadSeller() {
+      let seller = null;
+
+      if (sellerId) {
+        try {
+          const res = await fetch(`${API_BASE}/auth/public/${sellerId}`);
+          if (res.ok) {
+            const json = await res.json();
+            if (json.accountType !== 'store') {
+              window.location.replace(`public-profile.html?id=${encodeURIComponent(sellerId)}`);
+              return;
+            }
+            seller = mapSellerData(json);
+          }
+        } catch (_) { /* fallback */ }
+      }
+
+      if (!seller) {
+        document.getElementById('store-seller-name').textContent = 'Tienda no encontrada';
+        document.getElementById('store-bio').textContent = 'Esta tienda no está disponible o no se ha indicado una cuenta de tienda.';
+        return;
+      }
+
+      sellerData  = seller;
+      sellerPhone = seller.phone || null;
+
+      renderHero(seller);
+    }
+
+    function mapSellerData(u) {
+      return {
+        name:         u.storeName || u.name || u.username || sellerName,
+        rating:       u.ratingAverage ?? u.rating ?? 0,
+        reviewCount:  u.ratingCount ?? u.reviewCount ?? 0,
+        postCount:    u.postCount ?? 0,
+        since:        formatSince(u.memberSince || u.createdAt) || 'Recientemente',
+        responseTime: u.responseTime || '< 1 hr',
+        bio:          u.storeDescription || u.bio || 'Esta tienda aún no agregó una descripción.',
+        campus:       u.university || 'Comunidad UniMercs',
+        phone:        u.phone        || u.whatsapp    || null,
+        profilePicture: u.profilePicture || null,
+        banner:       u.storeBanner || '',
+      };
+    }
+
+    function formatSince(iso) {
+      if (!iso) return null;
+      const d = new Date(iso);
+      return d.toLocaleDateString('es-CO', { month: 'short', year: 'numeric' });
+    }
+
+    // ── RENDER HERO ─────────────────────────────
+    function renderHero(s) {
+      document.title = `Tienda de ${s.name} | unimercs`;
+      document.getElementById('store-seller-name').textContent = s.name;
+      document.getElementById('bc-seller-name').textContent    = s.name;
+      document.getElementById('store-bio').textContent         = s.bio;
+      if (s.banner) {
+        const hero = document.querySelector('.store-hero');
+        if (hero) hero.style.backgroundImage = `linear-gradient(rgba(22,19,15,.52), rgba(22,19,15,.52)), url("${s.banner.replace(/"/g, '')}")`;
+      }
+      document.getElementById('store-campus').textContent      = s.campus;
+      document.getElementById('stat-posts').innerHTML          =
+        `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        ${s.postCount} publicaciones`;
+      document.getElementById('stat-since').innerHTML          =
+        `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Desde ${s.since}`;
+      document.getElementById('stat-response').innerHTML       =
+        `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Responde en ${s.responseTime}`;
+
+      // Rating
+      const r = parseFloat(s.rating) || 4.8;
+      const stars = starsHtml(r, 18);
+      document.getElementById('store-stars').innerHTML      = stars;
+      document.getElementById('store-rating-num').textContent = r.toFixed(1);
+      document.getElementById('store-review-count').textContent = `(${s.reviewCount} reseñas)`;
+
+      // Rating overview
+      document.getElementById('overview-num').textContent    = r.toFixed(1);
+      document.getElementById('overview-stars').innerHTML    = stars;
+      document.getElementById('overview-count').textContent  = `${s.reviewCount} reseñas totales`;
+
+      // Avatar
+      renderAvatar(s);
+
+      // Modal
+      document.getElementById('modal-seller-tag').innerHTML = `Para <strong>${s.name}</strong>`;
+    }
+
+    function renderAvatar(s) {
+      const avatarEl = document.getElementById('store-avatar');
+      if (s.profilePicture) {
+        const src = s.profilePicture.startsWith('http') || s.profilePicture.startsWith('data:')
+          ? s.profilePicture
+          : `${API_BASE.replace('/api','')}${s.profilePicture}`;
+        avatarEl.innerHTML = `<img src="${src}" alt="${escHtml(s.name)}" onerror="this.remove()">`;
+      } else {
+        avatarEl.textContent = initials(s.name);
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    //  PRODUCTS
+    // ═══════════════════════════════════════════
+    async function loadProducts() {
+      let posts = null;
+
+      if (sellerId) {
+        try {
+          const res = await fetch(`${API_BASE}/posts?seller=${sellerId}`);
+          if (res.ok) posts = await res.json();
+        } catch (_) {}
+      }
+
+      // Fallback: fetch all posts and filter by name
+      if (!posts) {
+        try {
+          const res = await fetch(`${API_BASE}/posts`);
+          if (res.ok) {
+            const all = await res.json();
+            const arr = Array.isArray(all) ? all : (all.posts || all.data || []);
+            posts = arr.filter(p => {
+              const pSeller = p.seller?.name || p.seller?.username || p.sellerName || '';
+              return pSeller.toLowerCase().includes(sellerName.toLowerCase());
+            });
+          }
+        } catch (_) {}
+      }
+
+      renderProducts(posts || []);
+    }
+
+    function renderProducts(posts) {
+      const grid = document.getElementById('products-grid');
+
+      if (!posts || posts.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1">
+            <div class="empty-state-title">Esta tienda aún no tiene publicaciones activas.</div>
+            <div class="empty-state-sub">El vendedor publicará artículos próximamente. ¡Vuelve pronto!</div>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = posts.map((p, i) => {
+        const palette   = p.palette || CARD_PALETTES[i % CARD_PALETTES.length];
+        const imageUrl  = resolveImage(p);
+        const price     = formatPrice(p.price ?? p.precio);
+        const category  = escHtml(p.category || p.categoria || 'Artículo');
+        const title     = escHtml(p.title || p.titulo || 'Artículo sin nombre');
+        const condition = escHtml(p.condition || p.condicion || 'Buen estado');
+        const id        = p._id || p.id || '';
+
+        const imgContent = imageUrl
+          ? `<img src="${imageUrl}" alt="${title}" loading="lazy" onerror="this.parentElement.innerHTML=placeholderSvg('${palette.bg}','${palette.border}')">`
+          : `<div class="card-placeholder" style="background:${palette.bg};border-color:${palette.border}"></div>`;
+
+        return `
+        <div class="product-card" onclick="goToDetail('${id}')">
+          <div class="card-image-wrap">
+            ${imgContent}
+            <span class="card-condition-badge">${condition}</span>
+          </div>
+          <div class="card-body">
+            <span class="card-category">${category}</span>
+            <div class="card-title">${title}</div>
+            <div class="card-price">${price}</div>
+            <a class="card-link" href="product-detail.html?id=${id}" onclick="event.stopPropagation()">
+              Ver detalle →
+            </a>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function resolveImage(p) {
+      const raw = p.imageUrl || p.image || (p.images && p.images[0]) || null;
+      if (!raw) return null;
+      if (raw.startsWith('http') || raw.startsWith('data:') || raw.startsWith('blob:')) return raw;
+      return `${API_BASE.replace('/api','')}${raw}`;
+    }
+
+    function goToDetail(id) {
+      if (id) window.location.href = `product-detail.html?id=${id}`;
+    }
+
+    function placeholderSvg(bg, border) {
+      return `<div class="card-placeholder" style="background:${bg};border-color:${border}"></div>`;
+    }
+
+    // ═══════════════════════════════════════════
+    //  REVIEWS
+    // ═══════════════════════════════════════════
+    async function loadReviews() {
+      let reviews   = null;
+      let breakdown = null;
+
+      if (sellerId) {
+        try {
+          const res = await fetch(`${API_BASE}/reviews/seller/${sellerId}`);
+          if (res.ok) {
+            const json = await res.json();
+            reviews   = Array.isArray(json) ? json : (json.reviews || json.data || []);
+            breakdown = json.breakdown || computeBreakdown(reviews);
+          }
+        } catch (_) {}
+      }
+
+      if (!reviews) { reviews = []; breakdown = {}; }
+
+      renderStarBars(breakdown, reviews.length);
+      renderReviews(reviews);
+    }
+
+    function computeBreakdown(reviews) {
+      const b = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+      reviews.forEach(r => {
+        const s = Math.round(r.rating ?? r.stars ?? 5);
+        if (b[s] !== undefined) b[s]++;
+      });
+      return b;
+    }
+
+    function renderStarBars(breakdown, total) {
+      const wrap = document.getElementById('star-bars');
+      const t = total || 1;
+      wrap.innerHTML = [5, 4, 3, 2, 1].map(star => {
+        const count = breakdown[star] ?? 0;
+        const pct   = Math.round((count / t) * 100);
+        return `
+        <div class="star-bar-row">
+          <span class="star-bar-label">${star}★</span>
+          <div class="star-bar-track">
+            <div class="star-bar-fill" style="width:${pct}%"></div>
+          </div>
+          <span class="star-bar-count">${count}</span>
+        </div>`;
+      }).join('');
+    }
+
+    function renderReviews(reviews) {
+      const list = document.getElementById('reviews-list');
+
+      if (!reviews || reviews.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-title">Aún no hay reseñas</div>
+            <div class="empty-state-sub">¡Sé el primero en reseñar a este vendedor!</div>
+          </div>`;
+        return;
+      }
+
+      list.innerHTML = reviews.map(r => {
+        const name   = escHtml(r.buyerName || r.reviewerName || r.reviewer?.name || 'Comprador');
+        const date   = escHtml(r.date || formatSince(r.createdAt) || '');
+        const rating = Math.min(5, Math.max(1, Math.round(r.rating ?? r.stars ?? 5)));
+        const text   = escHtml(r.text || r.comment || r.body || '');
+        const ini    = initials(name);
+
+        return `
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-avatar">${ini}</div>
+            <div class="reviewer-meta">
+              <div class="reviewer-name">${name}</div>
+              <div class="reviewer-date">${date}</div>
+            </div>
+            <div class="review-stars">${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}</div>
+          </div>
+          <p class="review-text">${text}</p>
+        </div>`;
+      }).join('');
+    }
+
+    // ═══════════════════════════════════════════
+    //  CHECK LOGIN → show "Dejar reseña"
+    // ═══════════════════════════════════════════
+    function checkLoginForReview() {
+      const raw = localStorage.getItem('unimercs_current_user');
+      if (raw) {
+        document.getElementById('leave-review-bar').style.display = 'flex';
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    //  TABS
+    // ═══════════════════════════════════════════
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // ═══════════════════════════════════════════
+    //  WHATSAPP
+    // ═══════════════════════════════════════════
+    function openWhatsApp() {
+      const phone = sellerPhone || sellerData?.phone || '573001234567';
+      const clean = phone.replace(/\D/g, '');
+      const name  = sellerData?.name || sellerName;
+      const msg   = encodeURIComponent(`¡Hola ${name}! Te contacto desde unimercs 👋`);
+      window.open(`https://wa.me/${clean}?text=${msg}`, '_blank', 'noopener');
+    }
+
+    // Avatar + name → WhatsApp
+    document.getElementById('avatar-wa-link').addEventListener('click', openWhatsApp);
+
+    // ═══════════════════════════════════════════
+    //  FOLLOW BUTTON
+    // ═══════════════════════════════════════════
+    function toggleFollow(btn) {
+      const following = btn.classList.toggle('following');
+      btn.innerHTML = following
+        ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg> Siguiendo`
+        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg> Seguir tienda`;
+      showToast(following ? '✓ Siguiendo esta tienda' : 'Dejaste de seguir esta tienda', following ? 'success' : 'error');
+    }
+
+    // ═══════════════════════════════════════════
+    //  REVIEW MODAL
+    // ═══════════════════════════════════════════
+    function openReviewModal() {
+      pickedRating = 0;
+      document.getElementById('review-text').value = '';
+      updateStarPicker(0);
+      document.getElementById('review-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReviewModal() {
+      document.getElementById('review-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target === document.getElementById('review-modal')) closeReviewModal();
+    }
+
+    function pickStar(val) {
+      pickedRating = val;
+      updateStarPicker(val);
+    }
+
+    function updateStarPicker(val) {
+      document.querySelectorAll('.star-pick').forEach(btn => {
+        btn.classList.toggle('lit', parseInt(btn.dataset.val) <= val);
+      });
+    }
+
+    async function submitReview() {
+      if (pickedRating === 0) {
+        showToast('Selecciona una calificación', 'error');
+        return;
+      }
+      const text = document.getElementById('review-text').value.trim();
+      if (!text) {
+        showToast('Escribe un comentario', 'error');
+        return;
+      }
+
+      const token = localStorage.getItem('unimercs_token') || localStorage.getItem('token');
+      const body  = { sellerId: sellerId || undefined, rating: pickedRating, comment: text };
+
+      try {
+        const res = await fetch(`${API_BASE}/reviews`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify(body),
+        });
+
+        if (res.ok) {
+          closeReviewModal();
+          showToast('✓ Reseña publicada. ¡Gracias!', 'success');
+          setTimeout(() => loadReviews(), 800);
+        } else {
+          const err = await res.json().catch(() => ({}));
+          showToast(`Error: ${err.message || res.statusText}`, 'error');
+        }
+      } catch (_) {
+        // Offline / CORS — optimistic mock
+        closeReviewModal();
+        showToast('✓ Reseña guardada localmente', 'success');
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    //  HELPERS
+    // ═══════════════════════════════════════════
+    function initials(name) {
+      return (name || '?')
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(w => w[0].toUpperCase())
+        .join('');
+    }
+
+    function escHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatPrice(n) {
+      if (n == null) return '$ —';
+      return '$ ' + Number(n).toLocaleString('es-CO');
+    }
+
+    function starsHtml(rating, size = 18) {
+      const full  = Math.floor(rating);
+      const half  = rating - full >= 0.3;
+      let html = '';
+      for (let i = 0; i < full; i++) html += '★';
+      if (half) html += '½';
+      for (let i = full + (half ? 1 : 0); i < 5; i++) html += '☆';
+      return html;
+    }
+
+    // ── TOAST ────────────────────────────────
+    let toastTimer = null;
+
+    function showToast(msg, type = 'success') {
+      const el   = document.getElementById('toast');
+      const icon = document.getElementById('toast-icon');
+      const msgEl= document.getElementById('toast-msg');
+
+      msgEl.textContent = msg;
+      el.className = `toast ${type} show`;
+      icon.textContent = type === 'success' ? '✓' : '✕';
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+      <rect width="1920" height="1080" fill="#F4EFE6"/>
+
+      <!-- Header -->
+      <rect width="1920" height="84" fill="#FFFFFF" stroke="#E2DBD0"/>
+      <g transform="translate(140, 24)">
+        <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="26" fill="#16130F">unimercs</text>
+      </g>
+
+      <!-- Store Container -->
+      <g transform="translate(240, 120)">
+        <rect width="1440" height="880" rx="28" fill="#FFFFFF" stroke="#E2DBD0"/>
+
+        <!-- Banner -->
+        <rect width="1440" height="240" rx="28 28 0 0" fill="#1F3D36"/>
+        <text x="60" y="120" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="44" fill="#C8A96A">HUSTLE JAVERIANO</text>
+        <text x="60" y="160" font-family="'DM Mono', monospace" font-size="18" fill="#F4EFE6">Tienda oficial de apuntes, adaptadores y stickers en campus</text>
+
+        <!-- Avatar Overlap -->
+        <g transform="translate(60, 180)">
+          <circle cx="60" cy="60" r="60" fill="#FFFFFF"/>
+          <circle cx="60" cy="60" r="52" fill="#C8A96A"/>
+          <text x="60" y="75" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="44" fill="#1F3D36">HJ</text>
+        </g>
+
+        <!-- Store Meta -->
+        <g transform="translate(210, 260)">
+          <text x="0" y="30" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="26" fill="#16130F">Emprendimiento Javeriano Oficial</text>
+          <text x="0" y="58" font-family="'DM Mono', monospace" font-size="14" fill="#756F64">unimercs.app/u/hustle-puj · 42 ventas en campus · ★★★★★ (4.95)</text>
+
+          <rect x="880" y="5" width="240" height="46" rx="23" fill="#1F3D36"/>
+          <text x="1000" y="34" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#FFFFFF">Compartir Tienda 🔗</text>
+        </g>
+
+        <!-- Catalog Items (4 Cards) -->
+        <g transform="translate(60, 360)">
+          <!-- Item 1 -->
+          <g transform="translate(0, 0)">
+            <rect width="310" height="460" rx="18" fill="#FFFFFF" stroke="#E2DBD0"/>
+            <rect x="15" y="15" width="280" height="220" rx="14" fill="#E8EFE8"/>
+            <text x="155" y="140" text-anchor="middle" font-size="70">📒</text>
+            <text x="24" y="270" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#16130F">Resumen Cálculo III</text>
+            <text x="24" y="300" font-family="'DM Mono', monospace" font-size="13" fill="#756F64">PDF impreso y anillado</text>
+            <text x="24" y="355" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="26" fill="#1F3D36">$15.000 COP</text>
+            <rect x="24" y="385" width="262" height="50" rx="12" fill="#1F3D36"/>
+            <text x="155" y="416" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#FFFFFF">Comprar</text>
+          </g>
+
+          <!-- Item 2 -->
+          <g transform="translate(340, 0)">
+            <rect width="310" height="460" rx="18" fill="#FFFFFF" stroke="#E2DBD0"/>
+            <rect x="15" y="15" width="280" height="220" rx="14" fill="#E8EFE8"/>
+            <text x="155" y="140" text-anchor="middle" font-size="70">🔌</text>
+            <text x="24" y="270" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#16130F">Adaptador USB-C a HDMI</text>
+            <text x="24" y="300" font-family="'DM Mono', monospace" font-size="13" fill="#756F64">Nuevo en caja 4K 60Hz</text>
+            <text x="24" y="355" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="26" fill="#1F3D36">$35.000 COP</text>
+            <rect x="24" y="385" width="262" height="50" rx="12" fill="#1F3D36"/>
+            <text x="155" y="416" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#FFFFFF">Comprar</text>
+          </g>
+
+          <!-- Item 3 -->
+          <g transform="translate(680, 0)">
+            <rect width="310" height="460" rx="18" fill="#FFFFFF" stroke="#E2DBD0"/>
+            <rect x="15" y="15" width="280" height="220" rx="14" fill="#E8EFE8"/>
+            <text x="155" y="140" text-anchor="middle" font-size="70">🍪</text>
+            <text x="24" y="270" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#16130F">Cookies Artesanales x3</text>
+            <text x="24" y="300" font-family="'DM Mono', monospace" font-size="13" fill="#756F64">Horneadas en el campus</text>
+            <text x="24" y="355" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="26" fill="#1F3D36">$10.000 COP</text>
+            <rect x="24" y="385" width="262" height="50" rx="12" fill="#1F3D36"/>
+            <text x="155" y="416" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#FFFFFF">Comprar</text>
+          </g>
+
+          <!-- Item 4 -->
+          <g transform="translate(1020, 0)">
+            <rect width="310" height="460" rx="18" fill="#FFFFFF" stroke="#E2DBD0"/>
+            <rect x="15" y="15" width="280" height="220" rx="14" fill="#E8EFE8"/>
+            <text x="155" y="140" text-anchor="middle" font-size="70">🎨</text>
+            <text x="24" y="270" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#16130F">Pack Stickers Javerianos</text>
+            <text x="24" y="300" font-family="'DM Mono', monospace" font-size="13" fill="#756F64">Vinilo impermeable x5</text>
+            <text x="24" y="355" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="26" fill="#1F3D36">$12.000 COP</text>
+            <rect x="24" y="385" width="262" height="50" rx="12" fill="#1F3D36"/>
+            <text x="155" y="416" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#FFFFFF">Comprar</text>
+          </g>
+        </g>
+      </g>
+    
+</svg>

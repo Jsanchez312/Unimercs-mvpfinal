@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" width="1920" height="1200">
+  <defs>
+    <radialGradient id="stage_bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#182420"/>
+      <stop offset="60%" stop-color="#0E1513"/>
+      <stop offset="100%" stop-color="#070908"/>
+    </radialGradient>
+    <filter id="device_shadow">
+      <feDropShadow dx="0" dy="30" stdDeviation="40" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#C8A96A" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Studio Stage Background -->
+  <rect width="1920" height="1200" fill="url(#stage_bg)"/>
+
+  <!-- Top Title Header -->
+  <g transform="translate(100, 60)">
+    <rect width="1720" height="60" rx="16" fill="#141C19" stroke="#23312C"/>
+    <text x="30" y="38" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#FFFFFF">14 · ACERCA DEL PROYECTO & EQUIPO</text>
+    <rect x="1380" y="14" width="310" height="32" rx="16" fill="#1F3D36"/>
+    <text x="1535" y="35" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#FFE4A0">MOCKUP OFICIAL · PUJ BOGOTÁ</text>
+  </g>
+
+  <!-- MacBook Pro 16" Mockup Frame -->
+  <g transform="translate(140, 150)" filter="url(#device_shadow)">
+    <!-- Aluminum Outer Bezel -->
+    <rect width="1640" height="960" rx="28" fill="#1A201E" stroke="#374540" stroke-width="4"/>
+    
+    <!-- Notch / Camera & Browser Bar -->
+    <rect x="4" y="4" width="1632" height="42" rx="24 24 0 0" fill="#121715"/>
+    <!-- Window Control Buttons -->
+    <circle cx="36" cy="25" r="6" fill="#FF5F56"/>
+    <circle cx="58" cy="25" r="6" fill="#FFBD2E"/>
+    <circle cx="80" cy="25" r="6" fill="#27C93F"/>
+
+    <!-- URL Pill Bar -->
+    <g transform="translate(480, 10)">
+      <rect width="680" height="26" rx="13" fill="#1B2421" stroke="#2D3B36"/>
+      <text x="340" y="17" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" fill="#A4B5AC">🔒 https://unimercs.javeriana.edu.co/src/test/html/about.html</text>
+    </g>
+
+    <!-- Inner Screen Display Area (1632 x 910) -->
+    <g transform="translate(4, 46)">
+      <rect width="1632" height="910" fill="#F4EFE6"/>
+      <g transform="scale(1.02, 1.0340909090909092)">
+        
+      <rect width="1600" height="74" fill="#FFFFFF" stroke="#E2DBD0"/>
+      <text x="80" y="48" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="28" fill="#1F3D36">unimercs</text>
+
+      <g transform="translate(80, 110)">
+        <rect width="1440" height="150" rx="20" fill="#1F3D36"/>
+        <text x="50" y="65" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="34" fill="#FFFFFF">Acerca de UniMercs Javeriana</text>
+        <text x="50" y="105" font-family="'Space Grotesk', sans-serif" font-size="16" fill="#E8EFE8">Proyecto de Fundamentos de Ingeniería de Software · Pontificia Universidad Javeriana</text>
+      </g>
+
+      <!-- Creators Cards -->
+      <g transform="translate(80, 300)">
+        <!-- Juan Pablo -->
+        <g transform="translate(0, 0)">
+          <rect width="700" height="340" rx="20" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <circle cx="100" cy="100" r="45" fill="#C8A96A"/>
+          <text x="100" y="112" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="32" fill="#1F3D36">JP</text>
+          <text x="180" y="85" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="24" fill="#16130F">Juan Pablo Sánchez</text>
+          <text x="180" y="115" font-family="'DM Mono', monospace" font-size="14" fill="#756F64">Scrum Master · Product Owner</text>
+          <text x="50" y="200" font-family="'Space Grotesk', sans-serif" font-size="16" fill="#444">Estudiante de Ingeniería de Sistemas en la Pontificia Universidad Javeriana, Bogotá.</text>
+        </g>
+
+        <!-- Germán -->
+        <g transform="translate(740, 0)">
+          <rect width="700" height="340" rx="20" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <circle cx="100" cy="100" r="45" fill="#C8A96A"/>
+          <text x="100" y="112" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="32" fill="#1F3D36">GR</text>
+          <text x="180" y="85" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="24" fill="#16130F">Germán Rodríguez</text>
+          <text x="180" y="115" font-family="'DM Mono', monospace" font-size="14" fill="#756F64">Developer · QA Lead</text>
+          <text x="50" y="200" font-family="'Space Grotesk', sans-serif" font-size="16" fill="#444">Estudiante de Ingeniería de Sistemas en la Pontificia Universidad Javeriana, Bogotá.</text>
+        </g>
+      </g>
+    
+      </g>
+    </g>
+  </g>
+</svg>

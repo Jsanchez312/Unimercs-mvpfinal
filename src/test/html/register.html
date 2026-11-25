@@ -3,427 +3,650 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Registrarse | UniMercs</title>
-  <meta name="description" content="Crea tu cuenta en UniMercs" />
+  <title>Crear cuenta | unimercs</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css" />
+  <!-- Awesome-Phonenumber: Reconocimiento ultra-rápido y exacto de números de teléfono mundiales (Google libphonenumber wrapper) -->
+  <script src="https://cdn.jsdelivr.net/npm/awesome-phonenumber@5.9.0/dist/awesome-phonenumber.min.js"></script>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-    :root{
-      --bg: #ffffff;
-      --fg: #0f1720;
-      --muted: #6b7280;
-      --primary: linear-gradient(90deg,#2563eb,#7c3aed);
-      --accent: #fb923c;
-      --radius: 12px;
+    :root {
+      --voltage: #1F3D36;
+      --voltage-dark: #172F2A;
+      --volt: #C8A96A;
+      --midnight: #16130F;
+      --paper: #F4EFE6;
+      --ground: #F4EFE6;
+      --line: #E2DBD0;
+      --muted: #756F64;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
     }
 
-    *{box-sizing:border-box}
-    html,body{min-height:100%;height:auto}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      background:linear-gradient(135deg,#1e40af 0%,#7c3aed 100%);
-      color:var(--fg);
-      -webkit-font-smoothing:antialiased;
-      line-height:1.45;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:40px 20px;
+    * { box-sizing: border-box; }
+    html, body { min-height: 100vh; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-brand);
+      background: #FFFFFF;
+      color: var(--midnight);
+      -webkit-font-smoothing: antialiased;
     }
 
-    .register-container{ width:100%; max-width:480px; animation:fadeInUp 0.5s ease-out; }
-
-    @keyframes fadeInUp{
-      from{opacity:0;transform:translateY(20px)}
-      to{opacity:1;transform:translateY(0)}
+    .auth-split-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      min-height: 100vh;
+      width: 100%;
     }
 
-    .brand-header{ text-align:center; margin-bottom:32px; }
-
-    .brand{
-      font-weight:700; font-size:32px; color:white;
-      text-decoration:none; display:inline-block; margin-bottom:8px;
+    /* Left Voltage Purple Screen */
+    .auth-left-banner {
+      background: var(--voltage);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .auth-big-logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 40px;
+    }
+    .auth-left-banner h2 {
+      font-size: clamp(34px, 4vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      margin: 0;
+      color: #FFFFFF;
+    }
+    .auth-left-banner h2 span {
+      color: var(--volt);
+      display: block;
     }
 
-    .brand-tagline{ color:rgba(255,255,255,0.9); font-size:15px; margin:0; }
-
-    .register-card{
-      background:white; border-radius:20px; padding:40px;
-      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    /* Right Form Area */
+    .auth-right-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 32px;
+      background: #FFFFFF;
+      overflow-y: auto;
+    }
+    .auth-form-card {
+      width: 100%;
+      max-width: 480px;
     }
 
-    .card-header{ text-align:center; margin-bottom:32px; }
-
-    .card-header h1{
-      font-size:28px; margin:0 0 8px;
-      background:linear-gradient(90deg,#2563eb,#7c3aed);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    .auth-brand-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .auth-heading {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 6px;
+      color: var(--midnight);
+    }
+    .auth-subhead {
+      color: var(--muted);
+      font-size: 14.5px;
+      margin: 0 0 24px;
     }
 
-    .card-header p{ color:var(--muted); margin:0; font-size:15px; }
+    /* Role selector */
+    .account-type-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .type-card {
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--paper);
+      transition: all 0.15s;
+    }
+    .type-card input { display: none; }
+    .type-card.active {
+      border-color: var(--voltage);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 2px rgba(31, 61, 54, 0.15);
+    }
+    .type-card .type-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--midnight);
+    }
+    .type-card.active .type-title { color: var(--voltage); }
 
-    .form-group{ margin-bottom:20px; }
-
-    .form-label{ display:block; font-weight:600; font-size:14px; color:var(--fg); margin-bottom:8px; }
-
-    .form-input{
-      width:100%; border:2px solid #e6e9ef; border-radius:10px;
-      padding:12px 16px; font-size:15px; transition:all 0.2s; font-family:inherit;
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--midnight);
+      margin-bottom: 5px;
+    }
+    .form-input-pill {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 9999px;
+      padding: 11px 18px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--midnight);
+      outline: none;
+      background: var(--paper);
+      transition: all 0.2s;
+    }
+    .form-input-pill:focus {
+      border-color: var(--voltage);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(31, 61, 54, 0.12);
     }
 
-    .form-input:focus{ outline:0; border-color:#2563eb; box-shadow:0 0 0 3px rgba(37,99,235,0.1); }
-    .form-input::placeholder{ color:#9ca3af; }
-    .form-input.error{ border-color:#dc2626; }
-
-    .password-wrapper{ position:relative; }
-
-    .toggle-password{
-      position:absolute; right:12px; top:50%; transform:translateY(-50%);
-      background:transparent; border:0; cursor:pointer; color:#6b7280; padding:4px; transition:color 0.2s;
+    .phone-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
     }
-    .toggle-password:hover{ color:#2563eb; }
-
-    .password-strength{ margin-top:8px; height:4px; background:#e6e9ef; border-radius:2px; overflow:hidden; }
-    .password-strength-bar{ height:100%; width:0; transition:all 0.3s; border-radius:2px; }
-    .password-strength-bar.weak{ width:33%; background:#ef4444; }
-    .password-strength-bar.medium{ width:66%; background:#f59e0b; }
-    .password-strength-bar.strong{ width:100%; background:#10b981; }
-
-    .password-hint{ font-size:12px; color:var(--muted); margin-top:4px; }
-
-    .terms-checkbox{ display:flex; align-items:flex-start; gap:8px; margin-bottom:24px; }
-    .terms-checkbox input{ width:18px; height:18px; cursor:pointer; accent-color:#2563eb; margin-top:2px; flex-shrink:0; }
-    .terms-checkbox label{ font-size:14px; color:var(--muted); cursor:pointer; line-height:1.5; }
-    .terms-checkbox a{ color:#2563eb; text-decoration:none; font-weight:600; }
-    .terms-checkbox a:hover{ text-decoration:underline; }
-
-    .btn-submit{
-      width:100%; background:linear-gradient(90deg,#2563eb,#7c3aed); color:white; border:0;
-      padding:14px 28px; border-radius:10px; font-weight:700; font-size:15px; cursor:pointer;
-      transition:all 0.2s; box-shadow:0 4px 12px rgba(37,99,235,0.3); margin-bottom:20px;
+    .phone-flag-pill-badge {
+      position: absolute;
+      left: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .btn-submit:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 6px 20px rgba(37,99,235,0.4); }
-    .btn-submit:disabled{ opacity:0.6; cursor:not-allowed; }
-    .btn-submit.loading{ position:relative; color:transparent; }
-    .btn-submit.loading::after{
-      content:''; position:absolute; width:20px; height:20px;
-      top:50%; left:50%; margin-left:-10px; margin-top:-10px;
-      border:3px solid rgba(255,255,255,0.3); border-radius:50%;
-      border-top-color:white; animation:spin 0.6s linear infinite;
+    .phone-flag-pill-badge img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+    .form-input-pill.phone-auto-input {
+      padding-left: 48px !important;
+      font-family: var(--font-brand);
+      font-size: 14.5px;
     }
 
-    @keyframes spin{ to{transform:rotate(360deg)} }
-
-    .login-prompt{ text-align:center; color:var(--muted); font-size:14px; }
-    .login-link{ color:#2563eb; text-decoration:none; font-weight:600; transition:color 0.2s; }
-    .login-link:hover{ color:#7c3aed; text-decoration:underline; }
-
-    .error-message{
-      color:#dc2626; font-size:14px; margin-bottom:16px; padding:12px 16px;
-      background:#fef2f2; border-radius:8px; border-left:3px solid #dc2626; display:none;
+    .terms-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 18px 0 22px;
+      font-size: 12.5px;
+      color: var(--muted);
     }
-    .error-message.show{ display:block; animation:slideDown 0.3s; }
-
-    .success-message{
-      color:#059669; font-size:14px; margin-bottom:16px; padding:12px 16px;
-      background:#f0fdf4; border-radius:8px; border-left:3px solid #059669; display:none;
+    .terms-box input {
+      accent-color: var(--voltage);
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
     }
-    .success-message.show{ display:block; animation:slideDown 0.3s; }
+    .terms-box a { color: var(--voltage); text-decoration: underline; }
 
-    @keyframes slideDown{
-      from{opacity:0;transform:translateY(-10px)}
-      to{opacity:1;transform:translateY(0)}
+    .btn-auth-submit {
+      width: 100%;
+      background: var(--voltage);
+      color: #FFFFFF;
+      border: 0;
+      border-radius: 9999px;
+      padding: 13px 24px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
     }
-
-    .back-home{ text-align:center; margin-top:24px; }
-    .back-link{
-      color:white; text-decoration:none; font-size:14px; font-weight:600;
-      transition:opacity 0.2s; display:inline-flex; align-items:center; gap:6px;
+    .btn-auth-submit:hover:not(:disabled) {
+      background: var(--voltage-dark);
+      transform: translateY(-1px);
     }
-    .back-link:hover{ opacity:0.8; }
+    .btn-auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .toast{
-      position:fixed; right:20px; bottom:20px; background:#111827; color:white;
-      padding:16px 24px; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.3);
-      opacity:0; transform:translateY(20px); transition:all 0.3s; z-index:1000;
+    .auth-bottom-prompt {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13.5px;
+      color: var(--muted);
     }
-    .toast.show{ opacity:1; transform:translateY(0); }
+    .auth-bottom-prompt a {
+      color: var(--midnight);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .auth-bottom-prompt a:hover { color: var(--voltage); text-decoration: underline; }
 
-    @media(max-width:500px){
-      body{ padding:20px; }
-      .register-card{ padding:32px 24px; }
-      .brand{ font-size:28px; }
-      .card-header h1{ font-size:24px; }
+    .error-box {
+      color: #991b1b;
+      font-size: 13px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: #fef2f2;
+      border-radius: 12px;
+      border-left: 4px solid #dc2626;
+      display: none;
+    }
+    .error-box.show { display: block; }
+    .success-box {
+      color: #065f46;
+      font-size: 13px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: #f0fdf4;
+      border-radius: 12px;
+      border-left: 4px solid #10b981;
+      display: none;
+    }
+    .success-box.show { display: block; }
+
+    @media (max-width: 840px) {
+      .auth-split-wrapper { grid-template-columns: 1fr; }
+      .auth-left-banner { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="register-container">
-    <div class="brand-header">
-      <a href="index.html" class="brand">
-        <img src="https://raw.githubusercontent.com/puj-course/FIS_2610_3513_G6/main/assets/UnimercsLogo.png"
-             alt="UNIMERCS" style="height:48px;width:auto;vertical-align:middle;">
-      </a>
-      <p class="brand-tagline">Tu marketplace de confianza</p>
+
+  <div class="auth-split-wrapper">
+    <!-- Left Screen (Voltage) -->
+    <div class="auth-left-banner">
+      <svg class="auth-big-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 9.5v7a6 6 0 0 0 12 0v-7" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="9.5" r="2.6" fill="#C8A96A"/>
+      </svg>
+      <h2>
+        Vende el libro.
+        <span>Guarda el dinero.</span>
+      </h2>
     </div>
 
-    <div class="register-card">
-      <div class="card-header">
-        <h1>Crea tu cuenta</h1>
-        <p>Únete a la comunidad UniMercs</p>
+    <!-- Right Screen (Register Form) -->
+    <div class="auth-right-area">
+      <div class="auth-form-card">
+        <div class="auth-brand-top">
+          <svg viewBox="0 0 32 32" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:10px; background:var(--voltage); padding:2px;">
+            <path d="M10 9.5v7a6 6 0 0 0 12 0v-7" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="22" cy="9.5" r="2.6" fill="#C8A96A"/>
+          </svg>
+          <span style="font-weight:700; font-size:22px; letter-spacing:-0.03em;">unimercs</span>
+        </div>
+
+        <h1 class="auth-heading">Crear cuenta</h1>
+        <p class="auth-subhead">Solo estudiantes verificados: usa tu correo institucional.</p>
+
+        <div id="error-message" class="error-box"></div>
+        <div id="success-message" class="success-box"></div>
+
+        <form id="register-form">
+          <!-- Role selector -->
+          <div class="form-group">
+            <label class="form-label">Tipo de perfil</label>
+            <div class="account-type-grid">
+              <label class="type-card" id="card-buyer">
+                <input type="radio" name="accountType" value="buyer" />
+                <div class="type-title">Comprador</div>
+              </label>
+              <label class="type-card active" id="card-seller">
+                <input type="radio" name="accountType" value="seller" checked />
+                <div class="type-title">Vendedor</div>
+              </label>
+              <label class="type-card" id="card-store">
+                <input type="radio" name="accountType" value="store" />
+                <div class="type-title">Tienda</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Store fields if store selected -->
+          <div id="store-fields-box" style="display:none; background:var(--paper); padding:14px; border-radius:14px; border:1px solid var(--line); margin-bottom:16px;">
+            <div class="form-group" style="margin-bottom:8px;">
+              <label class="form-label" for="storeName">Nombre de la tienda</label>
+              <input type="text" id="storeName" class="form-input-pill" placeholder="Ej. Javeriana Stickers & Snacks" />
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="storeDescription">Descripción del catálogo</label>
+              <input type="text" id="storeDescription" class="form-input-pill" placeholder="Ej. Accesorios universitarios y snacks" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="name">Nombre completo</label>
+            <input type="text" id="name" class="form-input-pill" placeholder="Tu nombre y apellido" required autocomplete="name" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="university">Universidad</label>
+            <input type="text" id="university" class="form-input-pill" value="Pontificia Universidad Javeriana" readonly style="background:#E8EFE8;" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Correo institucional</label>
+            <input type="email" id="email" class="form-input-pill" placeholder="tu@javeriana.edu.co" required autocomplete="email" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="phone">Teléfono / WhatsApp</label>
+            <div class="phone-input-wrapper">
+              <div class="phone-flag-pill-badge" id="phoneFlagBadge">
+                <img id="phoneFlagImg" src="https://hatscripts.github.io/circle-flags/flags/co.svg" alt="Bandera" />
+              </div>
+              <input type="tel" id="phone" class="form-input-pill phone-auto-input" placeholder="310 123 4567" required autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Contraseña</label>
+            <input type="password" id="password" class="form-input-pill" placeholder="Mínimo 8 caracteres" required minlength="8" autocomplete="new-password" />
+          </div>
+
+          <div class="terms-box">
+            <input type="checkbox" id="terms" required checked />
+            <label for="terms">
+              Acepto los <a href="terms.html">términos de uso</a> y la <a href="privacy.html">política de privacidad</a>.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-auth-submit" id="submit-btn">Crear cuenta</button>
+
+          <div class="auth-bottom-prompt">
+            ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+          </div>
+        </form>
       </div>
-
-      <form id="register-form" novalidate>
-        <div id="error-message" class="error-message" role="alert"></div>
-        <div id="success-message" class="success-message" role="alert"></div>
-
-        <div class="form-group">
-          <label class="form-label" for="name">Nombre de Usuario</label>
-          <input type="text" id="name" class="form-input"
-                 placeholder="Juan Pérez" required autocomplete="name" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="email">Correo electrónico institucional</label>
-          <input type="email" id="email" class="form-input"
-                 placeholder="tu@javeriana.edu.co" required autocomplete="email" />
-          <p class="password-hint">Debe ser un correo @javeriana.edu.co</p>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="password">Contraseña</label>
-          <div class="password-wrapper">
-            <input type="password" id="password" class="form-input"
-                   placeholder="Mínimo 8 caracteres" required autocomplete="new-password" />
-            <button type="button" class="toggle-password" id="toggle-password" aria-label="Mostrar contraseña">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
-          </div>
-          <div class="password-strength"><div class="password-strength-bar" id="strength-bar"></div></div>
-          <p class="password-hint" id="strength-text">Usa al menos 8 caracteres</p>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="confirm-password">Confirmar contraseña</label>
-          <div class="password-wrapper">
-            <input type="password" id="confirm-password" class="form-input"
-                   placeholder="Repite tu contraseña" required autocomplete="new-password" />
-            <button type="button" class="toggle-password" id="toggle-confirm" aria-label="Mostrar contraseña">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="terms-checkbox">
-          <input type="checkbox" id="terms" required />
-          <label for="terms">
-            Acepto los <a href="#">términos y condiciones</a> y la
-            <a href="#">política de privacidad</a> de UniMercs
-          </label>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submit-btn">Crear Cuenta</button>
-
-        <div class="login-prompt">
-          ¿Ya tienes una cuenta? <a href="login.html" class="login-link" id="goto-login">Inicia sesión</a>
-        </div>
-      </form>
-    </div>
-
-    <div class="back-home">
-      <a href="index.html" class="back-link">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        Volver al inicio
-      </a>
     </div>
   </div>
 
-  <div id="toast" class="toast" aria-live="polite" hidden></div>
-
   <script>
-    /* ====================== PATRÓN FACTORY METHOD ====================== */
-    class User {
-      constructor({ id, name, email, passwordHash, role, createdAt }) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.profile = { posts: [], favorites: [] };
-        this.createdAt = createdAt;
-      }
-    }
+    const API_BASE = 'http://localhost:5000/api';
 
-    class StudentUser extends User {
-      constructor(data) {
-        super({ ...data, role: 'student' });
-      }
-      validate() {
-        if (!this.email.endsWith('@javeriana.edu.co'))
-          throw new Error('Solo se permiten correos @javeriana.edu.co');
-      }
-    }
+    // Manejo de Selector de Rol
+    const typeCards = document.querySelectorAll('.type-card');
+    const storeBox = document.getElementById('store-fields-box');
 
-    class UserFactory {
-      createUser(data) {
-        throw new Error('Implementar en subclase');
-      }
-      build(data) {
-        const user = this.createUser({
-          id: String(Date.now()),
-          name: data.name,
-          email: data.email.toLowerCase(),
-          passwordHash: btoa(data.password + '_salt'),
-          createdAt: new Date().toISOString()
-        });
-        user.validate();
-        return user;
-      }
-    }
+    typeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        typeCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        const radio = card.querySelector('input');
+        radio.checked = true;
 
-    class JaverianaUserFactory extends UserFactory {
-      createUser(data) {
-        if (!data.email.endsWith('@javeriana.edu.co'))
-          throw new Error('Solo se permiten correos @javeriana.edu.co');
-        return new StudentUser(data);
-      }
-    }
-
-    /* ====================== PATRÓN FACADE ====================== */
-    class SessionManager {
-      static SESSION_KEY = 'unimercs_current_user';
-      static TOKEN_KEY   = 'unimercs_token';
-      createSession(user, token) {
-        localStorage.setItem(SessionManager.TOKEN_KEY, token);
-        localStorage.setItem(SessionManager.SESSION_KEY, JSON.stringify(user));
-      }
-      isAuthenticated() { return localStorage.getItem(SessionManager.SESSION_KEY) !== null; }
-    }
-
-    class AuthFacade {
-      constructor() {
-        this._factory = new JaverianaUserFactory();
-      }
-      async register(data) {
-        this._factory.build({ name: data.name, email: data.email, password: data.password });
-        const res  = await fetch('http://localhost:5000/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: data.name, email: data.email, password: data.password })
-        });
-        const body = await res.json();
-        if (!res.ok) throw new Error(body.message || 'Error al registrar');
-        new SessionManager().createSession(body.user, body.token);
-        return body.user;
-      }
-    }
-  </script>
-
-  <script>
-    (function() {
-      const toast = document.getElementById('toast');
-      function showToast(msg) {
-        if (!toast) return;
-        toast.textContent = msg; toast.hidden = false; toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.hidden = true, 300); }, 2500);
-      }
-
-      function setupToggle(btnId, inputEl) {
-        const btn = document.getElementById(btnId);
-        btn?.addEventListener('click', () => {
-          const t = inputEl.type === 'password' ? 'text' : 'password';
-          inputEl.type = t;
-          btn.innerHTML = t === 'password'
-            ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>'
-            : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
-        });
-      }
-
-      const passwordInput = document.getElementById('password');
-      const confirmInput  = document.getElementById('confirm-password');
-      setupToggle('toggle-password', passwordInput);
-      setupToggle('toggle-confirm',  confirmInput);
-
-      const strengthBar  = document.getElementById('strength-bar');
-      const strengthText = document.getElementById('strength-text');
-      passwordInput?.addEventListener('input', () => {
-        const p = passwordInput.value;
-        let s = 0;
-        if (p.length >= 8) s++;
-        if (p.match(/[a-z]/) && p.match(/[A-Z]/)) s++;
-        if (p.match(/[0-9]/)) s++;
-        if (p.match(/[^a-zA-Z0-9]/)) s++;
-        if (s === 0) { strengthBar.className = 'password-strength-bar'; strengthBar.style.width = '0'; strengthText.textContent = 'Usa al menos 8 caracteres'; }
-        else if (s <= 2) { strengthBar.className = 'password-strength-bar weak'; strengthText.textContent = 'Contraseña débil'; }
-        else if (s === 3) { strengthBar.className = 'password-strength-bar medium'; strengthText.textContent = 'Contraseña media'; }
-        else { strengthBar.className = 'password-strength-bar strong'; strengthText.textContent = 'Contraseña fuerte'; }
-      });
-
-      const errorEl   = document.getElementById('error-message');
-      const successEl = document.getElementById('success-message');
-      function showError(msg)   { errorEl.textContent = msg;   errorEl.classList.add('show');   successEl.classList.remove('show'); }
-      function showSuccess(msg) { successEl.textContent = msg; successEl.classList.add('show'); errorEl.classList.remove('show'); }
-      function hideMessages()   { errorEl.classList.remove('show'); successEl.classList.remove('show'); }
-
-      function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-
-      const registerForm = document.getElementById('register-form');
-      const nameInput    = document.getElementById('name');
-      const emailInput   = document.getElementById('email');
-      const termsCheck   = document.getElementById('terms');
-      const submitBtn    = document.getElementById('submit-btn');
-
-      registerForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        hideMessages();
-
-        const name     = nameInput.value.trim();
-        const email    = emailInput.value.trim().toLowerCase();
-        const password = passwordInput.value;
-        const confirm  = confirmInput.value;
-
-        if (!name || name.length < 2)              { showError('Por favor ingresa tu nombre completo'); nameInput.classList.add('error'); return; }
-        nameInput.classList.remove('error');
-        if (!validateEmail(email))                 { showError('Por favor ingresa un correo electrónico válido'); emailInput.classList.add('error'); return; }
-        if (!email.endsWith('@javeriana.edu.co'))  { showError('Debes usar tu correo institucional (@javeriana.edu.co)'); emailInput.classList.add('error'); return; }
-        emailInput.classList.remove('error');
-        if (password.length < 8)                   { showError('La contraseña debe tener al menos 8 caracteres'); passwordInput.classList.add('error'); return; }
-        passwordInput.classList.remove('error');
-        if (password !== confirm)                  { showError('Las contraseñas no coinciden'); confirmInput.classList.add('error'); return; }
-        confirmInput.classList.remove('error');
-        if (!termsCheck.checked)                   { showError('Debes aceptar los términos y condiciones'); return; }
-
-        submitBtn.disabled = true;
-        submitBtn.classList.add('loading');
-
-        try {
-          const auth = new AuthFacade();
-          const user = await auth.register({ name, email, password });
-          showSuccess(`¡Cuenta creada exitosamente! Bienvenido, ${user.name}!`);
-          submitBtn.textContent = '✓ Cuenta creada!';
-          submitBtn.style.background = 'linear-gradient(90deg,#10b981,#059669)';
-          setTimeout(() => window.location.href = 'index.html', 1400);
-        } catch (err) {
-          showError(err.message || 'Error al crear la cuenta. Por favor intenta de nuevo.');
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('loading');
-          submitBtn.textContent = 'Crear Cuenta';
+        if (radio.value === 'store') {
+          storeBox.style.display = 'block';
+        } else {
+          storeBox.style.display = 'none';
         }
       });
+    });
 
-      document.querySelectorAll('.terms-checkbox a').forEach(link => {
-        link.addEventListener('click', (e) => { e.preventDefault(); showToast('Documentos legales próximamente'); });
-      });
-    })();
+    const registerForm = document.getElementById('register-form');
+    const errBox = document.getElementById('error-message');
+    const succBox = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-btn');
+    const phoneInput = document.getElementById('phone');
+    const phoneFlagImg = document.getElementById('phoneFlagImg');
+    const phoneFlagBadge = document.getElementById('phoneFlagBadge');
+
+    // Base de datos de códigos telefónicos mundiales ordenada por longitud de prefijo
+    const WORLD_PREFIXES = [
+      { code: '593', iso: 'ec' }, // Ecuador
+      { code: '507', iso: 'pa' }, // Panamá
+      { code: '506', iso: 'cr' }, // Costa Rica
+      { code: '505', iso: 'ni' }, // Nicaragua
+      { code: '504', iso: 'hn' }, // Honduras
+      { code: '503', iso: 'sv' }, // El Salvador
+      { code: '502', iso: 'gt' }, // Guatemala
+      { code: '591', iso: 'bo' }, // Bolivia
+      { code: '595', iso: 'py' }, // Paraguay
+      { code: '598', iso: 'uy' }, // Uruguay
+      { code: '509', iso: 'ht' }, // Haití
+      { code: '57',  iso: 'co' }, // Colombia
+      { code: '58',  iso: 've' }, // Venezuela
+      { code: '55',  iso: 'br' }, // Brasil
+      { code: '54',  iso: 'ar' }, // Argentina
+      { code: '56',  iso: 'cl' }, // Chile
+      { code: '51',  iso: 'pe' }, // Perú
+      { code: '52',  iso: 'mx' }, // México
+      { code: '34',  iso: 'es' }, // España
+      { code: '44',  iso: 'gb' }, // Reino Unido
+      { code: '33',  iso: 'fr' }, // Francia
+      { code: '49',  iso: 'de' }, // Alemania
+      { code: '39',  iso: 'it' }, // Italia
+      { code: '351', iso: 'pt' }, // Portugal
+      { code: '81',  iso: 'jp' }, // Japón
+      { code: '82',  iso: 'kr' }, // Corea del Sur
+      { code: '86',  iso: 'cn' }, // China
+      { code: '91',  iso: 'in' }, // India
+      { code: '61',  iso: 'au' }, // Australia
+      { code: '1',   iso: 'us' }  // USA / Canadá
+    ];
+
+    let currentIso = 'co';
+    let fullRecognizedPhone = '';
+
+    function getFlagSvgUrl(iso) {
+      const code = (iso || 'co').toLowerCase();
+      return `https://hatscripts.github.io/circle-flags/flags/${code}.svg`;
+    }
+
+    function popFlag(iso) {
+      if (!phoneFlagImg) return;
+      const cleanIso = (iso || 'co').toLowerCase();
+      if (currentIso !== cleanIso) {
+        currentIso = cleanIso;
+        phoneFlagImg.src = getFlagSvgUrl(cleanIso);
+        if (phoneFlagBadge) {
+          phoneFlagBadge.style.transform = 'scale(1.4)';
+          setTimeout(() => {
+            if (phoneFlagBadge) phoneFlagBadge.style.transform = 'scale(1)';
+          }, 180);
+        }
+      }
+    }
+
+    // Geolocalización IP inicial para pre-asignar país por defecto (Colombia como estándar)
+    async function initGeoCountry() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.country_code) {
+          currentIso = data.country_code.toLowerCase();
+          popFlag(currentIso);
+        }
+      } catch (e) {
+        popFlag('co');
+      }
+    }
+    initGeoCountry();
+
+    // Auto-detección en cada pulsación de tecla analizando sintaxis y prefijos mundiales
+    phoneInput.addEventListener('input', () => {
+      let raw = phoneInput.value.trim();
+      const digits = raw.replace(/\D/g, '');
+
+      if (!raw || digits.length < 2) {
+        popFlag('co');
+        fullRecognizedPhone = '';
+        return;
+      }
+
+      // Si empieza por 3 y tiene entre 7 y 10 dígitos -> Colombia de inmediato
+      if (digits.startsWith('3') && !raw.startsWith('+') && !raw.startsWith('00') && digits.length <= 10) {
+        popFlag('co');
+        fullRecognizedPhone = `+57${digits}`;
+        return;
+      }
+
+      // 1. Usar AwesomePhonenumber / parseador internacional
+      let detectedIso = null;
+      if (window.AwesomePhoneNumber) {
+        try {
+          let testNumber = raw;
+          if (!raw.startsWith('+') && !raw.startsWith('00')) {
+            testNumber = '+' + digits;
+          }
+          const pn = new window.AwesomePhoneNumber(testNumber);
+          if (pn.isValid() || pn.isPossible()) {
+            const countryCode = pn.getCountryCode();
+            const r = pn.getRegionCode();
+            if (r) detectedIso = r.toLowerCase();
+          }
+        } catch (e) {}
+      }
+
+      // 2. Si no se detectó por librería, buscar en tabla de prefijos mundiales
+      if (!detectedIso) {
+        if (raw.startsWith('+') || raw.startsWith('00')) {
+          const cleanDigits = raw.startsWith('00') ? digits.substring(2) : digits;
+          for (const item of WORLD_PREFIXES) {
+            if (cleanDigits.startsWith(item.code)) {
+              detectedIso = item.iso;
+              break;
+            }
+          }
+        } else {
+          // Detectar por inicio de prefijo o número nacional
+          for (const item of WORLD_PREFIXES) {
+            if (digits.startsWith(item.code) && digits.length > item.code.length + 5) {
+              detectedIso = item.iso;
+              break;
+            }
+          }
+        }
+      }
+
+      // Si sigue sin detectarse pero es un número común sin prefijo
+      if (!detectedIso) {
+        if (digits.startsWith('3') || digits.startsWith('57')) {
+          detectedIso = 'co';
+        } else if (digits.startsWith('55') || digits.startsWith('81')) {
+          detectedIso = 'mx';
+        } else if (digits.startsWith('6') || digits.startsWith('7')) {
+          detectedIso = 'es';
+        } else {
+          detectedIso = 'co';
+        }
+      }
+
+      popFlag(detectedIso);
+
+      // Calcular fullPhone internacional
+      if (raw.startsWith('+')) {
+        fullRecognizedPhone = '+' + digits;
+      } else {
+        const found = WORLD_PREFIXES.find(x => x.iso === detectedIso);
+        const code = found ? found.code : '57';
+        if (digits.startsWith(code)) {
+          fullRecognizedPhone = '+' + digits;
+        } else {
+          fullRecognizedPhone = `+${code}${digits}`;
+        }
+      }
+    });
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBox.classList.remove('show');
+      succBox.classList.remove('show');
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const university = document.getElementById('university').value.trim();
+      const password = document.getElementById('password').value;
+      const accountType = document.querySelector('input[name="accountType"]:checked')?.value || 'seller';
+      const storeName = document.getElementById('storeName').value.trim();
+      const storeDescription = document.getElementById('storeDescription').value.trim();
+
+      const rawPhone = phoneInput.value.trim();
+      // `fullRecognizedPhone` y `currentIso` se actualizan con cada cambio del campo.
+      // No se solicita ni valida un código SMS durante el registro.
+      let fullPhone = fullRecognizedPhone || rawPhone;
+
+      // Asegurar que tenga prefijo internacional si se ingresó solo el número local
+      if (!fullPhone.startsWith('+')) {
+        const cleanDigits = fullPhone.replace(/\D/g, '');
+        if (currentIso === 'co' || !currentIso) {
+          fullPhone = `+57${cleanDigits}`;
+        } else {
+          const detected = WORLD_PREFIXES.find(item => item.iso === currentIso);
+          fullPhone = `+${detected ? detected.code : '57'}${cleanDigits}`;
+        }
+      }
+
+      if (!rawPhone || rawPhone.replace(/\D/g, '').length < 7) {
+        errBox.textContent = 'Por favor ingresa un número de teléfono válido';
+        errBox.classList.add('show');
+        return;
+      }
+
+      if (!email.endsWith('@javeriana.edu.co')) {
+        errBox.textContent = 'Debes usar tu correo institucional (@javeriana.edu.co)';
+        errBox.classList.add('show');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creando cuenta...';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            phone: fullPhone,
+            university,
+            accountType,
+            storeName,
+            storeDescription
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Error al registrar usuario');
+
+        localStorage.setItem('unimercs_token', data.token);
+        localStorage.setItem('unimercs_current_user', JSON.stringify(data.user));
+
+        succBox.textContent = '¡Cuenta creada exitosamente! Redirigiendo...';
+        succBox.classList.add('show');
+
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 800);
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crear cuenta';
+      }
+    });
   </script>
 </body>
 </html>

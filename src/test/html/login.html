@@ -3,498 +3,476 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Iniciar Sesión | UniMercs</title>
-  <meta name="description" content="Inicia sesión en UniMercs" />
+  <title>Iniciar sesión | unimercs</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css" />
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-    :root{
-      --bg: #ffffff;
-      --fg: #0f1720;
-      --muted: #6b7280;
-      --primary: linear-gradient(90deg,#2563eb,#7c3aed);
-      --accent: #fb923c;
-      --radius: 12px;
-      --card: #ffffff;
-      --card-shadow: 0 6px 18px rgba(15,23,32,0.06);
+    :root {
+      --voltage: #1F3D36;
+      --voltage-dark: #172F2A;
+      --volt: #C8A96A;
+      --midnight: #16130F;
+      --paper: #F4EFE6;
+      --ground: #F4EFE6;
+      --line: #E2DBD0;
+      --muted: #756F64;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      background:linear-gradient(135deg,#1e40af 0%,#7c3aed 100%);
-      color:var(--fg);
-      -webkit-font-smoothing:antialiased;
-      line-height:1.45;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
+    * { box-sizing: border-box; }
+    html, body { min-height: 100vh; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-brand);
+      background: #FFFFFF;
+      color: var(--midnight);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
     }
 
-    .login-container{
-      width:100%;
-      max-width:440px;
-      animation:fadeInUp 0.5s ease-out;
+    .auth-split-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      min-height: 100vh;
+      width: 100%;
     }
 
-    @keyframes fadeInUp{
-      from{opacity:0;transform:translateY(20px)}
-      to{opacity:1;transform:translateY(0)}
+    /* Left Purple Visual Banner */
+    .auth-left-banner {
+      background: var(--voltage);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-big-logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 40px;
+    }
+    .auth-left-banner h2 {
+      font-size: clamp(34px, 4vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      margin: 0;
+      color: #FFFFFF;
+    }
+    .auth-left-banner h2 span {
+      color: var(--volt);
+      display: block;
     }
 
-    .brand-header{
-      text-align:center;
-      margin-bottom:32px;
+    /* Right Form Area */
+    .auth-right-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 32px;
+      background: #FFFFFF;
+    }
+    .auth-form-card {
+      width: 100%;
+      max-width: 420px;
     }
 
-    .brand{
-      font-weight:700;
-      font-size:32px;
-      color:white;
-      text-decoration:none;
-      display:inline-block;
-      margin-bottom:8px;
+    .auth-brand-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .auth-heading {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 6px;
+      color: var(--midnight);
+    }
+    .auth-subhead {
+      color: var(--muted);
+      font-size: 14.5px;
+      margin: 0 0 28px;
     }
 
-    .brand-tagline{
-      color:rgba(255,255,255,0.9);
-      font-size:15px;
-      margin:0;
+    .form-group { margin-bottom: 18px; }
+    .form-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--midnight);
+      margin-bottom: 6px;
+    }
+    .form-input-pill {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 9999px;
+      padding: 12px 20px;
+      font-family: inherit;
+      font-size: 14.5px;
+      color: var(--midnight);
+      outline: none;
+      background: var(--paper);
+      transition: all 0.2s;
+    }
+    .form-input-pill:focus {
+      border-color: var(--voltage);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(31, 61, 54, 0.12);
     }
 
-    .login-card{
-      background:white;
-      border-radius:20px;
-      padding:40px;
-      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    .password-wrap { position: relative; }
+    .toggle-password {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
     }
 
-    .card-header{
-      text-align:center;
-      margin-bottom:32px;
+    .form-links-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 22px;
+    }
+    .forgot-pass-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .forgot-pass-link:hover { color: var(--voltage); text-decoration: underline; }
+
+    .btn-auth-submit {
+      width: 100%;
+      background: var(--voltage);
+      color: #FFFFFF;
+      border: 0;
+      border-radius: 9999px;
+      padding: 13px 24px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-auth-submit:hover:not(:disabled) {
+      background: var(--voltage-dark);
+      transform: translateY(-1px);
+    }
+    .btn-auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .auth-bottom-prompt {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .auth-bottom-prompt a {
+      color: var(--midnight);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .auth-bottom-prompt a:hover { color: var(--voltage); text-decoration: underline; }
+
+    .error-box {
+      color: #991b1b;
+      font-size: 13px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: #fef2f2;
+      border-radius: 12px;
+      border-left: 4px solid #dc2626;
+      display: none;
+    }
+    .error-box.show { display: block; }
+    .success-box {
+      color: #065f46;
+      font-size: 13px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: #f0fdf4;
+      border-radius: 12px;
+      border-left: 4px solid #10b981;
+      display: none;
+    }
+    .success-box.show { display: block; }
+
+    /* Modal Recuperar */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(22, 19, 15, 0.65);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      max-width: 440px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(22, 19, 15, 0.35);
+      border: 1px solid var(--line);
     }
 
-    .card-header h1{
-      font-size:28px;
-      margin:0 0 8px;
-      background:linear-gradient(90deg,#2563eb,#7c3aed);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-    }
-
-    .card-header p{
-      color:var(--muted);
-      margin:0;
-      font-size:15px;
-    }
-
-    .form-group{
-      margin-bottom:20px;
-    }
-
-    .form-label{
-      display:block;
-      font-weight:600;
-      font-size:14px;
-      color:var(--fg);
-      margin-bottom:8px;
-    }
-
-    .form-input{
-      width:100%;
-      border:2px solid #e6e9ef;
-      border-radius:10px;
-      padding:12px 16px;
-      font-size:15px;
-      transition:all 0.2s;
-      font-family:inherit;
-    }
-
-    .form-input:focus{
-      outline:0;
-      border-color:#2563eb;
-      box-shadow:0 0 0 3px rgba(37,99,235,0.1);
-    }
-
-    .form-input::placeholder{ color:#9ca3af; }
-
-    .password-wrapper{ position:relative; }
-
-    .toggle-password{
-      position:absolute;
-      right:12px;
-      top:50%;
-      transform:translateY(-50%);
-      background:transparent;
-      border:0;
-      cursor:pointer;
-      color:#6b7280;
-      padding:4px;
-      transition:color 0.2s;
-    }
-
-    .toggle-password:hover{ color:#2563eb; }
-
-    .form-options{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:24px;
-      font-size:14px;
-    }
-
-    .remember-me{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      cursor:pointer;
-      color:var(--muted);
-    }
-
-    .remember-me input{ accent-color:#2563eb; }
-
-    .forgot-link{
-      color:#2563eb;
-      text-decoration:none;
-      font-weight:600;
-      transition:color 0.2s;
-    }
-
-    .forgot-link:hover{ color:#7c3aed; }
-
-    .btn-submit{
-      width:100%;
-      background:linear-gradient(90deg,#2563eb,#7c3aed);
-      color:white;
-      border:0;
-      padding:14px 28px;
-      border-radius:10px;
-      font-weight:700;
-      font-size:15px;
-      cursor:pointer;
-      transition:all 0.2s;
-      box-shadow:0 4px 12px rgba(37,99,235,0.3);
-      margin-bottom:20px;
-    }
-
-    .btn-submit:hover:not(:disabled){
-      transform:translateY(-2px);
-      box-shadow:0 6px 20px rgba(37,99,235,0.4);
-    }
-
-    .btn-submit:disabled{ opacity:0.6; cursor:not-allowed; }
-
-    .btn-submit.loading{
-      position:relative;
-      color:transparent;
-    }
-
-    .btn-submit.loading::after{
-      content:'';
-      position:absolute;
-      width:20px;
-      height:20px;
-      top:50%;left:50%;
-      margin-left:-10px;margin-top:-10px;
-      border:3px solid rgba(255,255,255,0.3);
-      border-radius:50%;
-      border-top-color:white;
-      animation:spin 0.6s linear infinite;
-    }
-
-    @keyframes spin{ to{transform:rotate(360deg)} }
-
-    .signup-prompt{
-      text-align:center;
-      color:var(--muted);
-      font-size:14px;
-    }
-
-    .signup-link{
-      color:#2563eb;
-      text-decoration:none;
-      font-weight:600;
-      transition:color 0.2s;
-    }
-
-    .signup-link:hover{ color:#7c3aed; text-decoration:underline; }
-
-    .error-message{
-      color:#dc2626;
-      font-size:14px;
-      margin-bottom:16px;
-      padding:12px 16px;
-      background:#fef2f2;
-      border-radius:8px;
-      border-left:3px solid #dc2626;
-      display:none;
-    }
-
-    .error-message.show{ display:block; animation:slideDown 0.3s; }
-
-    .success-message{
-      color:#059669;
-      font-size:14px;
-      margin-bottom:16px;
-      padding:12px 16px;
-      background:#f0fdf4;
-      border-radius:8px;
-      border-left:3px solid #059669;
-      display:none;
-    }
-
-    .success-message.show{ display:block; animation:slideDown 0.3s; }
-
-    @keyframes slideDown{
-      from{opacity:0;transform:translateY(-10px)}
-      to{opacity:1;transform:translateY(0)}
-    }
-
-    .back-home{ text-align:center; margin-top:24px; }
-
-    .back-link{
-      color:white;
-      text-decoration:none;
-      font-size:14px;
-      font-weight:600;
-      transition:opacity 0.2s;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    .back-link:hover{ opacity:0.8; }
-
-    .toast{
-      position:fixed;
-      right:20px;bottom:20px;
-      background:#111827;
-      color:white;
-      padding:16px 24px;
-      border-radius:12px;
-      box-shadow:0 10px 40px rgba(0,0,0,0.3);
-      opacity:0;
-      transform:translateY(20px);
-      transition:all 0.3s;
-      z-index:1000;
-    }
-
-    .toast.show{ opacity:1; transform:translateY(0); }
-
-    @media(max-width:500px){
-      .login-card{ padding:32px 24px; }
-      .brand{ font-size:28px; }
-      .card-header h1{ font-size:24px; }
+    @media (max-width: 800px) {
+      .auth-split-wrapper { grid-template-columns: 1fr; }
+      .auth-left-banner { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="brand-header">
-      <a href="index.html" class="brand">
-        <img src="https://raw.githubusercontent.com/puj-course/FIS_2610_3513_G6/main/assets/UnimercsLogo.png"
-             alt="UNIMERCS" style="height:48px;width:auto;vertical-align:middle;">
-      </a>
-      <p class="brand-tagline">Tu marketplace de confianza</p>
+
+  <div class="auth-split-wrapper">
+    <!-- Left Voltage Purple Screen -->
+    <div class="auth-left-banner">
+      <svg class="auth-big-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 9.5v7a6 6 0 0 0 12 0v-7" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="22" cy="9.5" r="2.6" fill="#C8A96A"/>
+      </svg>
+      <h2>
+        Vende el libro.
+        <span>Guarda el dinero.</span>
+      </h2>
     </div>
 
-    <div class="login-card">
-      <div class="card-header">
-        <h1>Bienvenido de nuevo</h1>
-        <p>Inicia sesión para continuar</p>
-      </div>
-
-      <form id="login-form" novalidate>
-        <div id="error-message" class="error-message" role="alert"></div>
-        <div id="success-message" class="success-message" role="alert"></div>
-
-        <div class="form-group">
-          <label class="form-label" for="email">Correo electrónico</label>
-          <input type="email" id="email" class="form-input"
-                 placeholder="tu@email.com" required autocomplete="email" />
+    <!-- Right Login Form Screen -->
+    <div class="auth-right-area">
+      <div class="auth-form-card">
+        <div class="auth-brand-top">
+          <svg viewBox="0 0 32 32" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg" style="border-radius:10px; background:var(--voltage); padding:2px;">
+            <path d="M10 9.5v7a6 6 0 0 0 12 0v-7" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="22" cy="9.5" r="2.6" fill="#C8A96A"/>
+          </svg>
+          <span style="font-weight:700; font-size:22px; letter-spacing:-0.03em;">unimercs</span>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="password">Contraseña</label>
-          <div class="password-wrapper">
-            <input type="password" id="password" class="form-input"
-                   placeholder="••••••••" required autocomplete="current-password" />
-            <button type="button" class="toggle-password" id="toggle-password" aria-label="Mostrar/ocultar contraseña">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
+        <h1 class="auth-heading">Iniciar sesión</h1>
+        <p class="auth-subhead">Entra con tu correo universitario.</p>
+
+        <div id="error-message" class="error-box"></div>
+        <div id="success-message" class="success-box"></div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="email">Correo</label>
+            <input type="email" id="email" class="form-input-pill" placeholder="tu@universidad.edu.co" required autocomplete="email" />
           </div>
-        </div>
 
-        <div class="form-options">
-          <label class="remember-me">
-            <input type="checkbox" id="remember-me" />
-            <span>Recordarme</span>
-          </label>
-          <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
-        </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Contraseña</label>
+            <div class="password-wrap">
+              <input type="password" id="password" class="form-input-pill" placeholder="••••••••" required autocomplete="current-password" />
+              <button type="button" class="toggle-password" id="toggle-password">Ver</button>
+            </div>
+          </div>
 
-        <button type="submit" class="btn-submit" id="submit-btn">Iniciar Sesión</button>
+          <div class="form-links-row">
+            <a class="forgot-pass-link" id="open-forgot-modal">Olvidé mi contraseña</a>
+          </div>
 
-        <div class="signup-prompt">
-          ¿No tienes una cuenta? <a href="register.html" class="signup-link">Regístrate</a>
-        </div>
-      </form>
-    </div>
+          <button type="submit" class="btn-auth-submit" id="submit-btn">Iniciar sesión</button>
 
-    <div class="back-home">
-      <a href="index.html" class="back-link">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-        Volver al inicio
-      </a>
+          <div class="auth-bottom-prompt">
+            ¿No tienes cuenta? <a href="register.html">Regístrate</a>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
-  <div id="toast" class="toast" aria-live="polite" hidden></div>
+  <!-- Modal Recuperar Contraseña -->
+  <div class="modal-overlay" id="forgot-modal">
+    <div class="modal-card">
+      <h3 style="margin:0 0 6px; font-size:20px; font-weight:700;">Recuperar contraseña</h3>
+      <p style="margin:0 0 18px; font-size:13.5px; color:var(--muted);">Te enviaremos un código de 6 dígitos a tu correo institucional.</p>
+
+      <div id="forgot-step-1">
+        <div class="form-group">
+          <label class="form-label" for="forgot-email">Correo institucional</label>
+          <input type="email" id="forgot-email" class="form-input-pill" placeholder="usuario@javeriana.edu.co" />
+        </div>
+        <button type="button" class="btn-auth-submit" id="btn-request-code" style="margin-bottom:10px;">Enviar código</button>
+      </div>
+
+      <div id="forgot-step-2" style="display:none;">
+        <div class="form-group">
+          <label class="form-label" for="reset-code">Código recibido (6 dígitos)</label>
+          <input type="text" id="reset-code" class="form-input-pill" placeholder="123456" maxlength="6" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="reset-new-password">Nueva contraseña</label>
+          <input type="password" id="reset-new-password" class="form-input-pill" placeholder="Mínimo 6 caracteres" />
+        </div>
+        <button type="button" class="btn-auth-submit" id="btn-confirm-reset" style="margin-bottom:10px;">Restablecer contraseña</button>
+      </div>
+
+      <button type="button" class="btn" id="btn-close-forgot" style="width:100%; border-color:var(--line);">Cancelar</button>
+    </div>
+  </div>
 
   <script>
-    /* ====================== PATRÓN FACADE (completo) ====================== */
-    class UserStorage {
-      getAll() {
-        return JSON.parse(localStorage.getItem('unimercs_users') || '[]');
-      }
-      findByEmail(email) {
-        return this.getAll().find(u => u.email === email.toLowerCase()) || null;
-      }
-      save(user) {
-        const all = this.getAll();
-        all.push(user);
-        localStorage.setItem('unimercs_users', JSON.stringify(all));
-      }
-    }
+    const API_BASE = 'http://localhost:5000/api';
 
-    class CredentialValidator {
-      verify(user, password) {
-        if (!user) throw new Error('No existe una cuenta con ese correo');
-        const hash = btoa(password + '_salt');
-        const legacyMatch = user.password === password;
-        const hashMatch = user.passwordHash === hash;
-        if (!legacyMatch && !hashMatch)
-          throw new Error('Contraseña incorrecta');
-      }
-    }
+    const toggleBtn = document.getElementById('toggle-password');
+    const pwdInput = document.getElementById('password');
+    toggleBtn?.addEventListener('click', () => {
+      const isPwd = pwdInput.type === 'password';
+      pwdInput.type = isPwd ? 'text' : 'password';
+      toggleBtn.textContent = isPwd ? 'Ocultar' : 'Ver';
+    });
 
-    class SessionManager {
-      static SESSION_KEY = 'unimercs_current_user';
-      static TOKEN_KEY   = 'unimercs_token';
-      createSession(user, token) {
-        localStorage.setItem(SessionManager.TOKEN_KEY, token);
-        localStorage.setItem(SessionManager.SESSION_KEY, JSON.stringify(user));
-      }
-      destroySession() {
-        localStorage.removeItem(SessionManager.SESSION_KEY);
-        localStorage.removeItem(SessionManager.TOKEN_KEY);
-      }
-      getSession()     { const r = localStorage.getItem(SessionManager.SESSION_KEY); return r ? JSON.parse(r) : null; }
-      isAuthenticated(){ return this.getSession() !== null; }
-    }
+    const loginForm = document.getElementById('login-form');
+    const errBox = document.getElementById('error-message');
+    const succBox = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-btn');
 
-    class AuthFacade {
-      constructor() {
-        this.storage = new UserStorage();
-        this.validator = new CredentialValidator();
-        this.session = new SessionManager();
-      }
-      async login(email, password) {
-        const res  = await fetch('http://localhost:5000/api/auth/login', {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBox.classList.remove('show');
+      succBox.classList.remove('show');
+
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const password = document.getElementById('password').value;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verificando...';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
+
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Error al iniciar sesión');
-        this.session.createSession(data.user, data.token);
-        return data.user;
-      }
-      logout()          { this.session.destroySession(); }
-      getCurrentUser()  { return this.session.getSession(); }
-      isAuthenticated() { return this.session.isAuthenticated(); }
-    }
-  </script>
-
-  <script>
-    (function() {
-      const toast = document.getElementById('toast');
-      function showToast(msg) {
-        if (!toast) return;
-        toast.textContent = msg;
-        toast.hidden = false;
-        toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.hidden = true, 300); }, 2500);
-      }
-
-      const passwordInput = document.getElementById('password');
-      const toggleBtn     = document.getElementById('toggle-password');
-      toggleBtn?.addEventListener('click', () => {
-        const t = passwordInput.type === 'password' ? 'text' : 'password';
-        passwordInput.type = t;
-        toggleBtn.innerHTML = t === 'password'
-          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>'
-          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
-      });
-
-      const errorEl   = document.getElementById('error-message');
-      const successEl = document.getElementById('success-message');
-
-      function showError(msg)   { errorEl.textContent = msg;   errorEl.classList.add('show');   successEl.classList.remove('show'); }
-      function showSuccess(msg) { successEl.textContent = msg; successEl.classList.add('show'); errorEl.classList.remove('show'); }
-      function hideMessages()   { errorEl.classList.remove('show'); successEl.classList.remove('show'); }
-
-      const auth = new AuthFacade();
-      if (auth.isAuthenticated()) {
-        showSuccess(`Ya tienes sesión activa. Redirigiendo...`);
-        setTimeout(() => window.location.href = 'index.html', 1200);
-      }
-
-      const loginForm = document.getElementById('login-form');
-      const emailInput = document.getElementById('email');
-      const submitBtn  = document.getElementById('submit-btn');
-
-      loginForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        hideMessages();
-
-        const email    = emailInput.value.trim().toLowerCase();
-        const password = passwordInput.value;
-
-        if (!email || !email.includes('@')) { showError('Por favor ingresa un correo electrónico válido'); return; }
-        if (!password)                       { showError('Por favor ingresa tu contraseña'); return; }
-
-        submitBtn.disabled = true;
-        submitBtn.classList.add('loading');
-
-        try {
-          const user = await auth.login(email, password);
-          showSuccess(`¡Bienvenido de nuevo, ${user.name}!`);
-          submitBtn.textContent = '✓ Iniciando sesión...';
-          submitBtn.style.background = 'linear-gradient(90deg,#10b981,#059669)';
-          setTimeout(() => window.location.href = 'index.html', 1200);
-        } catch (err) {
-          showError(err.message || 'Error al iniciar sesión. Por favor intenta de nuevo.');
-          submitBtn.disabled = false;
-          submitBtn.classList.remove('loading');
-          submitBtn.textContent = 'Iniciar Sesión';
+        if (!res.ok) {
+          throw new Error(data.message || 'Error al iniciar sesión');
         }
-      });
 
-      document.querySelector('.forgot-link')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        showToast('Función de recuperación de contraseña próximamente');
-      });
-    })();
+        localStorage.setItem('unimercs_token', data.token);
+        localStorage.setItem('unimercs_current_user', JSON.stringify(data.user));
+
+        succBox.textContent = `Bienvenido(a), ${data.user.name}`;
+        succBox.classList.add('show');
+
+        setTimeout(() => {
+          if (data.user.role === 'admin') {
+            window.location.href = 'admin.html';
+          } else {
+            window.location.href = 'index.html';
+          }
+        }, 600);
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Iniciar sesión';
+      }
+    });
+
+    // Forgot password
+    const forgotModal = document.getElementById('forgot-modal');
+    const openForgotBtn = document.getElementById('open-forgot-modal');
+    const closeForgotBtn = document.getElementById('btn-close-forgot');
+    const btnRequestCode = document.getElementById('btn-request-code');
+    const btnConfirmReset = document.getElementById('btn-confirm-reset');
+    const step1 = document.getElementById('forgot-step-1');
+    const step2 = document.getElementById('forgot-step-2');
+
+    openForgotBtn.addEventListener('click', () => {
+      forgotModal.classList.add('open');
+      step1.style.display = 'block';
+      step2.style.display = 'none';
+      document.getElementById('forgot-email').value = document.getElementById('email').value;
+    });
+
+    closeForgotBtn.addEventListener('click', () => {
+      forgotModal.classList.remove('open');
+    });
+
+    let currentResetEmail = '';
+
+    btnRequestCode.addEventListener('click', async () => {
+      const email = document.getElementById('forgot-email').value.trim().toLowerCase();
+      if (!email) return alert('Ingresa tu correo institucional');
+
+      btnRequestCode.disabled = true;
+      btnRequestCode.textContent = 'Enviando...';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/forgot-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
+        currentResetEmail = email;
+        alert(data.message);
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        btnRequestCode.disabled = false;
+        btnRequestCode.textContent = 'Enviar código';
+      }
+    });
+
+    btnConfirmReset.addEventListener('click', async () => {
+      const code = document.getElementById('reset-code').value.trim();
+      const newPassword = document.getElementById('reset-new-password').value;
+
+      if (!code || !newPassword) return alert('Ingresa el código y la nueva contraseña');
+
+      btnConfirmReset.disabled = true;
+      btnConfirmReset.textContent = 'Restableciendo...';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/reset-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: currentResetEmail, code, newPassword })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
+        alert('Contraseña restablecida correctamente.');
+        forgotModal.classList.remove('open');
+        document.getElementById('email').value = currentResetEmail;
+        document.getElementById('password').value = newPassword;
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        btnConfirmReset.disabled = false;
+        btnConfirmReset.textContent = 'Restablecer contraseña';
+      }
+    });
   </script>
 </body>
 </html>

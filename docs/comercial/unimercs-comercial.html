@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniMercs · Comercial Web Oficial (En vivo con tu página real)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700;800&family=Cabinet+Grotesk:wght@800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090C0B;
+      --green-dark: #10211D;
+      --green-brand: #1F3D36;
+      --green-light: #2D5A4F;
+      --gold: #C8A96A;
+      --gold-light: #FFE4A0;
+      --gold-glow: rgba(200, 169, 106, 0.35);
+      --paper: #F4EFE6;
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--paper);
+      font-family: var(--font-display);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Ambient Lighting */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(31, 61, 54, 0.45) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(200, 169, 106, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, #0E1614 0%, #080A09 100%);
+    }
+
+    /* Top Commercial Header */
+    header {
+      position: relative;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 28px;
+      background: rgba(10, 14, 13, 0.85);
+      border-bottom: 1px solid rgba(200, 169, 106, 0.2);
+      backdrop-filter: blur(12px);
+    }
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: #0E1412;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+    .brand-text h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+    .brand-text p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .header-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(200, 169, 106, 0.3);
+      background: rgba(31, 61, 54, 0.5);
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background: var(--gold);
+      color: #0E1412;
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+    .btn.active {
+      background: var(--gold);
+      color: #0E1412;
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    /* Commercial Stage */
+    .commercial-stage {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      overflow: hidden;
+      perspective: 1200px;
+    }
+
+    /* Main Animated Device Container */
+    .device-showcase {
+      position: relative;
+      width: min(1040px, 92vw);
+      height: min(600px, 68vh);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+      transform-style: preserve-3d;
+    }
+
+    /* Device Variations */
+    .device-showcase.laptop-mode {
+      width: min(1060px, 92vw);
+      height: min(620px, 70vh);
+    }
+    .device-showcase.phone-mode {
+      width: min(360px, 86vw);
+      height: min(660px, 74vh);
+    }
+
+    /* Laptop Frame Styling */
+    .laptop-frame {
+      width: 100%;
+      height: 100%;
+      background: #1C2220;
+      border-radius: 22px;
+      border: 3px solid #3A4742;
+      box-shadow: 
+        0 30px 100px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(200, 169, 106, 0.3),
+        0 0 50px rgba(31, 61, 54, 0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .laptop-notch-bar {
+      height: 30px;
+      background: #141A18;
+      border-bottom: 1px solid #28332F;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+    }
+    .window-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot.red { background: #FF5F56; }
+    .dot.yellow { background: #FFBD2E; }
+    .dot.green { background: #27C93F; }
+    .browser-url-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #A3B5AE;
+      background: #1F2825;
+      padding: 3px 20px;
+      border-radius: 12px;
+      border: 1px solid #33403B;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Phone Frame Styling */
+    .phone-frame {
+      display: none;
+      width: 100%;
+      height: 100%;
+      background: #0E1412;
+      border-radius: 46px;
+      border: 8px solid #2D3934;
+      box-shadow: 0 35px 90px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
+      overflow: hidden;
+      position: relative;
+    }
+    .dynamic-island {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 24px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 30;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* Live Real Page Iframe */
+    .live-page-iframe {
+      width: 100%;
+      flex: 1;
+      height: 100%;
+      border: none;
+      background: #F4EFE6;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Cinematic Camera Angles (Classes toggled on .device-showcase) */
+    .cam-tilt-left {
+      transform: rotateY(-8deg) rotateX(4deg) scale(0.98);
+    }
+    .cam-tilt-right {
+      transform: rotateY(8deg) rotateX(4deg) scale(0.98);
+    }
+    .cam-zoom-in {
+      transform: scale(1.08) translateY(-2%);
+    }
+    .cam-push-center {
+      transform: scale(1.02) rotateX(2deg);
+    }
+    .cam-wide {
+      transform: scale(0.95) translateY(2%);
+    }
+
+    /* Kinetic Commercial Text Overlays */
+    .commercial-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px;
+    }
+
+    /* Big Punchy Headline */
+    .hero-badge-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      animation: badgeSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .eyebrow-pill {
+      align-self: flex-start;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--gold);
+      color: #0E1412;
+      padding: 6px 14px;
+      border-radius: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 18px var(--gold-glow);
+    }
+    .main-headline {
+      font-size: clamp(34px, 5.2vw, 62px);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -1.5px;
+      color: #FFFFFF;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.85);
+      max-width: 820px;
+    }
+    .main-headline span {
+      background: linear-gradient(90deg, #FFE4A0, #C8A96A);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Floating Feature Badge Cards */
+    .floating-cards {
+      display: flex;
+      gap: 14px;
+      align-self: flex-end;
+    }
+    .feat-card {
+      background: rgba(14, 22, 19, 0.88);
+      border: 1px solid rgba(200, 169, 106, 0.35);
+      border-radius: 16px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      animation: cardPop 0.5s ease both;
+    }
+    .feat-icon {
+      font-size: 26px;
+    }
+    .feat-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .feat-desc {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gold);
+    }
+
+    @keyframes badgeSlideIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardPop {
+      from { opacity: 0; transform: scale(0.85) translateY(15px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Commercial Player Bottom Bar */
+    .bottom-bar {
+      position: relative;
+      z-index: 40;
+      background: rgba(10, 14, 13, 0.95);
+      border-top: 1px solid rgba(200, 169, 106, 0.2);
+      padding: 12px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Timeline progress */
+    .timeline-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .timeline-bar {
+      flex: 1;
+      height: 6px;
+      background: #1C2723;
+      border-radius: 3px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .timeline-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      background: linear-gradient(90deg, #2D5A4F, #C8A96A, #FFE4A0);
+      border-radius: 3px;
+      transition: width 0.1s linear;
+    }
+    .timecode {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gold);
+      min-width: 80px;
+      text-align: right;
+    }
+
+    /* Control Buttons & Scene Nav */
+    .ctrl-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .playback-ctrls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .circle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(31, 61, 54, 0.6);
+      border: 1px solid rgba(200, 169, 106, 0.3);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+    .circle-btn:hover {
+      background: var(--gold);
+      color: #0E1412;
+      border-color: var(--gold);
+      transform: scale(1.06);
+    }
+    .circle-btn.play-master {
+      width: 44px;
+      height: 44px;
+      background: var(--gold);
+      color: #0E1412;
+      font-size: 18px;
+      font-weight: 900;
+      border: none;
+      box-shadow: 0 0 16px var(--gold-glow);
+    }
+
+    /* Scene Pills */
+    .scene-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 14px;
+      background: #141D1A;
+      border: 1px solid #23312C;
+      color: #A3B5AE;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .pill:hover {
+      background: #1F2E29;
+      color: #fff;
+      border-color: var(--gold);
+    }
+    .pill.active {
+      background: var(--green-brand);
+      color: var(--gold-light);
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(200, 169, 106, 0.25);
+    }
+
+    /* Right quick tools */
+    .right-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <!-- Top Brand Header -->
+  <header>
+    <div class="brand-box">
+      <div class="brand-logo">u</div>
+      <div class="brand-text">
+        <h1>UNIMERCS · Comercial Web Oficial</h1>
+        <p>Grabado directamente sobre la página web real del proyecto</p>
+      </div>
+    </div>
+
+    <div class="header-ctrls">
+      <button class="btn" id="btnDeviceLaptop">💻 Vista Laptop</button>
+      <button class="btn" id="btnDevicePhone">📱 Vista Móvil</button>
+      <button class="btn active" id="btnAutoScroll">📜 Auto-Scroll: ON</button>
+      <button class="btn" id="btnFullscreen">⛶ Pantalla Completa</button>
+    </div>
+  </header>
+
+  <!-- Commercial Showcase Stage -->
+  <main class="commercial-stage" id="stageContainer">
+
+    <!-- Device Frame with Real Project Page -->
+    <div class="device-showcase laptop-mode cam-push-center" id="deviceShowcase">
+      
+      <!-- Laptop Bezel -->
+      <div class="laptop-frame" id="laptopFrame">
+        <div class="laptop-notch-bar">
+          <div class="window-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="browser-url-pill" id="browserUrl">
+            🔒 unimercs.javeriana.edu.co/index.html
+          </div>
+          <div style="width: 50px;"></div>
+        </div>
+
+        <!-- Real Live Page Frame -->
+        <iframe class="live-page-iframe" id="pageIframe" src="../../src/test/html/index.html"></iframe>
+      </div>
+
+      <!-- Phone Bezel -->
+      <div class="phone-frame" id="phoneFrame">
+        <div class="dynamic-island"></div>
+        <iframe class="live-page-iframe" id="phoneIframe" src="../../src/test/html/index.html"></iframe>
+      </div>
+
+    </div>
+
+    <!-- Commercial Kinetic Overlays -->
+    <div class="commercial-overlay" id="commercialOverlay">
+      
+      <!-- Top Title & Eyebrow -->
+      <div class="hero-badge-wrap" id="headlineWrap">
+        <span class="eyebrow-pill" id="eyebrowPill">01 · BIENVENIDO A UNIMERCS</span>
+        <h2 class="main-headline" id="mainHeadline">El marketplace oficial para la <span>comunidad Javeriana.</span></h2>
+      </div>
+
+      <!-- Bottom Feature Card -->
+      <div class="floating-cards" id="featureCards">
+        <div class="feat-card" id="card1">
+          <span class="feat-icon">⚡</span>
+          <div>
+            <div class="feat-title" id="card1Title">Sell the textbook.</div>
+            <div class="feat-desc" id="card1Desc">Keep the ramen money.</div>
+          </div>
+        </div>
+        <div class="feat-card" id="card2">
+          <span class="feat-icon">🎓</span>
+          <div>
+            <div class="feat-title" id="card2Title">100% Javeriano</div>
+            <div class="feat-desc" id="card2Desc">Acceso seguro con correo PUJ</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Bottom Player & Scene Navigation -->
+  <footer class="bottom-bar">
+    <!-- Scrubber -->
+    <div class="timeline-wrap">
+      <div class="timeline-bar" id="timelineBar">
+        <div class="timeline-progress" id="timelineProgress"></div>
+      </div>
+      <div class="timecode" id="timecode">00:00 / 00:56</div>
+    </div>
+
+    <!-- Controls Row -->
+    <div class="ctrl-row">
+      <!-- Playback -->
+      <div class="playback-ctrls">
+        <button class="circle-btn" id="btnPrev" title="Escena anterior">⏮</button>
+        <button class="circle-btn play-master" id="btnPlayPause" title="Reproducir comercial">▶</button>
+        <button class="circle-btn" id="btnNext" title="Siguiente escena">⏭</button>
+        <button class="circle-btn" id="btnRestart" title="Reiniciar">🔄</button>
+      </div>
+
+      <!-- Scene Pills -->
+      <div class="scene-pills" id="scenePills">
+        <button class="pill active" data-scene="0">01 Inicio (Home)</button>
+        <button class="pill" data-scene="1">02 Explorar & Filtros</button>
+        <button class="pill" data-scene="2">03 Publicar Artículo</button>
+        <button class="pill" data-scene="3">04 Detalle & WhatsApp</button>
+        <button class="pill" data-scene="4">05 SafeZones en Campus</button>
+        <button class="pill" data-scene="5">06 Tienda Estudiantil</button>
+        <button class="pill" data-scene="6">07 Cierre & Registro</button>
+      </div>
+
+      <!-- Right tools -->
+      <div class="right-tools">
+        <button class="btn" id="btnSpeed">1.0x</button>
+        <button class="btn" id="btnTakeSnap">📸 Capturar Fotograma</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Commercial Logic & Scene Transitions Script -->
+  <script>
+    // Commercial Sequence with Real Pages
+    const scenes = [
+      {
+        id: 0,
+        name: "01 Inicio (Home)",
+        file: "../../src/test/html/index.html",
+        urlText: "unimercs.javeriana.edu.co/index.html",
+        duration: 8,
+        device: "laptop",
+        camera: "cam-push-center",
+        eyebrow: "01 · BIENVENIDO A UNIMERCS",
+        headline: "El marketplace oficial para la <span>comunidad Javeriana.</span>",
+        card1: { icon: "⚡", title: "Sell the textbook.", desc: "Keep the ramen money." },
+        card2: { icon: "🎓", title: "100% Javeriano", desc: "Acceso exclusivo con correo PUJ" },
+        scrollPercent: 0.35
+      },
+      {
+        id: 1,
+        name: "02 Explorar & Filtros",
+        file: "../../src/test/html/explore.html",
+        urlText: "unimercs.javeriana.edu.co/explore.html",
+        duration: 8,
+        device: "laptop",
+        camera: "cam-tilt-left",
+        eyebrow: "02 · BÚSQUEDA INTELIGENTE",
+        headline: "Encuentra lo que necesitas <span>en segundos.</span>",
+        card1: { icon: "🔍", title: "Búsqueda con autocompletado", desc: "Filtra por materia o facultad" },
+        card2: { icon: "💰", title: "Hasta 70% de ahorro", desc: "Compara precios de estudiantes" },
+        scrollPercent: 0.45
+      },
+      {
+        id: 2,
+        name: "03 Publicar Artículo",
+        file: "../../src/test/html/post.html",
+        urlText: "unimercs.javeriana.edu.co/post.html",
+        duration: 8,
+        device: "phone",
+        camera: "cam-zoom-in",
+        eyebrow: "03 · PUBLICACIÓN RELÁMPAGO",
+        headline: "Publica desde tu celular en <span>menos de un minuto.</span>",
+        card1: { icon: "📸", title: "Sube varias fotos", desc: "Toma fotos reales del producto" },
+        card2: { icon: "🚀", title: "Cero comisiones", desc: "Toda la plata va para ti" },
+        scrollPercent: 0.50
+      },
+      {
+        id: 3,
+        name: "04 Detalle & WhatsApp",
+        file: "../../src/test/html/product-detail.html",
+        urlText: "unimercs.javeriana.edu.co/product-detail.html",
+        duration: 8,
+        device: "laptop",
+        camera: "cam-tilt-right",
+        eyebrow: "04 · CONFIANZA & CONEXIÓN",
+        headline: "Coordina directo <span>sin intermediarios ni enredos.</span>",
+        card1: { icon: "⭐", title: "Calificaciones reales", desc: "Reputación pública del vendedor" },
+        card2: { icon: "💬", title: "Botón a WhatsApp", desc: "Mensaje listo con un solo tap" },
+        scrollPercent: 0.30
+      },
+      {
+        id: 4,
+        name: "05 SafeZones en Campus",
+        file: "../../src/test/html/safezones.html",
+        urlText: "unimercs.javeriana.edu.co/safezones.html",
+        duration: 8,
+        device: "laptop",
+        camera: "cam-push-center",
+        eyebrow: "05 · SAFEZONES JAVERIANA",
+        headline: "Encuentros seguros dentro de <span>puntos vigilados del campus.</span>",
+        card1: { icon: "🛡️", title: "Biblioteca & Cafeterías", desc: "Cámaras y personal de apoyo" },
+        card2: { icon: "🤝", title: "Entregas en mano", desc: "Valida tu producto en persona" },
+        scrollPercent: 0.40
+      },
+      {
+        id: 5,
+        name: "06 Tienda Estudiantil",
+        file: "../../src/test/html/store.html",
+        urlText: "unimercs.javeriana.edu.co/store.html",
+        duration: 8,
+        device: "laptop",
+        camera: "cam-wide",
+        eyebrow: "06 · EMPRENDIMIENTO EN LA U",
+        headline: "Tu propio catálogo. <span>Tu propia vitrina estudiantil.</span>",
+        card1: { icon: "🛍️", title: "Perfil de tienda", desc: "Comparte tu enlace personalizado" },
+        card2: { icon: "📈", title: "Campus Hustle", desc: "Mueve tu negocio en la Javeriana" },
+        scrollPercent: 0.55
+      },
+      {
+        id: 6,
+        name: "07 Cierre & Registro",
+        file: "../../src/test/html/index.html",
+        urlText: "unimercs.javeriana.edu.co",
+        duration: 8,
+        device: "phone",
+        camera: "cam-zoom-in",
+        eyebrow: "07 · EMPIEZA HOY",
+        headline: "Haz espacio. Ahorra. <span>Campus hustle, handled.</span>",
+        card1: { icon: "🎓", title: "unimercs.app", desc: "Ingresa con tu correo Javeriano" },
+        card2: { icon: "✨", title: "¡Pruébalo ahora!", desc: "Gratis para toda la comunidad" },
+        scrollPercent: 0.1
+      }
+    ];
+
+    const TOTAL_TIME = scenes.reduce((sum, s) => sum + s.duration, 0); // 56s
+    let currentSceneIdx = 0;
+    let isPlaying = false;
+    let playbackSpeed = 1.0;
+    let currentTime = 0;
+    let autoScrollEnabled = true;
+    let animationFrame = null;
+    let lastTime = null;
+
+    // DOM Elements
+    const deviceShowcase = document.getElementById('deviceShowcase');
+    const laptopFrame = document.getElementById('laptopFrame');
+    const phoneFrame = document.getElementById('phoneFrame');
+    const pageIframe = document.getElementById('pageIframe');
+    const phoneIframe = document.getElementById('phoneIframe');
+    const browserUrl = document.getElementById('browserUrl');
+    const eyebrowPill = document.getElementById('eyebrowPill');
+    const mainHeadline = document.getElementById('mainHeadline');
+    const card1Title = document.getElementById('card1Title');
+    const card1Desc = document.getElementById('card1Desc');
+    const card2Title = document.getElementById('card2Title');
+    const card2Desc = document.getElementById('card2Desc');
+    const timelineBar = document.getElementById('timelineBar');
+    const timelineProgress = document.getElementById('timelineProgress');
+    const timecode = document.getElementById('timecode');
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnRestart = document.getElementById('btnRestart');
+    const btnSpeed = document.getElementById('btnSpeed');
+    const btnDeviceLaptop = document.getElementById('btnDeviceLaptop');
+    const btnDevicePhone = document.getElementById('btnDevicePhone');
+    const btnAutoScroll = document.getElementById('btnAutoScroll');
+    const btnFullscreen = document.getElementById('btnFullscreen');
+    const btnTakeSnap = document.getElementById('btnTakeSnap');
+    const scenePills = document.querySelectorAll('.pill');
+
+    function formatTime(s) {
+      const min = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+    }
+
+    function applyScene(idx) {
+      if (idx < 0 || idx >= scenes.length) return;
+      currentSceneIdx = idx;
+      const sc = scenes[currentSceneIdx];
+
+      // Update pills
+      scenePills.forEach((p, i) => p.classList.toggle('active', i === currentSceneIdx));
+
+      // Device frame switch
+      if (sc.device === 'phone') {
+        laptopFrame.style.display = 'none';
+        phoneFrame.style.display = 'block';
+        deviceShowcase.className = `device-showcase phone-mode ${sc.camera}`;
+        phoneIframe.src = sc.file;
+      } else {
+        phoneFrame.style.display = 'none';
+        laptopFrame.style.display = 'flex';
+        deviceShowcase.className = `device-showcase laptop-mode ${sc.camera}`;
+        pageIframe.src = sc.file;
+      }
+
+      // Browser URL bar
+      browserUrl.textContent = `🔒 ${sc.urlText}`;
+
+      // Animate text overlays
+      eyebrowPill.textContent = sc.eyebrow;
+      mainHeadline.innerHTML = sc.headline;
+      card1Title.textContent = sc.card1.title;
+      card1Desc.textContent = sc.card1.desc;
+      card2Title.textContent = sc.card2.title;
+      card2Desc.textContent = sc.card2.desc;
+
+      // Trigger bounce on badges
+      const hWrap = document.getElementById('headlineWrap');
+      hWrap.style.animation = 'none';
+      void hWrap.offsetWidth;
+      hWrap.style.animation = 'badgeSlideIn 0.5s ease both';
+
+      // Perform simulated auto-scroll inside the iframe
+      const activeIframe = sc.device === 'phone' ? phoneIframe : pageIframe;
+      activeIframe.onload = () => {
+        if (!autoScrollEnabled) return;
+        try {
+          const doc = activeIframe.contentWindow.document;
+          const maxScroll = doc.documentElement.scrollHeight - activeIframe.clientHeight;
+          if (maxScroll > 0) {
+            activeIframe.contentWindow.scrollTo({
+              top: maxScroll * sc.scrollPercent,
+              behavior: 'smooth'
+            });
+          }
+        } catch (e) {
+          // sandbox/same-origin
+        }
+      };
+    }
+
+    function renderProgress() {
+      const progress = (currentTime / TOTAL_TIME) * 100;
+      timelineProgress.style.width = `${progress}%`;
+      timecode.textContent = `${formatTime(currentTime)} / ${formatTime(TOTAL_TIME)}`;
+
+      // Calculate which scene we should be at
+      let acc = 0;
+      let targetIdx = 0;
+      for (let i = 0; i < scenes.length; i++) {
+        if (currentTime >= acc && currentTime < acc + scenes[i].duration) {
+          targetIdx = i;
+          break;
+        }
+        acc += scenes[i].duration;
+        if (i === scenes.length - 1) targetIdx = scenes.length - 1;
+      }
+
+      if (targetIdx !== currentSceneIdx) {
+        applyScene(targetIdx);
+      }
+    }
+
+    function tick(timestamp) {
+      if (!lastTime) lastTime = timestamp;
+      const delta = (timestamp - lastTime) / 1000;
+      lastTime = timestamp;
+
+      if (isPlaying) {
+        currentTime += delta * playbackSpeed;
+        if (currentTime >= TOTAL_TIME) {
+          currentTime = 0; // loop
+        }
+        renderProgress();
+      }
+
+      animationFrame = requestAnimationFrame(tick);
+    }
+
+    function play() {
+      isPlaying = true;
+      btnPlayPause.textContent = '⏸';
+      lastTime = null;
+    }
+
+    function pause() {
+      isPlaying = false;
+      btnPlayPause.textContent = '▶';
+    }
+
+    function togglePlay() {
+      if (isPlaying) pause();
+      else play();
+    }
+
+    function seekTo(sec) {
+      currentTime = Math.max(0, Math.min(TOTAL_TIME, sec));
+      renderProgress();
+    }
+
+    function getSceneStartTime(idx) {
+      let t = 0;
+      for (let i = 0; i < idx; i++) t += scenes[i].duration;
+      return t;
+    }
+
+    // Event Listeners
+    btnPlayPause.addEventListener('click', togglePlay);
+    btnRestart.addEventListener('click', () => {
+      seekTo(0);
+      play();
+    });
+
+    btnPrev.addEventListener('click', () => {
+      const prevIdx = Math.max(0, currentSceneIdx - 1);
+      seekTo(getSceneStartTime(prevIdx));
+    });
+
+    btnNext.addEventListener('click', () => {
+      const nextIdx = Math.min(scenes.length - 1, currentSceneIdx + 1);
+      seekTo(getSceneStartTime(nextIdx));
+    });
+
+    timelineBar.addEventListener('click', (e) => {
+      const rect = timelineBar.getBoundingClientRect();
+      const pct = (e.clientX - rect.left) / rect.width;
+      seekTo(pct * TOTAL_TIME);
+    });
+
+    scenePills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const idx = parseInt(pill.getAttribute('data-scene'));
+        seekTo(getSceneStartTime(idx));
+      });
+    });
+
+    // Speed toggle
+    const speedVals = [1.0, 1.5, 2.0, 0.5];
+    let spIdx = 0;
+    btnSpeed.addEventListener('click', () => {
+      spIdx = (spIdx + 1) % speedVals.length;
+      playbackSpeed = speedVals[spIdx];
+      btnSpeed.textContent = `${playbackSpeed.toFixed(1)}x`;
+    });
+
+    // Device override buttons
+    btnDeviceLaptop.addEventListener('click', () => {
+      laptopFrame.style.display = 'flex';
+      phoneFrame.style.display = 'none';
+      deviceShowcase.className = 'device-showcase laptop-mode cam-push-center';
+      pageIframe.src = scenes[currentSceneIdx].file;
+    });
+
+    btnDevicePhone.addEventListener('click', () => {
+      laptopFrame.style.display = 'none';
+      phoneFrame.style.display = 'block';
+      deviceShowcase.className = 'device-showcase phone-mode cam-zoom-in';
+      phoneIframe.src = scenes[currentSceneIdx].file;
+    });
+
+    // Auto-scroll toggle
+    btnAutoScroll.addEventListener('click', () => {
+      autoScrollEnabled = !autoScrollEnabled;
+      btnAutoScroll.classList.toggle('active', autoScrollEnabled);
+      btnAutoScroll.textContent = autoScrollEnabled ? '📜 Auto-Scroll: ON' : '📜 Auto-Scroll: OFF';
+    });
+
+    // Fullscreen toggle for screen recording
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    // Snapshot button
+    btnTakeSnap.addEventListener('click', () => {
+      alert(`📸 ¡Fotograma de la escena ${currentSceneIdx + 1} listo! Puedes usar la captura de pantalla de Windows (Win + Shift + S) para guardarlo en resolución nativa.`);
+    });
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.code === 'ArrowRight') {
+        seekTo(currentTime + 4);
+      } else if (e.code === 'ArrowLeft') {
+        seekTo(currentTime - 4);
+      }
+    });
+
+    // Initialize first scene & start loop
+    applyScene(0);
+    renderProgress();
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>

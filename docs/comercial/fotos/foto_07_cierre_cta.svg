@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+      <defs>
+        <radialGradient id="cta_grad" cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="#1F3D36"/>
+          <stop offset="60%" stop-color="#142823"/>
+          <stop offset="100%" stop-color="#09120F"/>
+        </radialGradient>
+      </defs>
+
+      <rect width="1920" height="1080" fill="url(#cta_grad)"/>
+
+      <!-- Ambient Golden Rays -->
+      <circle cx="960" cy="460" r="380" fill="none" stroke="#C8A96A" stroke-width="1.5" stroke-dasharray="10 8" opacity="0.3"/>
+      <circle cx="960" cy="460" r="260" fill="none" stroke="#C8A96A" stroke-width="2" opacity="0.4"/>
+
+      <!-- Big Brand Logo Mark -->
+      <g transform="translate(960, 260)">
+        <rect x="-60" y="-60" width="120" height="120" rx="34" fill="#C8A96A"/>
+        <text x="0" y="24" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="80" fill="#1F3D36">u</text>
+      </g>
+
+      <!-- Typography -->
+      <g transform="translate(960, 430)">
+        <text x="0" y="0" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="84" fill="#FFFFFF" letter-spacing="-2">unimercs</text>
+        <text x="0" y="55" text-anchor="middle" font-family="'DM Mono', monospace" font-size="24" font-weight="700" fill="#C8A96A" letter-spacing="8">CAMPUS HUSTLE, HANDLED.</text>
+        
+        <text x="0" y="115" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="24" fill="#E8EFE8">
+          El marketplace exclusivo de la Pontificia Universidad Javeriana
+        </text>
+      </g>
+
+      <!-- Action Buttons -->
+      <g transform="translate(960, 660)">
+        <rect x="-240" y="0" width="220" height="68" rx="34" fill="#C8A96A"/>
+        <text x="-130" y="42" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="18" fill="#16130F">Empezar a Vender</text>
+
+        <rect x="20" y="0" width="220" height="68" rx="34" fill="transparent" stroke="#E8EFE8" stroke-width="2"/>
+        <text x="130" y="42" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="18" fill="#FFFFFF">Explorar Productos</text>
+
+        <text x="0" y="125" text-anchor="middle" font-family="'DM Mono', monospace" font-size="16" fill="#A3B5AE">
+          Inicia sesión con tu correo @javeriana.edu.co · Sin comisiones
+        </text>
+      </g>
+    
+</svg>

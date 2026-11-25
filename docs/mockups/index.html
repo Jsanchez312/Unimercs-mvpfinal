@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniMercs · Galería Maestra de Mockups (Todas las Páginas)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0A0D0C;
+      --card-bg: #121816;
+      --border: #222D29;
+      --green: #1F3D36;
+      --green-light: #2D5A4F;
+      --gold: #C8A96A;
+      --gold-light: #FFE4A0;
+      --paper: #F4EFE6;
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--paper);
+      font-family: var(--font-display);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Nav */
+    header {
+      background: rgba(10, 13, 12, 0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      background: var(--gold);
+      color: #0E1412;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 20px;
+      display: grid;
+      place-items: center;
+    }
+    .brand-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .brand-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: #172420;
+      border: 1px solid var(--border);
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background: var(--gold);
+      color: #0E1412;
+      border-color: var(--gold);
+    }
+    .btn.active {
+      background: var(--gold);
+      color: #0E1412;
+    }
+
+    /* Workspace Layout */
+    .app-workspace {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      flex: 1;
+      height: calc(100vh - 63px);
+      overflow: hidden;
+    }
+
+    /* Left Sidebar: List of All 14 Pages */
+    .pages-sidebar {
+      background: var(--card-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--card-bg);
+      z-index: 10;
+    }
+    .sidebar-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .sidebar-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    .pages-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 12px;
+    }
+    .page-item {
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: #0E1311;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+    .page-item:hover {
+      background: #15201C;
+      border-color: var(--border);
+      transform: translateX(3px);
+    }
+    .page-item.active {
+      background: #1A2823;
+      border-color: var(--gold);
+      box-shadow: 0 4px 14px rgba(200, 169, 106, 0.15);
+    }
+    .item-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .item-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .item-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .item-file {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #7D8C86;
+    }
+    .item-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      background: rgba(200, 169, 106, 0.12);
+      color: var(--gold);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Right: Viewer Area */
+    .viewer-area {
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at center, #15221E 0%, #080C0A 80%);
+      padding: 24px;
+      overflow-y: auto;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .viewer-stage {
+      width: min(1200px, 96%);
+      aspect-ratio: 16 / 10;
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(200, 169, 106, 0.25);
+      position: relative;
+    }
+
+    .mockup-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .live-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+      background: #FFF;
+    }
+
+    /* Bottom Info Bar */
+    .viewer-footer {
+      width: min(1200px, 96%);
+      margin-top: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .footer-source {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gold);
+    }
+
+    @media (max-width: 1024px) {
+      .app-workspace {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .pages-sidebar {
+        height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand-wrap">
+      <div class="brand-badge">u</div>
+      <div>
+        <div class="brand-title">UNIMERCS · Suite Maestra de Mockups</div>
+        <div class="brand-sub">Todas las 14 páginas del proyecto con marcos profesionales</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn active" id="btnShowMockup">🖥️ Ver Mockup Vectorial</button>
+      <button class="btn" id="btnShowLive">🌐 Ver Página Real en Vivo</button>
+      <button class="btn" id="btnFullscreen">⛶ Pantalla Completa</button>
+    </div>
+  </header>
+
+  <!-- Workspace Split -->
+  <main class="app-workspace">
+
+    <!-- Left: List of 14 Pages -->
+    <aside class="pages-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Todas las Páginas de UniMercs</div>
+        <div class="sidebar-count">14 Mockups Generados · Pontificia Universidad Javeriana</div>
+      </div>
+
+      <div class="pages-list" id="pagesList">
+        <!-- 1 -->
+        <div class="page-item active" data-mockup="mockup_01_home.svg" data-live="../../src/test/html/index.html" data-title="01 · Página de Inicio (Home)" data-desc="Página principal con hero, categorías y productos destacados.">
+          <div class="item-left">
+            <span class="item-num">01 · HOME</span>
+            <span class="item-name">Página de Inicio</span>
+            <span class="item-file">src/test/html/index.html</span>
+          </div>
+          <span class="item-tag">Hero</span>
+        </div>
+
+        <!-- 2 -->
+        <div class="page-item" data-mockup="mockup_02_explore.svg" data-live="../../src/test/html/explore.html" data-title="02 · Explorar & Búsqueda" data-desc="Catálogo con búsqueda predictiva y filtros por facultad.">
+          <div class="item-left">
+            <span class="item-num">02 · EXPLORAR</span>
+            <span class="item-name">Explorar & Filtros</span>
+            <span class="item-file">src/test/html/explore.html</span>
+          </div>
+          <span class="item-tag">Buscador</span>
+        </div>
+
+        <!-- 3 -->
+        <div class="page-item" data-mockup="mockup_03_product_detail.svg" data-live="../../src/test/html/product-detail.html" data-title="03 · Detalle de Producto" data-desc="Galería, vendedor verificado PUJ y botón directo a WhatsApp.">
+          <div class="item-left">
+            <span class="item-num">03 · DETALLE</span>
+            <span class="item-name">Detalle de Producto</span>
+            <span class="item-file">src/test/html/product-detail.html</span>
+          </div>
+          <span class="item-tag">WhatsApp</span>
+        </div>
+
+        <!-- 4 -->
+        <div class="page-item" data-mockup="mockup_04_post.svg" data-live="../../src/test/html/post.html" data-title="04 · Publicar Artículo" data-desc="Formulario para subir fotos, precio y seleccionar SafeZone.">
+          <div class="item-left">
+            <span class="item-num">04 · PUBLICAR</span>
+            <span class="item-name">Publicar Artículo</span>
+            <span class="item-file">src/test/html/post.html</span>
+          </div>
+          <span class="item-tag">Subida</span>
+        </div>
+
+        <!-- 5 -->
+        <div class="page-item" data-mockup="mockup_05_safezones.svg" data-live="../../src/test/html/safezones.html" data-title="05 · SafeZones en Campus" data-desc="Puntos vigilados oficiales en la Javeriana (Biblioteca, Arboleda, Giraldo).">
+          <div class="item-left">
+            <span class="item-num">05 · SAFEZONES</span>
+            <span class="item-name">SafeZones en Campus</span>
+            <span class="item-file">src/test/html/safezones.html</span>
+          </div>
+          <span class="item-tag">Seguridad</span>
+        </div>
+
+        <!-- 6 -->
+        <div class="page-item" data-mockup="mockup_06_store.svg" data-live="../../src/test/html/store.html" data-title="06 · Tienda del Estudiante" data-desc="Vitrina personalizada con catálogo de apuntes, adaptadores y snacks.">
+          <div class="item-left">
+            <span class="item-num">06 · TIENDA</span>
+            <span class="item-name">Tienda Estudiantil</span>
+            <span class="item-file">src/test/html/store.html</span>
+          </div>
+          <span class="item-tag">Catálogo</span>
+        </div>
+
+        <!-- 7 -->
+        <div class="page-item" data-mockup="mockup_07_profile.svg" data-live="../../src/test/html/profile.html" data-title="07 · Mi Perfil & Panel" data-desc="Gestión de cuenta, carné validado y artículos activos del usuario.">
+          <div class="item-left">
+            <span class="item-num">07 · PERFIL</span>
+            <span class="item-name">Mi Perfil / Panel</span>
+            <span class="item-file">src/test/html/profile.html</span>
+          </div>
+          <span class="item-tag">Cuenta</span>
+        </div>
+
+        <!-- 8 -->
+        <div class="page-item" data-mockup="mockup_08_public_profile.svg" data-live="../../src/test/html/public-profile.html" data-title="08 · Perfil Público" data-desc="Vista del perfil para compradores con reputación de 5 estrellas.">
+          <div class="item-left">
+            <span class="item-num">08 · PÚBLICO</span>
+            <span class="item-name">Perfil Público</span>
+            <span class="item-file">src/test/html/public-profile.html</span>
+          </div>
+          <span class="item-tag">Reputación</span>
+        </div>
+
+        <!-- 9 -->
+        <div class="page-item" data-mockup="mockup_09_login.svg" data-live="../../src/test/html/login.html" data-title="09 · Iniciar Sesión" data-desc="Pantalla de inicio de sesión con correo institucional Javeriano.">
+          <div class="item-left">
+            <span class="item-num">09 · LOGIN</span>
+            <span class="item-name">Iniciar Sesión</span>
+            <span class="item-file">src/test/html/login.html</span>
+          </div>
+          <span class="item-tag">Auth PUJ</span>
+        </div>
+
+        <!-- 10 -->
+        <div class="page-item" data-mockup="mockup_10_register.svg" data-live="../../src/test/html/register.html" data-title="10 · Registro de Cuenta" data-desc="Formulario de creación de cuenta para la comunidad Javeriana.">
+          <div class="item-left">
+            <span class="item-num">10 · REGISTRO</span>
+            <span class="item-name">Crear Cuenta</span>
+            <span class="item-file">src/test/html/register.html</span>
+          </div>
+          <span class="item-tag">Registro</span>
+        </div>
+
+        <!-- 11 -->
+        <div class="page-item" data-mockup="mockup_11_how_it_works.svg" data-live="../../src/test/html/how-it-works.html" data-title="11 · Cómo Funciona" data-desc="Guía en 4 pasos del proceso de compra, venta y seguridad.">
+          <div class="item-left">
+            <span class="item-num">11 · GUÍA</span>
+            <span class="item-name">Cómo Funciona</span>
+            <span class="item-file">src/test/html/how-it-works.html</span>
+          </div>
+          <span class="item-tag">Pasos</span>
+        </div>
+
+        <!-- 12 -->
+        <div class="page-item" data-mockup="mockup_12_admin_dashboard.svg" data-live="../../src/test/html/admin.html" data-title="12 · Panel de Administración" data-desc="Dashboard con métricas, moderación de posts y logs del sistema.">
+          <div class="item-left">
+            <span class="item-num">12 · ADMIN</span>
+            <span class="item-name">Panel Admin</span>
+            <span class="item-file">src/test/html/admin.html</span>
+          </div>
+          <span class="item-tag">Dashboard</span>
+        </div>
+
+        <!-- 13 -->
+        <div class="page-item" data-mockup="mockup_13_help_center.svg" data-live="../../src/test/html/help.html" data-title="13 · Centro de Ayuda" data-desc="Preguntas frecuentes y soporte técnico para estudiantes.">
+          <div class="item-left">
+            <span class="item-num">13 · AYUDA</span>
+            <span class="item-name">Centro de Ayuda</span>
+            <span class="item-file">src/test/html/help.html</span>
+          </div>
+          <span class="item-tag">Soporte</span>
+        </div>
+
+        <!-- 14 -->
+        <div class="page-item" data-mockup="mockup_14_about_us.svg" data-live="../../src/test/html/about.html" data-title="14 · Acerca de UniMercs" data-desc="Información del proyecto de ingeniería de software y equipo creador.">
+          <div class="item-left">
+            <span class="item-num">14 · ACERCA DE</span>
+            <span class="item-name">Acerca del Proyecto</span>
+            <span class="item-file">src/test/html/about.html</span>
+          </div>
+          <span class="item-tag">Equipo</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right: Viewer Area -->
+    <section class="viewer-area">
+      <div class="viewer-stage" id="viewerStage">
+        <img class="mockup-img" id="mockupImg" src="mockup_01_home.svg" alt="Mockup en Visualización" />
+        <iframe class="live-iframe" id="liveIframe" src="../../src/test/html/index.html"></iframe>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="viewer-footer">
+        <div>
+          <div class="footer-title" id="footerTitle">01 · Página de Inicio (Home)</div>
+          <div style="font-size: 13px; color: #B2BFB9; margin-top: 2px;" id="footerDesc">Página principal con hero, categorías y productos destacados.</div>
+        </div>
+        <div class="footer-source" id="footerSource">
+          📄 Archivo real: src/test/html/index.html
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let isLiveView = false;
+    let currentItem = document.querySelector('.page-item.active');
+
+    const mockupImg = document.getElementById('mockupImg');
+    const liveIframe = document.getElementById('liveIframe');
+    const btnShowMockup = document.getElementById('btnShowMockup');
+    const btnShowLive = document.getElementById('btnShowLive');
+    const btnFullscreen = document.getElementById('btnFullscreen');
+    const footerTitle = document.getElementById('footerTitle');
+    const footerDesc = document.getElementById('footerDesc');
+    const footerSource = document.getElementById('footerSource');
+    const pageItems = document.querySelectorAll('.page-item');
+
+    function selectPage(item) {
+      pageItems.forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      currentItem = item;
+
+      const mockupFile = item.getAttribute('data-mockup');
+      const liveFile = item.getAttribute('data-live');
+      const title = item.getAttribute('data-title');
+      const desc = item.getAttribute('data-desc');
+      const source = item.querySelector('.item-file').textContent;
+
+      mockupImg.src = mockupFile;
+      liveIframe.src = liveFile;
+      footerTitle.textContent = title;
+      footerDesc.textContent = desc;
+      footerSource.textContent = `📄 Archivo real: ${source}`;
+    }
+
+    pageItems.forEach(item => {
+      item.addEventListener('click', () => selectPage(item));
+    });
+
+    btnShowMockup.addEventListener('click', () => {
+      isLiveView = false;
+      btnShowMockup.classList.add('active');
+      btnShowLive.classList.remove('active');
+      mockupImg.style.display = 'block';
+      liveIframe.style.display = 'none';
+    });
+
+    btnShowLive.addEventListener('click', () => {
+      isLiveView = true;
+      btnShowLive.classList.add('active');
+      btnShowMockup.classList.remove('active');
+      mockupImg.style.display = 'none';
+      liveIframe.style.display = 'block';
+    });
+
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    // Keyboard navigation (Up/Down)
+    window.addEventListener('keydown', (e) => {
+      const itemsArr = Array.from(pageItems);
+      const curIdx = itemsArr.indexOf(currentItem);
+      if (e.key === 'ArrowDown') {
+        const nextIdx = Math.min(itemsArr.length - 1, curIdx + 1);
+        selectPage(itemsArr[nextIdx]);
+        itemsArr[nextIdx].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp') {
+        const prevIdx = Math.max(0, curIdx - 1);
+        selectPage(itemsArr[prevIdx]);
+        itemsArr[prevIdx].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    });
+  </script>
+</body>
+</html>

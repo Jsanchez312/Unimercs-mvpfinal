@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Explorar publicaciones | unimercs</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <style>
+    :root {
+      --voltage: #1F3D36;
+      --voltage-hover: #172F2A;
+      --volt: #C8A96A;
+      --midnight: #16130F;
+      --paper: #F4EFE6;
+      --ground: #F4EFE6;
+      --line: #E2DBD0;
+      --muted: #756F64;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    body {
+      background: var(--ground);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+    }
+
+    .explore-hero-head {
+      padding: 36px 0 24px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--line);
+    }
+    .explore-title-box h1 {
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin: 0 0 6px;
+      color: var(--midnight);
+    }
+    .explore-title-box p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .search-pill-container {
+      max-width: 680px;
+      display: flex;
+      gap: 8px;
+      position: relative;
+    }
+    .search-autocomplete-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 16px 36px rgba(22, 19, 15, 0.15);
+      max-height: 320px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+    }
+    .search-autocomplete-dropdown.open { display: block; }
+    .autocomplete-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #F1EEFD;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .autocomplete-item:last-child { border-bottom: 0; }
+    .autocomplete-item:hover { background: var(--paper); }
+    .autocomplete-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--paper);
+    }
+    .autocomplete-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--midnight);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .autocomplete-price {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--voltage);
+    }
+    .search-input-pill {
+      flex: 1;
+      background: var(--paper);
+      border: 1.5px solid var(--line);
+      border-radius: 9999px;
+      padding: 12px 22px;
+      font-family: inherit;
+      font-size: 14.5px;
+      color: var(--midnight);
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input-pill:focus {
+      background: #FFFFFF;
+      border-color: var(--voltage);
+      box-shadow: 0 0 0 3px rgba(31, 61, 54, 0.12);
+    }
+
+    /* Layout */
+    .explore-main-grid {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 36px;
+      padding: 36px 0 80px;
+    }
+
+    /* Filters Sidebar */
+    .filters-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .filter-card-block {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 14px rgba(22, 19, 15, 0.03);
+    }
+    .filter-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--midnight);
+      margin: 0 0 14px;
+      text-transform: capitalize;
+    }
+
+    .filter-check-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      color: #383454;
+      font-size: 13.5px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .filter-check-option input {
+      accent-color: var(--voltage);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .price-pill-inputs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .price-pill-input {
+      width: 100%;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 9999px;
+      padding: 8px 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      outline: none;
+      color: var(--midnight);
+    }
+    .price-pill-input:focus { border-color: var(--voltage); background: #FFFFFF; }
+
+    /* Condition Buttons / Pills */
+    .condition-pill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .condition-chip {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 9999px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--midnight);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .condition-chip.active {
+      background: var(--midnight);
+      color: #FFFFFF;
+      border-color: var(--midnight);
+    }
+
+    /* Products Header Row */
+    .products-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .products-count-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .sort-by-box {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sort-select {
+      background: transparent;
+      border: 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--midnight);
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+    @media (max-width: 960px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 580px) { .products-grid { grid-template-columns: 1fr; } }
+
+    .brand-product-card {
+      background: #FFFFFF;
+      border-radius: 18px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 16px rgba(22, 19, 15, 0.04);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .brand-product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(31, 61, 54, 0.12);
+      border-color: #D3C9FB;
+    }
+    .brand-product-card-imgwrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      background: var(--paper);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-product-card-imgwrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .brand-product-card:hover .brand-product-card-imgwrap img {
+      transform: scale(1.05);
+    }
+    .brand-condition-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(22, 19, 15, 0.88);
+      backdrop-filter: blur(4px);
+      color: var(--volt);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      z-index: 2;
+    }
+    .brand-product-meta-sub {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .brand-product-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--midnight);
+      margin: 0 0 8px;
+      line-height: 1.3;
+    }
+    .brand-product-price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+    .brand-product-price {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--midnight);
+      letter-spacing: -0.02em;
+    }
+    .brand-product-stock-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--paper);
+      padding: 3px 7px;
+      border-radius: 4px;
+    }
+
+    /* Product Details Modal (Page 6 Mockup) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(22, 19, 15, 0.65);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(22, 19, 15, 0.35);
+      border: 1px solid var(--line);
+    }
+    .modal-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    /* Contact Form Modal (Page 7 Mockup) */
+    .quick-chips-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+    .quick-chip-btn {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 9999px;
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--midnight);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .quick-chip-btn:hover {
+      background: #FFFFFF;
+      border-color: var(--voltage);
+      color: var(--voltage);
+    }
+
+    @media (max-width: 760px) {
+      .explore-main-grid { grid-template-columns: 1fr; }
+      .filters-sidebar { order: 2; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="explore-hero-head">
+      <div class="container">
+        <div class="explore-title-box">
+          <h1>Explorar</h1>
+          <p>Encuentra lo que otros estudiantes ya no usan dentro del campus.</p>
+        </div>
+
+        <form class="search-pill-container" id="search-form">
+          <input id="search" class="search-input-pill" type="search" placeholder="Buscar en unimercs..." autocomplete="off">
+          <button type="submit" class="btn btn-voltage">Buscar</button>
+          <div class="search-autocomplete-dropdown" id="exploreAutocomplete"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="explore-main-grid">
+        <!-- Sidebar Filters -->
+        <aside class="filters-sidebar">
+          <!-- Categories Filter (Original Categories) -->
+          <div class="filter-card-block">
+            <h3 class="filter-card-title">Categorías</h3>
+            <div id="category-filter-list">
+              <label class="filter-check-option"><input type="radio" name="category" value="all" checked> Todas</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Libros"> Libros</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Dorm"> Dormitorio & Hogar</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Electrónica"> Electrónica</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Computadores"> Computadores</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Papelería"> Papelería</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Moda"> Moda & Ropa</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Bicis"> Bicicletas</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Tutorías"> Tutorías y gigs</label>
+              <label class="filter-check-option"><input type="radio" name="category" value="Otros"> Otros artículos</label>
+            </div>
+          </div>
+
+          <!-- Price Filter -->
+          <div class="filter-card-block">
+            <h3 class="filter-card-title">Precio (COP)</h3>
+            <div class="price-pill-inputs">
+              <input id="min-price" class="price-pill-input" type="number" min="0" placeholder="Mín">
+              <span>—</span>
+              <input id="max-price" class="price-pill-input" type="number" min="0" placeholder="Máx">
+            </div>
+          </div>
+
+          <!-- Condition Filter -->
+          <div class="filter-card-block">
+            <h3 class="filter-card-title">Condición</h3>
+            <div class="condition-pill-list">
+              <div class="condition-chip active" data-condition="all">Todas</div>
+              <div class="condition-chip" data-condition="used_like_new">Como nuevo</div>
+              <div class="condition-chip" data-condition="used_good">Buen estado</div>
+              <div class="condition-chip" data-condition="new">Nuevo</div>
+              <div class="condition-chip" data-condition="used">Usado</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-voltage" id="apply-filters" style="flex:1;">Aplicar</button>
+            <button class="btn" id="clear-filters">Limpiar</button>
+          </div>
+        </aside>
+
+        <!-- Products Section -->
+        <div>
+          <div class="products-top-row">
+            <p class="products-count-label" id="result-label">Cargando publicaciones...</p>
+            <div class="sort-by-box">
+              <span>ORDENAR:</span>
+              <select class="sort-select" id="sort-select">
+                <option value="recent">MÁS RECIENTES</option>
+                <option value="price-asc">MENOR PRECIO</option>
+                <option value="price-desc">MAYOR PRECIO</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="products" class="products-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       MODAL DETALLE DEL PRODUCTO (Page 6 Mockup)
+       ========================================================= -->
+  <div class="modal-overlay" id="detail-modal">
+    <div class="modal-card">
+      <div class="modal-breadcrumb" id="modalBreadcrumb">EXPLORAR / PUBLICACIÓN</div>
+      
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <span class="brand-condition-tag" id="modalConditionPill" style="position:static; display:inline-block; font-size:11px; padding:4px 10px; background:var(--volt); color:var(--midnight);">COMO NUEVO</span>
+        <button class="btn-close-modal" id="btnCloseDetail" style="background:var(--paper); border:0; border-radius:50%; width:32px; height:32px; cursor:pointer; font-weight:700;">✕</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;">
+        <div style="background:var(--paper); border-radius:16px; overflow:hidden; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; border:1px solid var(--line);">
+          <img id="modalProductImg" src="" alt="Producto" style="max-height:100%; max-width:100%; object-fit:cover;" />
+        </div>
+
+        <div>
+          <h2 id="modalProductTitle" style="font-size:26px; font-weight:700; color:var(--midnight); margin:0 0 10px; line-height:1.2;"></h2>
+          <div id="modalProductPrice" style="font-family:var(--font-mono); font-size:28px; font-weight:700; color:var(--midnight); margin-bottom:16px;"></div>
+
+          <div style="margin-bottom:16px;">
+            <p id="modalProductDesc" style="font-size:14px; color:#756F64; line-height:1.55; margin:0;"></p>
+          </div>
+
+          <!-- Seller Info Box -->
+          <div style="background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:16px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span id="modalSellerName" style="font-weight:700; font-size:14px; color:var(--midnight);"></span>
+              <span style="background:var(--voltage); color:white; font-family:var(--font-mono); font-size:10px; padding:2px 6px; border-radius:4px;">ESTUDIANTE VERIFICADO</span>
+            </div>
+            <div id="modalSellerRating" style="margin-top:4px;"></div>
+          </div>
+
+          <!-- Safe Zone -->
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:14px; padding:12px; margin-bottom:18px;">
+            <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; color:#166534; text-transform:uppercase;">PUNTO SEGURO SUGERIDO</div>
+            <div id="modalProductSafeZone" style="font-size:13.5px; font-weight:600; color:#16130F; margin-top:2px;"></div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button id="btnOpenContactModal" class="btn btn-voltage" style="flex:1; padding:12px;">Contactar</button>
+            <button id="btnWhatsAppDirect" class="btn" style="background:#16A34A; color:white; border-color:#16A34A; padding:12px;">WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL CONTACTAR AL VENDEDOR (Page 7 Mockup)
+       ========================================================= -->
+  <div class="modal-overlay" id="contact-modal">
+    <div class="modal-card" style="max-width:520px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="margin:0; font-size:20px; font-weight:700;" id="contactModalHeading">Contactar vendedor</h3>
+        <button class="btn-close-modal" id="btnCloseContact" style="background:var(--paper); border:0; border-radius:50%; width:32px; height:32px; cursor:pointer; font-weight:700;">✕</button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px; background:var(--paper); border-radius:12px; padding:12px; margin-bottom:16px; border:1px solid var(--line);">
+        <img id="contactProductImg" src="" style="width:48px; height:48px; border-radius:8px; object-fit:cover;" />
+        <div>
+          <div id="contactProductTitle" style="font-weight:700; font-size:14px;"></div>
+          <div id="contactProductPrice" style="font-family:var(--font-mono); font-size:15px; font-weight:700; color:var(--voltage);"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <label style="font-size:13px; font-weight:600; display:block; margin-bottom:6px;">Mensaje</label>
+        <textarea id="contactMessageInput" style="width:100%; border:1.5px solid var(--line); border-radius:12px; padding:12px; font-family:inherit; min-height:80px; outline:none;" placeholder="Hola, ¿sigue disponible?"></textarea>
+
+        <div class="quick-chips-row">
+          <button type="button" class="quick-chip-btn" onclick="setQuickMessage('Hola, ¿sigue disponible?')">¿Sigue disponible?</button>
+          <button type="button" class="quick-chip-btn" onclick="setQuickMessage('¿Aceptas una oferta?')">¿Aceptas oferta?</button>
+          <button type="button" class="quick-chip-btn" onclick="setQuickMessage('¿Dónde y a qué hora nos vemos en el campus?')">¿Dónde nos vemos?</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label style="font-size:13px; font-weight:600; display:block; margin-bottom:6px;">Punto seguro propuesto</label>
+        <input type="text" id="contactSafeZoneInput" class="price-pill-input" style="border-radius:10px; padding:10px 14px;" value="Biblioteca central" />
+      </div>
+
+      <div style="display:flex; gap:10px; margin-bottom:14px;">
+        <button type="button" id="btnSendContactMsg" class="btn btn-voltage" style="flex:1; padding:12px;">Enviar mensaje</button>
+        <button type="button" id="btnCancelContact" class="btn" style="padding:12px;">Cancelar</button>
+      </div>
+
+      <div style="text-align:center; font-family:var(--font-mono); font-size:10.5px; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase;">
+        NUNCA COMPARTAS DATOS DE PAGO POR CHAT.
+      </div>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+  <script>
+    UniMercs.mount('explore');
+
+    const API_BASE = 'http://localhost:5000/api';
+    const token = localStorage.getItem('unimercs_token');
+    const currentUser = JSON.parse(localStorage.getItem('unimercs_current_user') || 'null');
+    const initialQuery = new URLSearchParams(window.location.search);
+
+    function applyIncomingFilters() {
+      const category = initialQuery.get('category');
+      const search = initialQuery.get('search');
+      const sort = initialQuery.get('sort');
+      if (category) {
+        const categoryOption = document.querySelector(`input[name="category"][value="${CSS.escape(category)}"]`);
+        if (categoryOption) categoryOption.checked = true;
+      }
+      if (search) document.getElementById('search').value = search;
+      if (sort && document.querySelector(`#sort-select option[value="${CSS.escape(sort)}"]`)) document.getElementById('sort-select').value = sort;
+    }
+
+    let allProducts = [];
+    let selectedPost = null;
+    let selectedCondition = 'all';
+    let filteredProducts = [];
+    let visibleProductCount = 12;
+    let loadMoreObserver = null;
+
+    function getConditionLabel(cond) {
+      const map = {
+        'new': 'Nuevo',
+        'used_like_new': 'Como nuevo',
+        'barely used': 'Como nuevo',
+        'used_very_good': 'Muy bueno',
+        'used_good': 'Buen estado',
+        'used_acceptable': 'Aceptable',
+        'used': 'Usado',
+        'renewed': 'Reacondicionado',
+        'refurbished': 'Reacondicionado'
+      };
+      return map[cond] || 'Buen estado';
+    }
+
+    async function loadProducts() {
+      const resultLabel = document.getElementById('result-label');
+      resultLabel.textContent = 'Cargando publicaciones...';
+
+      const category = document.querySelector('input[name="category"]:checked')?.value || 'all';
+      const search = document.getElementById('search').value.trim();
+
+      const params = new URLSearchParams();
+      if (category !== 'all') params.set('category', category);
+      if (search) params.set('search', search);
+
+      try {
+        const res = await fetch(`${API_BASE}/posts?${params.toString()}`);
+        allProducts = await res.json();
+        applyClientFilters();
+      } catch (err) {
+        document.getElementById('products').innerHTML = `<p style="grid-column:1/-1; color:#ef4444;">Error: ${err.message}</p>`;
+      }
+    }
+
+    function applyClientFilters() {
+      const minPrice = parseFloat(document.getElementById('min-price').value) || 0;
+      const maxPrice = parseFloat(document.getElementById('max-price').value) || Infinity;
+      const sort = document.getElementById('sort-select').value;
+
+      let filtered = allProducts.filter(p => {
+        const price = Number(p.price) || 0;
+        if (price < minPrice || price > maxPrice) return false;
+        if (selectedCondition !== 'all') {
+          if (selectedCondition === 'used_like_new' && p.condition !== 'used_like_new' && p.condition !== 'barely used') return false;
+          if (selectedCondition === 'used_good' && p.condition !== 'used_good' && p.condition !== 'used_very_good') return false;
+          if (selectedCondition === 'new' && p.condition !== 'new') return false;
+          if (selectedCondition === 'used' && p.condition !== 'used' && p.condition !== 'used_acceptable') return false;
+        }
+        return true;
+      });
+
+      if (sort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+      else if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+
+      filteredProducts = filtered;
+      visibleProductCount = 12;
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('products');
+      const resultLabel = document.getElementById('result-label');
+      const list = filteredProducts;
+
+      resultLabel.textContent = `${list.length} ${list.length === 1 ? 'publicación encontrada' : 'publicaciones encontradas'}`;
+
+      if (!list.length) {
+        if (loadMoreObserver) loadMoreObserver.disconnect();
+        container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:60px 20px; background:#fff; border-radius:18px; border:1px dashed var(--line); color:var(--muted);">No se encontraron publicaciones con estos criterios.</div>';
+        UniMercs.translatePage(container);
+        return;
+      }
+
+      const visibleItems = list.slice(0, visibleProductCount);
+      container.innerHTML = visibleItems.map(p => {
+        const photos = (Array.isArray(p.images) && p.images.length ? p.images : [p.imageUrl]).filter(Boolean)
+          .map(src => src.startsWith('http') ? src : `http://localhost:5000${src}`);
+        const img = photos[0] || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+        const cond = getConditionLabel(p.condition);
+
+        return `
+          <div class="brand-product-card" onclick="openProductDetail('${p._id}')">
+            <div class="brand-product-card-imgwrap">
+              <span class="brand-condition-tag">${cond}</span>
+              <img id="explore-photo-${p._id}" src="${img}" alt="${p.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80'" />
+              ${photos.length > 1 ? `<button type="button" aria-label="Ver siguiente foto" onclick="event.stopPropagation(); cycleExplorePhoto('${p._id}', ${JSON.stringify(photos).replace(/"/g, '&quot;')})" style="position:absolute;right:9px;bottom:9px;border:0;border-radius:50%;width:30px;height:30px;background:rgba(22,19,15,.78);color:#fff;font-size:18px;cursor:pointer">›</button><span style="position:absolute;left:9px;bottom:10px;padding:3px 7px;border-radius:20px;background:rgba(22,19,15,.72);color:#fff;font-size:11px">${photos.length} fotos</span>` : ''}
+            </div>
+            <div class="brand-product-meta-sub">${p.category || 'Varios'}</div>
+            <h3 class="brand-product-title">${p.title}</h3>
+            <div class="brand-product-price-row">
+              <span class="brand-product-price">$${Number(p.price).toLocaleString('es-CO')}</span>
+              <span class="brand-product-stock-tag">Stock ${p.stock !== undefined ? p.stock : 1}</span>
+            </div>
+          </div>
+        `;
+      }).join('') + (visibleProductCount < list.length
+        ? `<div id="exploreLoadMore" style="grid-column:1/-1;height:2px" aria-label="Cargando más publicaciones"></div>`
+        : '');
+
+      UniMercs.translatePage(container);
+      watchForMoreProducts();
+    }
+
+    function watchForMoreProducts() {
+      if (loadMoreObserver) loadMoreObserver.disconnect();
+      const sentinel = document.getElementById('exploreLoadMore');
+      if (!sentinel) return;
+      loadMoreObserver = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) return;
+        loadMoreObserver.disconnect();
+        visibleProductCount += 12;
+        renderProducts();
+      }, { rootMargin: '360px 0px' });
+      loadMoreObserver.observe(sentinel);
+    }
+
+    window.openProductDetail = function(id) {
+      window.location.href = `product-detail.html?id=${id}`;
+    };
+
+    window.cycleExplorePhoto = function(id, photos) {
+      const image = document.getElementById(`explore-photo-${id}`);
+      if (!image || !photos.length) return;
+      const next = (Number(image.dataset.photoIndex || 0) + 1) % photos.length;
+      image.src = photos[next];
+      image.dataset.photoIndex = next;
+    };
+
+    // Open Contact Modal
+    document.getElementById('btnOpenContactModal').addEventListener('click', () => {
+      if (!selectedPost) return;
+      document.getElementById('contactModalHeading').textContent = `Contactar a ${selectedPost.sellerName || 'Vendedor'}`;
+      document.getElementById('contactProductTitle').textContent = selectedPost.title;
+      document.getElementById('contactProductPrice').textContent = `$${Number(selectedPost.price).toLocaleString('es-CO')} COP`;
+      
+      const img = selectedPost.imageUrl ? (selectedPost.imageUrl.startsWith('http') ? selectedPost.imageUrl : `http://localhost:5000${selectedPost.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+      document.getElementById('contactProductImg').src = img;
+      document.getElementById('contactSafeZoneInput').value = selectedPost.safeZone || 'Biblioteca central';
+
+      document.getElementById('detail-modal').classList.remove('open');
+      document.getElementById('contact-modal').classList.add('open');
+    });
+
+    window.setQuickMessage = function(text) {
+      document.getElementById('contactMessageInput').value = text;
+    };
+
+    document.getElementById('btnSendContactMsg').addEventListener('click', () => {
+      const msgText = document.getElementById('contactMessageInput').value.trim() || 'Hola, ¿sigue disponible?';
+      const safeZone = document.getElementById('contactSafeZoneInput').value.trim();
+
+      const rawPhone = selectedPost?.sellerPhone || '3101234567';
+      const cleanPhone = rawPhone.replace(/\D/g, '');
+      const phoneWithCode = cleanPhone.startsWith('57') ? cleanPhone : `57${cleanPhone}`;
+      const msg = encodeURIComponent(`Hola ${selectedPost?.sellerName}, vi tu producto "${selectedPost?.title}" en UniMercs. ${msgText} (Punto propuesto: ${safeZone})`);
+      
+      window.open(`https://wa.me/${phoneWithCode}?text=${msg}`, '_blank');
+      document.getElementById('contact-modal').classList.remove('open');
+    });
+
+    // Condition chips
+    document.querySelectorAll('.condition-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.condition-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        selectedCondition = chip.dataset.condition;
+        applyClientFilters();
+      });
+    });
+
+    // Category radios & Search
+    document.querySelectorAll('input[name="category"]').forEach(radio => {
+      radio.addEventListener('change', loadProducts);
+    });
+
+    document.getElementById('search-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      loadProducts();
+    });
+
+    document.getElementById('apply-filters').addEventListener('click', applyClientFilters);
+    document.getElementById('clear-filters').addEventListener('click', () => {
+      document.getElementById('search').value = '';
+      document.getElementById('min-price').value = '';
+      document.getElementById('max-price').value = '';
+      document.querySelector('input[name="category"][value="all"]').checked = true;
+      document.querySelectorAll('.condition-chip').forEach(c => c.classList.remove('active'));
+      document.querySelector('.condition-chip[data-condition="all"]').classList.add('active');
+      selectedCondition = 'all';
+      loadProducts();
+    });
+
+    document.getElementById('sort-select').addEventListener('change', applyClientFilters);
+
+    document.getElementById('btnCloseDetail').addEventListener('click', () => document.getElementById('detail-modal').classList.remove('open'));
+    document.getElementById('btnCloseContact').addEventListener('click', () => document.getElementById('contact-modal').classList.remove('open'));
+    document.getElementById('btnCancelContact').addEventListener('click', () => document.getElementById('contact-modal').classList.remove('open'));
+
+    // Autocomplete Search Dropdown
+    const exploreSearchInput = document.getElementById('search');
+    const exploreAutocompleteBox = document.getElementById('exploreAutocomplete');
+    let autocompleteTimer;
+
+    exploreSearchInput.addEventListener('input', () => {
+      window.clearTimeout(autocompleteTimer);
+      autocompleteTimer = window.setTimeout(loadExploreAutocomplete, 220);
+    });
+
+    async function loadExploreAutocomplete() {
+      const term = exploreSearchInput.value.trim();
+      if (!term || term.length < 2) {
+        exploreAutocompleteBox.classList.remove('open');
+        exploreAutocompleteBox.innerHTML = '';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/posts?search=${encodeURIComponent(term)}`);
+        const results = await res.json();
+
+        if (results && results.length) {
+          exploreAutocompleteBox.innerHTML = results.slice(0, 5).map(item => {
+            const img = item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `http://localhost:5000${item.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+            return `
+              <div class="autocomplete-item" onclick="selectExploreAutocomplete('${item._id}')">
+                <img class="autocomplete-thumb" src="${img}" alt="${item.title}" />
+                <div class="autocomplete-title">${item.title}</div>
+                <div class="autocomplete-price">$${Number(item.price).toLocaleString('es-CO')}</div>
+              </div>
+            `;
+          }).join('');
+          exploreAutocompleteBox.classList.add('open');
+        } else {
+          exploreAutocompleteBox.innerHTML = '<div style="padding:14px; text-align:center; font-size:13px; color:var(--muted);">Sin coincidencias</div>';
+          exploreAutocompleteBox.classList.add('open');
+        }
+      } catch (e) {
+        exploreAutocompleteBox.classList.remove('open');
+      }
+    }
+
+    window.selectExploreAutocomplete = function(id) {
+      exploreAutocompleteBox.classList.remove('open');
+      openProductDetail(id);
+    };
+
+    document.addEventListener('click', (e) => {
+      if (!exploreSearchInput.contains(e.target) && !exploreAutocompleteBox.contains(e.target)) {
+        exploreAutocompleteBox.classList.remove('open');
+      }
+    });
+
+    applyIncomingFilters();
+    loadProducts();
+  </script>
+</body>
+</html>

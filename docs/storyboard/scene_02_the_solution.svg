@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+      <defs>
+        <radialGradient id="s2_bg" cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="#1F3D36"/>
+          <stop offset="60%" stop-color="#132622"/>
+          <stop offset="100%" stop-color="#0B1513"/>
+        </radialGradient>
+        <linearGradient id="gold_grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#FFEBB8"/>
+          <stop offset="50%" stop-color="#C8A96A"/>
+          <stop offset="100%" stop-color="#9C7E41"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="1920" height="1080" fill="url(#s2_bg)"/>
+
+      <!-- Ambient Golden Rings & Grid -->
+      <circle cx="960" cy="540" r="480" fill="none" stroke="#C8A96A" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.3"/>
+      <circle cx="960" cy="540" r="320" fill="none" stroke="#C8A96A" stroke-width="2" opacity="0.4"/>
+
+      <!-- Central Floating Smartphone Mockup (Front Facing 3D) -->
+      <g transform="translate(770, 100)" filter="url(#shadow)">
+        <!-- Phone Outer Frame -->
+        <rect width="380" height="780" rx="50" fill="#0D0F0E" stroke="url(#gold_grad)" stroke-width="6"/>
+        <!-- Screen Glass -->
+        <rect x="14" y="14" width="352" height="752" rx="40" fill="#F4EFE6"/>
+        
+        <!-- Dynamic Island / Speaker -->
+        <rect x="130" y="24" width="120" height="26" rx="13" fill="#000"/>
+        
+        <!-- App Top Bar -->
+        <rect x="14" y="60" width="352" height="70" fill="#1F3D36"/>
+        <text x="36" y="105" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="24" fill="#F4EFE6">unimercs</text>
+        <rect x="280" y="82" width="60" height="28" rx="14" fill="#C8A96A"/>
+        <text x="310" y="101" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" font-weight="700" fill="#16130F">PUJ</text>
+
+        <!-- Hero Card in App -->
+        <g transform="translate(32, 150)">
+          <rect width="316" height="150" rx="18" fill="#1F3D36"/>
+          <text x="20" y="45" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="22" fill="#C8A96A">SELL THE TEXTBOOK.</text>
+          <text x="20" y="75" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="18" fill="#FFF">KEEP THE RAMEN MONEY.</text>
+          <rect x="20" y="95" width="160" height="34" rx="17" fill="url(#gold_grad)"/>
+          <text x="100" y="117" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="13" fill="#16130F">EMPEZAR A VENDER</text>
+        </g>
+
+        <!-- Category Grid in App -->
+        <g transform="translate(32, 320)">
+          <text x="0" y="20" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#16130F">Categorías en Campus</text>
+          <!-- 4 Mini Cards -->
+          <rect x="0" y="35" width="150" height="65" rx="12" fill="#E8EFE8" stroke="#D0DFD0"/>
+          <text x="14" y="65" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="14" fill="#1F3D36">📚 Libros PUJ</text>
+          <text x="14" y="82" font-family="'DM Mono', monospace" font-size="10" fill="#607267">240+ activos</text>
+
+          <rect x="166" y="35" width="150" height="65" rx="12" fill="#E8EFE8" stroke="#D0DFD0"/>
+          <text x="180" y="65" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="14" fill="#1F3D36">⚡ Tecnología</text>
+          <text x="180" y="82" font-family="'DM Mono', monospace" font-size="10" fill="#607267">115+ activos</text>
+
+          <rect x="0" y="112" width="150" height="65" rx="12" fill="#E8EFE8" stroke="#D0DFD0"/>
+          <text x="14" y="142" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="14" fill="#1F3D36">📐 Arquitectura</text>
+          <text x="14" y="159" font-family="'DM Mono', monospace" font-size="10" fill="#607267">85+ activos</text>
+
+          <rect x="166" y="112" width="150" height="65" rx="12" fill="#E8EFE8" stroke="#D0DFD0"/>
+          <text x="180" y="142" font-family="'Space Grotesk', sans-serif" font-weight="600" font-size="14" fill="#1F3D36">🍪 Emprendimientos</text>
+          <text x="180" y="159" font-family="'DM Mono', monospace" font-size="10" fill="#607267">92+ del campus</text>
+        </g>
+
+        <!-- Product Preview in App -->
+        <g transform="translate(32, 530)">
+          <rect width="316" height="100" rx="14" fill="#FFF" stroke="#E2DBD0"/>
+          <rect x="12" y="12" width="76" height="76" rx="10" fill="#1F3D36"/>
+          <text x="50" y="55" text-anchor="middle" font-size="28">📘</text>
+          <text x="102" y="36" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#16130F">Cálculo Stewart 8va</text>
+          <text x="102" y="58" font-family="'DM Mono', monospace" font-size="14" font-weight="700" fill="#1F3D36">$45.000 COP</text>
+          <text x="102" y="78" font-family="'DM Mono', monospace" font-size="11" fill="#756F64">Facultad de Ingeniería</text>
+        </g>
+
+        <!-- App Bottom Navigation -->
+        <g transform="translate(14, 690)">
+          <rect width="352" height="76" fill="#FFF" stroke="#E2DBD0"/>
+          <text x="44" y="44" font-size="18">🏠</text>
+          <text x="132" y="44" font-size="18">🔍</text>
+          <circle cx="176" cy="38" r="24" fill="#C8A96A"/>
+          <text x="176" y="46" text-anchor="middle" font-size="22" fill="#16130F" font-weight="bold">+</text>
+          <text x="220" y="44" font-size="18">🛡️</text>
+          <text x="308" y="44" font-size="18">👤</text>
+        </g>
+      </g>
+
+      <!-- Floating Callout Badges Left & Right -->
+      <g transform="translate(140, 420)" filter="url(#shadow)">
+        <rect width="320" height="90" rx="18" fill="#16130FEE" stroke="#C8A96A" stroke-width="2"/>
+        <text x="25" y="40" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="18" fill="#F4EFE6">100% COMUNIDAD PUJ</text>
+        <text x="25" y="68" font-family="'DM Mono', monospace" font-size="14" fill="#C8A96A">Correo javeriano validado</text>
+      </g>
+
+      <g transform="translate(1460, 420)" filter="url(#shadow)">
+        <rect width="320" height="90" rx="18" fill="#16130FEE" stroke="#25D366" stroke-width="2"/>
+        <text x="25" y="40" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="18" fill="#F4EFE6">CERO COMISIONES</text>
+        <text x="25" y="68" font-family="'DM Mono', monospace" font-size="14" fill="#25D366">Trato directo entre estudiantes</text>
+      </g>
+
+      <!-- Scene Header -->
+      <g transform="translate(100, 100)">
+        <text x="0" y="0" font-family="'DM Mono', monospace" font-size="18" font-weight="500" fill="#C8A96A" letter-spacing="4">ESCENA 02 · 00:07 - 00:14</text>
+        <text x="0" y="45" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="44" fill="#F4EFE6">UniMercs: El Marketplace Javeriano</text>
+      </g>
+    
+</svg>

@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cómo Funciona | unimercs Javeriana</title>
+  <meta name="description" content="Guía paso a paso del proceso de compra, venta y seguridad en unimercs dentro de la Pontificia Universidad Javeriana." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <style>
+    :root {
+      --voltage: #1F3D36;
+      --voltage-hover: #172F2A;
+      --volt: #C8A96A;
+      --midnight: #16130F;
+      --paper: #F4EFE6;
+      --ground: #F4EFE6;
+      --line: #E2DBD0;
+      --muted: #756F64;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    body {
+      background: var(--ground);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+    }
+
+    .how-hero {
+      background: #FFFFFF;
+      padding: 48px 0 32px;
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+    }
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--paper);
+      color: var(--voltage);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      margin-bottom: 14px;
+      border: 1px solid var(--line);
+    }
+    .how-hero h1 {
+      font-size: clamp(34px, 4.5vw, 50px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--midnight);
+      margin: 0 auto 12px;
+      max-width: 800px;
+      line-height: 1.15;
+    }
+    .how-hero p {
+      max-width: 660px;
+      font-size: 16.5px;
+      color: var(--muted);
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Vertical Timeline Section */
+    .timeline-section {
+      padding: 60px 0 80px;
+    }
+
+    .vertical-timeline {
+      position: relative;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+    .vertical-timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: #D9D2FC;
+      transform: translateX(-50%);
+    }
+    @media (max-width: 768px) {
+      .vertical-timeline::before {
+        left: 28px;
+      }
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+
+    .timeline-badge-node {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--voltage);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 16px;
+      border: 4px solid var(--ground);
+      box-shadow: 0 4px 14px rgba(31, 61, 54, 0.28);
+      z-index: 2;
+    }
+    .timeline-item:nth-child(even) .timeline-badge-node {
+      background: var(--volt);
+      color: var(--midnight);
+      box-shadow: 0 4px 14px rgba(198, 255, 61, 0.35);
+    }
+    @media (max-width: 768px) {
+      .timeline-badge-node {
+        left: 28px;
+      }
+    }
+
+    .timeline-content-card {
+      width: calc(50% - 44px);
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 22px;
+      padding: 28px 26px;
+      box-shadow: 0 6px 20px rgba(22, 19, 15, 0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .timeline-content-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(31, 61, 54, 0.1);
+      border-color: #D3C9FB;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content-card {
+      margin-left: auto;
+    }
+    .timeline-item:nth-child(even) .timeline-content-card {
+      margin-right: auto;
+    }
+    @media (max-width: 768px) {
+      .timeline-content-card {
+        width: calc(100% - 64px);
+        margin-left: 64px !important;
+        margin-right: 0 !important;
+      }
+    }
+
+    .timeline-step-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--voltage);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .timeline-step-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 10px;
+      color: var(--midnight);
+    }
+    .timeline-step-text {
+      font-size: 14.5px;
+      color: #555172;
+      line-height: 1.55;
+      margin: 0 0 14px;
+    }
+    .timeline-feature-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .t-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--paper);
+      color: var(--midnight);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* Volt CTA Band */
+    .volt-cta-band {
+      background: var(--volt);
+      border-radius: 24px;
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 50px;
+      box-shadow: 0 12px 36px rgba(198, 255, 61, 0.25);
+    }
+    .volt-cta-title {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--midnight);
+      margin: 0;
+    }
+    .btn-cta-midnight {
+      background: var(--midnight);
+      color: #FFFFFF;
+      border: 0;
+      border-radius: 9999px;
+      padding: 13px 30px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-cta-midnight:hover {
+      background: var(--voltage);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="how-hero">
+      <div class="container">
+        <div class="eyebrow-pill">⚡ Proceso en 5 Pasos</div>
+        <h1>Cómo Funciona unimercs</h1>
+        <p>
+          Una experiencia diseñada de principio a fin para la comunidad estudiantil de la Universidad Javeriana Bogotá.
+        </p>
+      </div>
+    </section>
+
+    <section class="timeline-section">
+      <div class="container">
+        <!-- Vertical Timeline Component -->
+        <div class="vertical-timeline">
+          <!-- Paso 01 -->
+          <div class="timeline-item">
+            <div class="timeline-badge-node">01</div>
+            <div class="timeline-content-card">
+              <div class="timeline-step-tag">Paso 01 · Verificación</div>
+              <h2 class="timeline-step-title">Registro con Correo Institucional</h2>
+              <p class="timeline-step-text">
+                Crea tu cuenta usando tu correo <strong>@javeriana.edu.co</strong>. Elige tu rol de comprador, vendedor o tienda virtual para empezar a operar en un entorno seguro.
+              </p>
+              <div class="timeline-feature-pills">
+                <span class="t-pill">Comunidad Javeriana</span>
+                <span class="t-pill">Sin SPAM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paso 02 -->
+          <div class="timeline-item">
+            <div class="timeline-badge-node">02</div>
+            <div class="timeline-content-card">
+              <div class="timeline-step-tag">Paso 02 · Publicación</div>
+              <h2 class="timeline-step-title">Publica tu Artículo en un Minuto</h2>
+              <p class="timeline-step-text">
+                Sube fotos de tus libros, calculadoras o artículos de dorm. Define el precio en COP, stock disponible y condición estandarizada (Nuevo, Como nuevo, Bueno).
+              </p>
+              <div class="timeline-feature-pills">
+                <span class="t-pill">Estándar Amazon</span>
+                <span class="t-pill">Control de Stock</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paso 03 -->
+          <div class="timeline-item">
+            <div class="timeline-badge-node">03</div>
+            <div class="timeline-content-card">
+              <div class="timeline-step-tag">Paso 03 · Descubrimiento</div>
+              <h2 class="timeline-step-title">Búsqueda y Filtros Inteligentes</h2>
+              <p class="timeline-step-text">
+                Encuentra exactamente lo que necesitas para tu semestre usando el buscador con autocompletado en tiempo real y filtrando por categoría, precio o estado.
+              </p>
+              <div class="timeline-feature-pills">
+                <span class="t-pill">Buscador en Vivo</span>
+                <span class="t-pill">7 Categorías</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paso 04 -->
+          <div class="timeline-item">
+            <div class="timeline-badge-node">04</div>
+            <div class="timeline-content-card">
+              <div class="timeline-step-tag">Paso 04 · Negociación</div>
+              <h2 class="timeline-step-title">Contacto Directo por WhatsApp</h2>
+              <p class="timeline-step-text">
+                Comunícate directamente con el compañero vendedor por WhatsApp con mensajes precargados para acordar horario y medio de pago sin intermediarios.
+              </p>
+              <div class="timeline-feature-pills">
+                <span class="t-pill">0% Comisiones</span>
+                <span class="t-pill">Chat Directo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paso 05 -->
+          <div class="timeline-item">
+            <div class="timeline-badge-node">05</div>
+            <div class="timeline-content-card">
+              <div class="timeline-step-tag">Paso 05 · Entrega Segura</div>
+              <h2 class="timeline-step-title">Entrega en Puntos Seguros (SafeZones)</h2>
+              <p class="timeline-step-text">
+                Coordina la entrega en los puntos vigilados del campus: Biblioteca Central, Cafetería Arboleda o Centro Ático. Prueba el producto y califica al vendedor.
+              </p>
+              <div class="timeline-feature-pills">
+                <span class="t-pill">OpenStreetMap</span>
+                <span class="t-pill">Vigilancia 24h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Volt Callout Band -->
+        <div class="volt-cta-band">
+          <h2 class="volt-cta-title">¿Listo para empezar en el campus?</h2>
+          <a href="register.html" class="btn-cta-midnight">Crear mi cuenta gratis</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+  <script>
+    UniMercs.mount('how');
+  </script>
+</body>
+</html>

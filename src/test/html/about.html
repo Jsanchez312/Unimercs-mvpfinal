@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sobre nosotros | unimercs</title>
+  <meta name="description" content="Hecho por estudiantes, para estudiantes. Conoce la historia y el equipo detrás de unimercs en la Pontificia Universidad Javeriana." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <style>
+    :root {
+      --voltage: #1F3D36;
+      --voltage-hover: #172F2A;
+      --volt: #C8A96A;
+      --midnight: #16130F;
+      --paper: #F4EFE6;
+      --ground: #F4EFE6;
+      --line: #E2DBD0;
+      --muted: #756F64;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    body {
+      background: var(--ground);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+    }
+
+    .about-head {
+      padding: 44px 0 28px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--line);
+    }
+    .about-head h1 {
+      font-size: clamp(34px, 4.5vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin: 0 0 10px;
+      color: var(--midnight);
+    }
+    .about-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16.5px;
+      max-width: 720px;
+      line-height: 1.6;
+    }
+
+    .pillars-3col-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 40px 0 60px;
+    }
+    @media (max-width: 860px) { .pillars-3col-grid { grid-template-columns: 1fr; } }
+
+    .pillar-box-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--line);
+      border-radius: 22px;
+      padding: 36px 30px;
+      box-shadow: 0 8px 24px rgba(22, 19, 15, 0.04);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pillar-box-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 32px rgba(31, 61, 54, 0.1);
+      border-color: #D3C9FB;
+    }
+    .pillar-box-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--midnight);
+    }
+    .pillar-box-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #756F64;
+      margin: 0;
+    }
+
+    /* Team Section */
+    .team-section {
+      padding: 20px 0 80px;
+    }
+    .team-section-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 28px;
+      color: var(--midnight);
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 860px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .team-grid { grid-template-columns: 1fr; } }
+
+    .team-member-card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(22, 19, 15, 0.03);
+      transition: transform 0.2s;
+    }
+    .team-member-card:hover { transform: translateY(-4px); }
+
+    .team-squircle-avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .team-squircle-avatar.bg-purple { background: var(--voltage); color: #FFFFFF; }
+    .team-squircle-avatar.bg-lime { background: var(--volt); color: var(--midnight); }
+    .team-squircle-avatar.bg-midnight { background: var(--midnight); color: #FFFFFF; }
+    .team-squircle-avatar.bg-outline { background: #FFFFFF; border: 2.5px solid var(--voltage); color: var(--voltage); }
+
+    .team-avatar-inner-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 3.5px solid currentColor;
+    }
+
+    .team-name {
+      font-size: 16.5px;
+      font-weight: 700;
+      margin: 0 0 4px;
+      color: var(--midnight);
+    }
+    .team-role {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <section class="about-head">
+      <div class="container">
+        <h1>Hecho por estudiantes, para estudiantes</h1>
+        <p>
+          unimercs es el marketplace de la comunidad universitaria. Creado en la Pontificia Universidad Javeriana Bogotá para que comprar libros, tecnología y artículos de semestre sea rápido, seguro y accesible.
+        </p>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="pillars-3col-grid">
+        <div class="pillar-box-card">
+          <h2 class="pillar-box-title">Hecho por estudiantes</h2>
+          <p class="pillar-box-desc">
+            Entendemos el presupuesto, los horarios y las necesidades reales del día a día universitario en la Javeriana.
+          </p>
+        </div>
+
+        <div class="pillar-box-card">
+          <h2 class="pillar-box-title">Seguridad primero</h2>
+          <p class="pillar-box-desc">
+            Cuentas verificadas con correo institucional y puntos de entrega vigilados dentro de los edificios del campus.
+          </p>
+        </div>
+
+        <div class="pillar-box-card">
+          <h2 class="pillar-box-title">Todo se reutiliza</h2>
+          <p class="pillar-box-desc">
+            Cada libro, calculadora o mueble que cambia de manos tiene una segunda vida, ahorrando dinero y cuidando el planeta.
+          </p>
+        </div>
+      </div>
+
+      <!-- Team Section (Page 13 Mockup) -->
+      <div class="team-section">
+        <h2 class="team-section-title">El equipo</h2>
+
+        <div class="team-grid">
+          <!-- Member 1 (Purple) -->
+          <div class="team-member-card">
+            <div class="team-squircle-avatar bg-purple">
+              <div class="team-avatar-inner-circle"></div>
+            </div>
+            <h3 class="team-name">Juan Pablo</h3>
+            <p class="team-role">Fundador & Lead Dev</p>
+          </div>
+
+          <!-- Member 2 (Lime) -->
+          <div class="team-member-card">
+            <div class="team-squircle-avatar bg-lime">
+              <div class="team-avatar-inner-circle"></div>
+            </div>
+            <h3 class="team-name">Equipo Javeriano</h3>
+            <p class="team-role">Frontend & UX Design</p>
+          </div>
+
+          <!-- Member 3 (Midnight) -->
+          <div class="team-member-card">
+            <div class="team-squircle-avatar bg-midnight">
+              <div class="team-avatar-inner-circle"></div>
+            </div>
+            <h3 class="team-name">Comunidad FIS</h3>
+            <p class="team-role">Backend & Seguridad</p>
+          </div>
+
+          <!-- Member 4 (Outline) -->
+          <div class="team-member-card">
+            <div class="team-squircle-avatar bg-outline">
+              <div class="team-avatar-inner-circle"></div>
+            </div>
+            <h3 class="team-name">Comunidad Javeriana</h3>
+            <p class="team-role">SafeZones & Operaciones</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="site.js"></script>
+  <script>
+    UniMercs.mount('about');
+  </script>
+</body>
+</html>

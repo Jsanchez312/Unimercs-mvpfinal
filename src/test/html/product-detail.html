@@ -1,0 +1,1217 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Detalle de publicación | unimercs</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+
+  <style>
+    :root {
+      /* Brand Identity V1 */
+      --emerald: #1F3D36;
+      --emerald-hover: #172F2A;
+      --champagne: #C8A96A;
+      --champagne-hover: #B89958;
+      --obsidian: #16130F;
+      --ivory: #F4EFE6;
+      --ivory-paper: #FAF7F2;
+
+      --voltage: var(--emerald);
+      --voltage-hover: var(--emerald-hover);
+      --volt: var(--champagne);
+      --midnight: var(--obsidian);
+      --paper: var(--ivory-paper);
+      --ground: var(--ivory);
+      --line: #E2DBD0;
+      --muted: #756F64;
+      --font-brand: 'Space Grotesk', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--ground);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation matching mockup */
+    .detail-navbar {
+      background: #FFFFFF;
+      border-bottom: 1.5px solid var(--line);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .detail-nav-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--midnight);
+    }
+    .nav-brand-group span {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .nav-links-center {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-link-item {
+      text-decoration: none;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--midnight);
+      padding: 6px 0;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover {
+      color: var(--voltage);
+    }
+    .nav-link-item.active {
+      font-weight: 700;
+    }
+    .nav-link-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--volt);
+      border-radius: 2px;
+    }
+
+    .nav-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn-nav-login {
+      text-decoration: none;
+      color: var(--midnight);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 14px;
+      transition: color 0.2s;
+    }
+    .btn-nav-login:hover {
+      color: var(--voltage);
+    }
+    .btn-nav-publish {
+      background: var(--midnight);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 9999px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-nav-publish:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(22, 19, 15, 0.2);
+    }
+
+    /* Main Page Container */
+    .detail-page-content {
+      max-width: 1160px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+      flex: 1;
+    }
+
+    /* Breadcrumbs */
+    .detail-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .detail-breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .detail-breadcrumb a:hover {
+      color: var(--voltage);
+    }
+    .detail-breadcrumb span.current {
+      color: var(--midnight);
+      font-weight: 600;
+    }
+
+    /* 2-Column Product Layout */
+    .detail-main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 72px;
+    }
+
+    @media (max-width: 900px) {
+      .detail-main-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .nav-links-center {
+        display: none;
+      }
+    }
+
+    /* Left Column Gallery */
+    .gallery-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .main-image-squircle {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 28px;
+      background: var(--voltage);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 16px 36px rgba(31, 61, 54, 0.12);
+      transition: all 0.3s ease;
+    }
+    .main-image-squircle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 28px;
+      transition: transform 0.3s ease;
+    }
+    .squircle-graphic {
+      width: 110px;
+      height: 110px;
+      border: 8px solid rgba(255, 255, 255, 0.95);
+      border-radius: 36px;
+      box-sizing: border-box;
+      animation: pulseSquircle 3s ease-in-out infinite;
+    }
+    @keyframes pulseSquircle {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+
+    .gallery-thumbnails-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .thumb-btn {
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      border: 2px solid transparent;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--paper);
+      transition: all 0.2s ease;
+    }
+    .thumb-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(22, 19, 15, 0.08);
+    }
+    .thumb-btn.active {
+      border-color: var(--voltage);
+      box-shadow: 0 0 0 3px rgba(31, 61, 54, 0.2);
+    }
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .thumb-squircle-inner {
+      width: 38px;
+      height: 38px;
+      border: 3.5px solid currentColor;
+      border-radius: 13px;
+    }
+
+    /* Right Column Product Info */
+    .info-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .condition-pill-tag {
+      align-self: flex-start;
+      background: var(--volt);
+      color: var(--midnight);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 9999px;
+    }
+
+    .detail-product-title {
+      font-size: clamp(28px, 3.5vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--midnight);
+      margin: 0;
+    }
+
+    .detail-product-price {
+      font-family: var(--font-mono);
+      font-size: clamp(26px, 3vw, 34px);
+      font-weight: 700;
+      color: var(--midnight);
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .detail-product-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #756F64;
+      margin: 4px 0 6px;
+      white-space: pre-line;
+    }
+
+    /* Seller Info Squircle Card */
+    .seller-profile-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--midnight);
+      border-radius: 20px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 14px rgba(22, 19, 15, 0.03);
+    }
+    .seller-avatar-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--volt);
+      color: var(--midnight);
+      font-family: var(--font-brand);
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .seller-avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .seller-meta-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .seller-name-label {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--midnight);
+    }
+    .seller-verified-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--midnight);
+      text-transform: uppercase;
+    }
+
+    /* Safe Meeting Point Card */
+    .safepoint-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--midnight);
+      border-radius: 20px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 4px 14px rgba(22, 19, 15, 0.03);
+    }
+    .safepoint-title-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .safepoint-location-val {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--midnight);
+    }
+
+    /* Action Buttons Row */
+    .detail-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .btn-action-contact {
+      flex: 1.3;
+      background: var(--voltage);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 9999px;
+      padding: 15px 32px;
+      font-family: var(--font-brand);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(31, 61, 54, 0.25);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-action-contact:hover {
+      background: var(--voltage-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(31, 61, 54, 0.35);
+    }
+    .btn-action-save {
+      flex: 1;
+      background: #FFFFFF;
+      color: var(--midnight);
+      border: 1.5px solid var(--midnight);
+      border-radius: 9999px;
+      padding: 15px 28px;
+      font-family: var(--font-brand);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-action-save:hover {
+      background: var(--paper);
+      transform: translateY(-2px);
+    }
+    .btn-action-save.saved {
+      background: var(--volt);
+      border-color: var(--midnight);
+    }
+
+    /* Related Products Section ("Más como este") */
+    .related-section {
+      margin-top: 20px;
+    }
+    .related-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .related-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--midnight);
+      margin: 0;
+    }
+    .related-see-all {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--midnight);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+    .related-see-all:hover {
+      color: var(--voltage);
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 990px) {
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 540px) {
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .related-card {
+      text-decoration: none;
+      color: var(--midnight);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .related-card:hover {
+      transform: translateY(-4px);
+    }
+    .related-card-imgwrap {
+      width: 100%;
+      aspect-ratio: 1.25 / 1;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .related-card-imgwrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .related-card:hover .related-card-imgwrap img {
+      transform: scale(1.05);
+    }
+    .related-card-squircle {
+      width: 44px;
+      height: 44px;
+      border: 4px solid currentColor;
+      border-radius: 14px;
+    }
+    .related-condition-pill {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--midnight);
+      margin-bottom: 4px;
+    }
+    .related-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--midnight);
+      margin: 0 0 4px;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .related-card-price {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--midnight);
+    }
+
+    /* Modal Contact */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(22, 19, 15, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 32px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 24px 60px rgba(22, 19, 15, 0.25);
+      border: 1.5px solid var(--line);
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Mockup Footer */
+    .mockup-footer {
+      background: var(--midnight);
+      color: #FFFFFF;
+      padding: 28px 0;
+      margin-top: auto;
+    }
+    .mockup-footer-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .mockup-footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+    .mockup-footer-brand span {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+    .mockup-footer-slogan {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      letter-spacing: 0.12em;
+      color: #A5A1C8;
+      text-transform: uppercase;
+    }
+    .mockup-footer-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .mockup-footer-links a {
+      color: #FFFFFF;
+      font-size: 13.5px;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .mockup-footer-links a:hover {
+      color: var(--volt);
+    }
+
+    /* Quick message chips */
+    .quick-chip {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--midnight);
+      transition: all 0.15s;
+    }
+    .quick-chip:hover {
+      background: var(--volt);
+      border-color: var(--midnight);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="detail-navbar">
+    <div class="detail-nav-container">
+      <a href="index.html" class="nav-brand-group">
+        <svg class="unimercs-logo-mark" viewBox="0 0 32 32" width="34" height="34" style="display:block;border-radius:28%;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="9" fill="#1F3D36"/>
+          <path d="M10 9.5v7a6 6 0 0 0 12 0v-7" stroke="#F4EFE6" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="22" cy="9.5" r="2.6" fill="#C8A96A"/>
+        </svg>
+        <span>unimercs</span>
+      </a>
+
+      <nav class="nav-links-center">
+        <a href="explore.html" class="nav-link-item active">Explorar</a>
+        <a href="safezones.html" class="nav-link-item">Puntos seguros</a>
+        <a href="how-it-works.html" class="nav-link-item">Cómo funciona</a>
+        <a href="about.html" class="nav-link-item">Nosotros</a>
+      </nav>
+
+      <div class="nav-actions-right" id="navActionsContainer">
+        <a href="login.html" class="btn-nav-login" id="navLoginBtn">Iniciar sesión</a>
+        <a href="post.html" class="btn-nav-publish">Publicar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="detail-page-content">
+
+    <!-- Breadcrumb -->
+    <nav class="detail-breadcrumb" id="detailBreadcrumb">
+      <a href="explore.html">EXPLORAR</a>
+      <span>/</span>
+      <a href="explore.html" id="breadcrumbCategory">CATEGORÍA</a>
+      <span>/</span>
+      <span class="current" id="breadcrumbTitle">CARGANDO...</span>
+    </nav>
+
+    <!-- Product 2-Column Grid -->
+    <div class="detail-main-grid">
+      
+      <!-- Left Column: Gallery -->
+      <div class="gallery-column">
+        <div class="main-image-squircle" id="mainImageContainer">
+          <!-- Main dynamic image or vibrant squircle -->
+          <div class="squircle-graphic" id="fallbackGraphic"></div>
+          <img id="mainProductImg" src="" alt="Producto" style="display:none;" />
+        </div>
+
+        <!-- Horizontal 4-thumbnail row -->
+        <div class="gallery-thumbnails-row" id="galleryThumbnailsRow">
+          <!-- Populated dynamically / with 4 interactive palette thumbnails -->
+        </div>
+      </div>
+
+      <!-- Right Column: Details & Actions -->
+      <div class="info-column">
+        
+        <!-- Condition Tag -->
+        <div class="condition-pill-tag" id="productConditionTag">COMO NUEVO</div>
+
+        <!-- Product Title -->
+        <h1 class="detail-product-title" id="productTitle">Libro de Cálculo II</h1>
+
+        <!-- Product Price -->
+        <div class="detail-product-price" id="productPrice">$25</div>
+
+        <!-- Description -->
+        <p class="detail-product-desc" id="productDesc">
+          Descripción del vendedor: estado, edición y por qué lo vende. [Texto de la publicación]
+        </p>
+
+        <!-- Seller Profile Card -->
+        <div class="seller-profile-card" id="sellerProfileCard" style="cursor:pointer; transition:transform 0.15s, box-shadow 0.15s;" onclick="goToSellerStore()" title="Ver tienda del estudiante">
+          <div class="seller-avatar-circle" id="sellerAvatarCircle">
+            <span id="sellerAvatarInitials">U</span>
+          </div>
+          <div class="seller-meta-texts" style="flex:1;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+              <div class="seller-name-label" id="sellerNameLabel">[Nombre del vendedor]</div>
+              <span style="font-size:12px; font-weight:700; color:var(--champagne); display:inline-flex; align-items:center; gap:3px;">
+                ★ <span id="sellerRatingText">4.9</span>
+              </span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+              <div class="seller-verified-tag">ESTUDIANTE VERIFICADO</div>
+              <span style="font-size:11.5px; font-weight:600; color:var(--emerald); text-decoration:underline;">Ver tienda →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Safe Meeting Point Card -->
+        <div class="safepoint-card">
+          <div class="safepoint-title-tag">PUNTO SEGURO SUGERIDO</div>
+          <div class="safepoint-location-val" id="safepointLocationVal">Biblioteca central</div>
+        </div>
+
+        <!-- Action Buttons Row -->
+        <div class="detail-actions-row">
+          <button type="button" class="btn-action-contact" id="btnContactSeller">
+            Contactar
+          </button>
+          <button type="button" class="btn-action-save" id="btnSavePost">
+            Guardar
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Related Products ("Más como este") -->
+    <section class="related-section">
+      <div class="related-header-row">
+        <h2 class="related-title">Más como este</h2>
+        <a href="explore.html" class="related-see-all" id="relatedSeeAllLink">VER TODO</a>
+      </div>
+
+      <div class="related-grid" id="relatedGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <h3 style="margin:0; font-size:20px; font-weight:700; color:var(--midnight);" id="modalContactTitle">Contactar al vendedor</h3>
+        <button type="button" id="btnCloseContactModal" style="background:var(--paper); border:none; border-radius:50%; width:34px; height:34px; cursor:pointer; font-weight:700; font-size:16px;">✕</button>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px; background:var(--paper); border-radius:14px; padding:12px 16px; margin-bottom:18px; border:1px solid var(--line);">
+        <div style="width:48px; height:48px; border-radius:10px; background:var(--voltage); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
+          <img id="modalMiniImg" src="" style="width:100%; height:100%; object-fit:cover; display:none;" />
+          <div id="modalMiniSquircle" style="width:24px; height:24px; border:3px solid #FFF; border-radius:8px;"></div>
+        </div>
+        <div>
+          <div id="modalMiniTitle" style="font-weight:700; font-size:14.5px; color:var(--midnight);"></div>
+          <div id="modalMiniPrice" style="font-family:var(--font-mono); font-size:15px; font-weight:700; color:var(--voltage);"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="font-size:13px; font-weight:700; color:var(--midnight); display:block; margin-bottom:6px;">Mensaje para el vendedor</label>
+        <textarea id="contactModalMessage" style="width:100%; border:1.5px solid var(--line); border-radius:12px; padding:12px; font-family:inherit; min-height:80px; outline:none; font-size:14px;" placeholder="Hola, ¿sigue disponible?"></textarea>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+          <button type="button" class="quick-chip" onclick="setQuickMsg('Hola, ¿sigue disponible?')">¿Sigue disponible?</button>
+          <button type="button" class="quick-chip" onclick="setQuickMsg('¿Aceptas una oferta?')">¿Aceptas oferta?</button>
+          <button type="button" class="quick-chip" onclick="setQuickMsg('¿Dónde y a qué hora nos vemos en el campus?')">¿Dónde nos vemos?</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label style="font-size:13px; font-weight:700; color:var(--midnight); display:block; margin-bottom:6px;">Punto de entrega sugerido</label>
+        <input type="text" id="contactModalSafePoint" style="width:100%; border:1.5px solid var(--line); border-radius:12px; padding:10px 14px; font-family:inherit; font-size:14px; outline:none;" value="Biblioteca central" />
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button type="button" id="btnSendWhatsApp" class="btn-action-contact" style="width:100%; padding:14px; justify-content:center; background:#16A34A; box-shadow:0 6px 18px rgba(22, 163, 74, 0.25);">
+          Abrir en WhatsApp
+        </button>
+        <button type="button" id="btnCancelContactModal" class="btn-action-save" style="width:100%; padding:12px; justify-content:center; border:none; color:var(--muted);">
+          Cancelar
+        </button>
+      </div>
+
+      <div style="text-align:center; font-family:var(--font-mono); font-size:10.5px; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin-top:16px;">
+        NUNCA COMPARTAS DATOS BANCARIOS NI PAGUES FUERA DEL CAMPUS.
+      </div>
+    </div>
+  </div>
+
+  <!-- Mockup Footer -->
+  <footer class="mockup-footer">
+    <div class="mockup-footer-container">
+      <a href="index.html" class="mockup-footer-brand">
+        <svg viewBox="0 0 32 32" width="30" height="30" style="display:block;border-radius:28%;flex-shrink:0" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" rx="9" fill="#C8A96A"/>
+          <path d="M10 9.5v7a6 6 0 0 0 12 0v-7" stroke="#16130F" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="22" cy="9.5" r="2.6" fill="#1F3D36"/>
+        </svg>
+        <span>unimercs</span>
+      </a>
+
+      <div class="mockup-footer-slogan">
+        SELL THE TEXTBOOK. KEEP THE RAMEN MONEY.
+      </div>
+
+      <div class="mockup-footer-links">
+        <a href="help.html">Ayuda</a>
+        <a href="safezones.html">Seguridad</a>
+        <a href="terms.html">Términos</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const API_BASE = 'http://localhost:5000/api';
+    let currentPost = null;
+    let isSaved = false;
+
+    // Condition mapper
+    function getConditionLabel(cond) {
+      const map = {
+        'new': 'NUEVO',
+        'used_like_new': 'COMO NUEVO',
+        'barely used': 'COMO NUEVO',
+        'used_good': 'BUEN ESTADO',
+        'used_very_good': 'MUY BUEN ESTADO',
+        'used': 'USADO',
+        'used_acceptable': 'ACEPTABLE'
+      };
+      return (map[cond] || cond || 'COMO NUEVO').toUpperCase();
+    }
+
+    // Format price in COP or number
+    function formatPrice(val) {
+      const num = Number(val);
+      if (isNaN(num)) return '$0';
+      if (num < 1000) {
+        return `$${num}`;
+      }
+      return `$${num.toLocaleString('es-CO')} COP`;
+    }
+
+    // Check user auth for header
+    function initUserNav() {
+      const raw = localStorage.getItem('unimercs_current_user');
+      const navActions = document.getElementById('navActionsContainer');
+      if (raw && navActions) {
+        try {
+          const user = JSON.parse(raw);
+          const initials = encodeURIComponent((user.name || 'U').split(' ').map(x => x[0]).slice(0, 2).join(''));
+          const pic = user.profilePicture
+            ? (user.profilePicture.startsWith('http') || user.profilePicture.startsWith('data:')
+                ? user.profilePicture
+                : `http://localhost:5000${user.profilePicture}`)
+            : `https://ui-avatars.com/api/?name=${initials}&background=C6FF3D&color=120E2B&bold=true`;
+          
+          navActions.innerHTML = `
+            <a href="profile.html" title="Mi perfil" style="display:flex;align-items:center;text-decoration:none">
+              <img src="${pic}" alt="Mi perfil" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--volt);box-shadow:0 2px 8px rgba(31,61,54,0.15)">
+            </a>
+            <a href="post.html" class="btn-nav-publish">Publicar</a>
+          `;
+        } catch(e) {}
+      }
+    }
+
+    // Load Post by ID
+    async function loadPostDetail() {
+      const params = new URLSearchParams(window.location.search);
+      const postId = params.get('id');
+
+      if (!postId) {
+        // Fallback demo data if opened directly without query param
+        renderDemoPost();
+        loadRelatedPosts('all');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/posts/${postId}`);
+        if (!res.ok) throw new Error('Publicación no encontrada');
+        const post = await res.json();
+        currentPost = post;
+        renderPost(post);
+        loadRelatedPosts(post.category, post._id);
+      } catch (err) {
+        console.warn('Could not fetch post from API, showing mockup demo fallback:', err);
+        renderDemoPost();
+        loadRelatedPosts('all');
+      }
+    }
+
+    function renderPost(post) {
+      document.title = `${post.title} | unimercs`;
+
+      // Breadcrumbs
+      const cat = (post.category || 'General').toUpperCase();
+      document.getElementById('breadcrumbCategory').textContent = cat;
+      document.getElementById('breadcrumbCategory').href = `explore.html?category=${encodeURIComponent(post.category || '')}`;
+      document.getElementById('breadcrumbTitle').textContent = (post.title || '').toUpperCase();
+
+      // Condition Tag
+      document.getElementById('productConditionTag').textContent = getConditionLabel(post.condition);
+
+      // Title & Price
+      document.getElementById('productTitle').textContent = post.title;
+      document.getElementById('productPrice').textContent = formatPrice(post.price);
+
+      // Description
+      document.getElementById('productDesc').textContent = post.description || 'Descripción del vendedor: estado, edición y por qué lo vende.';
+
+      // Seller Info
+      const sName = post.sellerName || 'Estudiante Javeriano';
+      document.getElementById('sellerNameLabel').textContent = sName;
+      const initials = sName.split(' ').map(x => x[0]).slice(0, 2).join('') || 'U';
+      document.getElementById('sellerAvatarInitials').textContent = initials;
+
+      // Safe point
+      document.getElementById('safepointLocationVal').textContent = post.safeZone || post.campusLocation || 'Biblioteca central';
+
+      // Main image & gallery
+      const mainImg = document.getElementById('mainProductImg');
+      const fallbackGraphic = document.getElementById('fallbackGraphic');
+      const mainContainer = document.getElementById('mainImageContainer');
+
+      const imageUrl = post.imageUrl ? (post.imageUrl.startsWith('http') ? post.imageUrl : `http://localhost:5000${post.imageUrl}`) : null;
+
+      if (imageUrl) {
+        mainImg.src = imageUrl;
+        mainImg.style.display = 'block';
+        fallbackGraphic.style.display = 'none';
+        mainContainer.style.background = '#F4EFE6';
+      } else {
+        mainImg.style.display = 'none';
+        fallbackGraphic.style.display = 'block';
+        mainContainer.style.background = 'var(--voltage)';
+      }
+
+      // Thumbnails setup
+      const galleryImages = (Array.isArray(post.images) && post.images.length ? post.images : (imageUrl ? [post.imageUrl] : []))
+        .map(src => src && (src.startsWith('http') ? src : `http://localhost:5000${src}`))
+        .filter(Boolean);
+      renderThumbnails(galleryImages);
+
+      // Guarda el artículo visitado para el perfil, sin registrar datos sensibles.
+      try {
+        const current = JSON.parse(localStorage.getItem('unimercs_current_user') || '{}');
+        if (current.id || current._id) {
+          const key = `unimercs_viewed_${current.id || current._id}`;
+          const visited = JSON.parse(localStorage.getItem(key) || '[]').filter(item => item._id !== post._id);
+          visited.unshift({ _id: post._id, title: post.title, price: post.price, imageUrl: galleryImages[0] || '' });
+          localStorage.setItem(key, JSON.stringify(visited.slice(0, 12)));
+        }
+      } catch (_) {}
+
+      // Bookmark status
+      checkSavedStatus(post._id || 'demo');
+    }
+
+    function renderDemoPost() {
+      const demo = {
+        _id: 'demo-calc-2',
+        title: 'Libro de Cálculo II',
+        price: 25,
+        category: 'Libros',
+        condition: 'used_like_new',
+        description: 'Descripción del vendedor: estado, edición y por qué lo vende. [Texto de la publicación]',
+        sellerName: '[Nombre del vendedor]',
+        sellerPhone: '3101234567',
+        safeZone: 'Biblioteca central'
+      };
+      currentPost = demo;
+      renderPost(demo);
+    }
+
+    function renderThumbnails(imageUrls) {
+      const row = document.getElementById('galleryThumbnailsRow');
+      row.innerHTML = '';
+      const items = imageUrls.length ? imageUrls.map(img => ({ img })) : [{ img: null }];
+      items.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `thumb-btn ${index === 0 ? 'active' : ''}`;
+        btn.style.background = item.img ? '#F4EFE6' : 'var(--voltage)';
+
+        if (item.img) {
+          btn.innerHTML = `<img src="${item.img}" alt="Thumbnail" />`;
+        } else {
+          btn.innerHTML = `<div class="thumb-squircle-inner" style="color:#fff;"></div>`;
+        }
+
+        btn.onclick = () => {
+          document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const mainImg = document.getElementById('mainProductImg');
+          const fallbackGraphic = document.getElementById('fallbackGraphic');
+          const mainContainer = document.getElementById('mainImageContainer');
+
+          if (item.img) {
+            mainImg.src = item.img;
+            mainImg.style.display = 'block';
+            fallbackGraphic.style.display = 'none';
+            mainContainer.style.background = '#F4EFE6';
+          } else {
+            mainImg.style.display = 'none';
+            fallbackGraphic.style.display = 'block';
+            mainContainer.style.background = 'var(--voltage)';
+          }
+        };
+
+        row.appendChild(btn);
+      });
+    }
+
+    // Check saved state in localStorage
+    function checkSavedStatus(id) {
+      try {
+        const saved = JSON.parse(localStorage.getItem('unimercs_saved_posts') || '[]');
+        isSaved = saved.includes(id);
+        updateSaveButton();
+      } catch(e) {}
+    }
+
+    function updateSaveButton() {
+      const btn = document.getElementById('btnSavePost');
+      if (isSaved) {
+        btn.classList.add('saved');
+        btn.innerHTML = `✓ Guardado`;
+      } else {
+        btn.classList.remove('saved');
+        btn.innerHTML = `Guardar`;
+      }
+    }
+
+    document.getElementById('btnSavePost').addEventListener('click', () => {
+      const id = currentPost?._id || 'demo';
+      try {
+        let saved = JSON.parse(localStorage.getItem('unimercs_saved_posts') || '[]');
+        if (isSaved) {
+          saved = saved.filter(x => x !== id);
+          isSaved = false;
+        } else {
+          saved.push(id);
+          isSaved = true;
+        }
+        localStorage.setItem('unimercs_saved_posts', JSON.stringify(saved));
+        updateSaveButton();
+      } catch(e) {}
+    });
+
+    // Related Posts ("Más como este")
+    async function loadRelatedPosts(category, currentId) {
+      const grid = document.getElementById('relatedGrid');
+      const seeAll = document.getElementById('relatedSeeAllLink');
+      if (category && category !== 'all') {
+        seeAll.href = `explore.html?category=${encodeURIComponent(category)}`;
+      } else {
+        seeAll.href = 'explore.html';
+      }
+
+      try {
+        const query = category && category !== 'all' ? `?category=${encodeURIComponent(category)}` : '';
+        const res = await fetch(`${API_BASE}/posts${query}`);
+        let posts = await res.json();
+
+        if (currentId) {
+          posts = posts.filter(p => p._id !== currentId);
+        }
+
+        if (posts && posts.length) {
+          renderRelatedCards(posts.slice(0, 4));
+          return;
+        }
+      } catch (err) {
+        console.warn('Could not load related posts from API, showing mockup fallback:', err);
+      }
+
+      // No mostramos artículos inventados: si aún no hay publicaciones, lo indicamos con claridad.
+      grid.innerHTML = '<p style="grid-column:1/-1;margin:0;padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;">Aún no hay publicaciones relacionadas disponibles.</p>';
+    }
+
+    function renderRelatedCards(posts) {
+      const grid = document.getElementById('relatedGrid');
+      grid.innerHTML = posts.map(p => {
+        const cond = getConditionLabel(p.condition);
+        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : null;
+        
+        return `
+          <a class="related-card" href="product-detail.html?id=${p._id}">
+            <div class="related-card-imgwrap" style="background:${img ? '#F4EFE6' : 'var(--voltage)'};">
+              ${img ? `<img src="${img}" alt="${p.title}" />` : `<div class="related-card-squircle" style="color:#FFF;"></div>`}
+            </div>
+            <div class="related-condition-pill">${cond}</div>
+            <h3 class="related-card-title" title="${p.title}">${p.title}</h3>
+            <div class="related-card-price">${formatPrice(p.price)}</div>
+          </a>
+        `;
+      }).join('');
+    }
+
+
+    // Contact modal & WhatsApp logic
+    const contactModal = document.getElementById('contactModal');
+    const btnContactSeller = document.getElementById('btnContactSeller');
+    const btnCloseContactModal = document.getElementById('btnCloseContactModal');
+    const btnCancelContactModal = document.getElementById('btnCancelContactModal');
+    const btnSendWhatsApp = document.getElementById('btnSendWhatsApp');
+
+    btnContactSeller.addEventListener('click', () => {
+      if (!currentPost) return;
+      document.getElementById('modalContactTitle').textContent = `Contactar a ${currentPost.sellerName || 'Vendedor'}`;
+      document.getElementById('modalMiniTitle').textContent = currentPost.title;
+      document.getElementById('modalMiniPrice').textContent = formatPrice(currentPost.price);
+      document.getElementById('contactModalSafePoint').value = currentPost.safeZone || currentPost.campusLocation || 'Biblioteca central';
+
+      const img = currentPost.imageUrl ? (currentPost.imageUrl.startsWith('http') ? currentPost.imageUrl : `http://localhost:5000${currentPost.imageUrl}`) : null;
+      const miniImg = document.getElementById('modalMiniImg');
+      const miniSquircle = document.getElementById('modalMiniSquircle');
+      if (img) {
+        miniImg.src = img;
+        miniImg.style.display = 'block';
+        miniSquircle.style.display = 'none';
+      } else {
+        miniImg.style.display = 'none';
+        miniSquircle.style.display = 'block';
+      }
+
+      contactModal.classList.add('open');
+    });
+
+    btnCloseContactModal.addEventListener('click', () => contactModal.classList.remove('open'));
+    btnCancelContactModal.addEventListener('click', () => contactModal.classList.remove('open'));
+    contactModal.addEventListener('click', (e) => {
+      if (e.target === contactModal) contactModal.classList.remove('open');
+    });
+
+    window.setQuickMsg = function(msg) {
+      document.getElementById('contactModalMessage').value = msg;
+    };
+
+    btnSendWhatsApp.addEventListener('click', () => {
+      const msgText = document.getElementById('contactModalMessage').value.trim() || 'Hola, ¿sigue disponible?';
+      const safePoint = document.getElementById('contactModalSafePoint').value.trim() || 'Biblioteca central';
+      const rawPhone = currentPost?.sellerPhone || '3101234567';
+      const cleanPhone = rawPhone.replace(/\D/g, '');
+      const phoneWithCode = cleanPhone.startsWith('57') ? cleanPhone : `57${cleanPhone}`;
+
+      const text = encodeURIComponent(`Hola ${currentPost?.sellerName || ''}, vi tu publicación "${currentPost?.title}" en UniMercs por ${formatPrice(currentPost?.price)}. ${msgText} (Punto propuesto: ${safePoint})`);
+      window.open(`https://wa.me/${phoneWithCode}?text=${text}`, '_blank');
+      contactModal.classList.remove('open');
+    });
+
+    window.goToSellerStore = function() {
+      const sellerName = currentPost?.sellerName || 'Estudiante Javeriano';
+      const sellerId = currentPost?.sellerId || currentPost?.seller || '';
+      const destination = currentPost?.sellerAccountType === 'store' ? 'store.html' : 'public-profile.html';
+      window.location.href = `${destination}?seller=${encodeURIComponent(sellerName)}${sellerId ? `&id=${encodeURIComponent(sellerId)}` : ''}`;
+    };
+
+    // Init page
+    initUserNav();
+    loadPostDetail();
+  </script>
+</body>
+</html>

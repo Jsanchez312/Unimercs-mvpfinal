@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+      <defs>
+        <linearGradient id="s1_bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#1A1815"/>
+          <stop offset="50%" stop-color="#2D241C"/>
+          <stop offset="100%" stop-color="#12100E"/>
+        </linearGradient>
+        <linearGradient id="s1_sun" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#FFE4A0" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#C8A96A" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="s1_book" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2D5A47"/>
+          <stop offset="100%" stop-color="#142A21"/>
+        </linearGradient>
+        <filter id="shadow">
+          <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity="0.6"/>
+        </filter>
+      </defs>
+
+      <!-- Background Room -->
+      <rect width="1920" height="1080" fill="url(#s1_bg)"/>
+
+      <!-- Window light beam streaming in -->
+      <polygon points="300,-50 1800,-50 1500,1080 0,1080" fill="url(#s1_sun)"/>
+
+      <!-- Wooden Desk -->
+      <rect y="480" width="1920" height="600" fill="#3A281E"/>
+      <rect y="480" width="1920" height="16" fill="#52392B"/>
+      
+      <!-- Open Laptop on Left -->
+      <g transform="translate(180, 360)">
+        <!-- Screen -->
+        <rect width="360" height="240" rx="8" fill="#202020" stroke="#444" stroke-width="4"/>
+        <rect x="14" y="14" width="332" height="212" fill="#0D1117"/>
+        <text x="30" y="50" font-family="'DM Mono', monospace" font-size="14" fill="#C8A96A">> blackboard.javeriana.edu.co</text>
+        <rect x="30" y="70" width="220" height="8" rx="4" fill="#30363D"/>
+        <rect x="30" y="90" width="180" height="8" rx="4" fill="#30363D"/>
+        <rect x="30" y="110" width="260" height="8" rx="4" fill="#238636"/>
+        <text x="30" y="150" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="20" fill="#FFF">CÁLCULO VECTORIAL: 4.8</text>
+        <text x="30" y="175" font-family="'DM Mono', monospace" font-size="12" fill="#8B949E">Estado: MATERIA APROBADA</text>
+        <!-- Keyboard base -->
+        <polygon points="-30,240 390,240 370,290 -10,290" fill="#484F58"/>
+      </g>
+
+      <!-- Giant Calculus Textbook Center Stage (Being Pushed Away) -->
+      <g transform="translate(760, 420) rotate(-6)" filter="url(#shadow)">
+        <rect width="400" height="520" rx="14" fill="url(#s1_book)" stroke="#C8A96A" stroke-width="4"/>
+        <rect x="0" y="0" width="45" height="520" rx="8" fill="#0E1D17"/>
+        <!-- Gold foil lettering on book -->
+        <rect x="80" y="70" width="260" height="4" fill="#C8A96A"/>
+        <text x="80" y="115" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="34" fill="#F4EFE6" letter-spacing="1">CÁLCULO</text>
+        <text x="80" y="145" font-family="'DM Mono', monospace" font-size="18" fill="#C8A96A">TRASCENDENTES TEMPRANAS</text>
+        <text x="80" y="180" font-family="'Space Grotesk', sans-serif" font-size="15" fill="#A4B5AC">8va Edición · James Stewart</text>
+        <!-- Math formula graphics on book -->
+        <path d="M 80,260 Q 150,210 220,290 T 340,240" fill="none" stroke="#C8A96A" stroke-width="3" stroke-dasharray="6 4"/>
+        <text x="80" y="340" font-family="'DM Mono', monospace" font-size="36" fill="#C8A96A" opacity="0.6">∫ f(x) dx = F(x)</text>
+        
+        <!-- Red sticky note: "YA LO PASÉ" -->
+        <g transform="translate(220, 360) rotate(8)">
+          <rect width="140" height="110" fill="#FF5E62" rx="4" filter="url(#shadow)"/>
+          <text x="18" y="45" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#FFF">¡YA APROBÉ!</text>
+          <text x="18" y="75" font-family="'DM Mono', monospace" font-size="13" fill="#FFF">¿Y ahora qué</text>
+          <text x="18" y="93" font-family="'DM Mono', monospace" font-size="13" fill="#FFF">hago con esto?</text>
+        </g>
+      </g>
+
+      <!-- TI-84 Scientific Calculator -->
+      <g transform="translate(1260, 520) rotate(14)" filter="url(#shadow)">
+        <rect width="160" height="260" rx="16" fill="#20252B" stroke="#3D444D" stroke-width="3"/>
+        <rect x="20" y="25" width="120" height="70" rx="4" fill="#8C9A86"/>
+        <text x="30" y="65" font-family="'DM Mono', monospace" font-size="16" fill="#1B221A">DONE 100%</text>
+        <!-- Calculator buttons grid -->
+        <g fill="#4B535D">
+          <circle cx="40" cy="120" r="10"/><circle cx="80" cy="120" r="10"/><circle cx="120" cy="120" r="10"/>
+          <circle cx="40" cy="155" r="10"/><circle cx="80" cy="155" r="10"/><circle cx="120" cy="155" r="10"/>
+          <circle cx="40" cy="190" r="10"/><circle cx="80" cy="190" r="10"/><circle cx="120" cy="190" r="10"/>
+          <circle cx="40" cy="225" r="10"/><circle cx="80" cy="225" r="10"/><circle cx="120" cy="225" r="10"/>
+        </g>
+      </g>
+
+      <!-- Coffee Mug -->
+      <g transform="translate(620, 680)">
+        <ellipse cx="40" cy="60" rx="45" ry="12" fill="#000" opacity="0.4"/>
+        <path d="M 10 10 L 20 60 Q 40 70 60 60 L 70 10 Z" fill="#F4EFE6"/>
+        <ellipse cx="40" cy="12" rx="30" ry="8" fill="#4B2D17"/>
+        <text x="40" y="42" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" font-weight="700" fill="#1F3D36">PUJ</text>
+      </g>
+
+      <!-- Cinematic Text Overlay -->
+      <g transform="translate(100, 160)">
+        <rect width="780" height="150" rx="18" fill="#16130FE6" stroke="#C8A96A" stroke-width="2"/>
+        <text x="40" y="55" font-family="'DM Mono', monospace" font-size="18" font-weight="500" fill="#C8A96A" letter-spacing="4">ESCENA 01 · 00:00 - 00:07</text>
+        <text x="40" y="105" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="38" fill="#F4EFE6">¿Tienes cosas que ya no usas?</text>
+        <text x="40" y="133" font-family="'DM Mono', monospace" font-size="16" fill="#A49E93">Cámara: Cenital push-in · Beat: 116 BPM · Subtítulos sincronizados</text>
+      </g>
+    
+</svg>

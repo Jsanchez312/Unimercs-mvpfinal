@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+      <rect width="1920" height="1080" fill="#F4EFE6"/>
+
+      <!-- Center Container Mockup Phone Form -->
+      <g transform="translate(560, 40)">
+        <rect width="800" height="1000" rx="32" fill="#FFFFFF" stroke="#E2DBD0" stroke-width="2"/>
+        
+        <!-- Form Header -->
+        <g transform="translate(60, 50)">
+          <text x="0" y="32" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="32" fill="#16130F">Publicar un Artículo</text>
+          <text x="0" y="60" font-family="'DM Mono', monospace" font-size="14" fill="#756F64">Llega a miles de estudiantes javerianos en minutos</text>
+        </g>
+
+        <!-- Photo Upload Box -->
+        <g transform="translate(60, 140)">
+          <rect width="680" height="180" rx="18" fill="#F8F6F1" stroke="#1F3D36" stroke-width="2" stroke-dasharray="8 6"/>
+          <text x="340" y="80" text-anchor="middle" font-size="44">📸</text>
+          <text x="340" y="120" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#1F3D36">Arrastra fotos aquí o toma una desde tu celular</text>
+          <text x="340" y="145" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" fill="#756F64">Hasta 5 fotos · Máx. 10MB</text>
+        </g>
+
+        <!-- Form Fields -->
+        <g transform="translate(60, 360)">
+          <!-- Title -->
+          <text x="0" y="0" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#756F64">TÍTULO DEL PRODUCTO</text>
+          <rect y="12" width="680" height="52" rx="12" fill="#FFFFFF" stroke="#1F3D36" stroke-width="2"/>
+          <text x="20" y="44" font-family="'Space Grotesk', sans-serif" font-size="16" font-weight="600" fill="#16130F">Cálculo Trascendentes Tempranas - James Stewart 8va Ed.</text>
+
+          <!-- Category & Faculty -->
+          <g transform="translate(0, 90)">
+            <text x="0" y="0" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#756F64">FACULTAD / CARRERA</text>
+            <rect y="12" width="325" height="52" rx="12" fill="#FFFFFF" stroke="#E2DBD0"/>
+            <text x="20" y="44" font-family="'Space Grotesk', sans-serif" font-size="15" fill="#16130F">Facultad de Ingeniería ▼</text>
+
+            <text x="355" y="0" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#756F64">ESTADO DEL PRODUCTO</text>
+            <rect x="355" y="12" width="325" height="52" rx="12" fill="#FFFFFF" stroke="#E2DBD0"/>
+            <text x="375" y="44" font-family="'Space Grotesk', sans-serif" font-size="15" fill="#16130F">Como nuevo (Sin rayones) ▼</text>
+          </g>
+
+          <!-- Price -->
+          <g transform="translate(0, 180)">
+            <text x="0" y="0" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#756F64">PRECIO EN PESOS (COP)</text>
+            <rect y="12" width="680" height="64" rx="14" fill="#FFFFFF" stroke="#C8A96A" stroke-width="2.5"/>
+            <text x="24" y="52" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="30" fill="#1F3D36">$45.000 COP</text>
+          </g>
+
+          <!-- SafeZone Delivery point -->
+          <g transform="translate(0, 280)">
+            <text x="0" y="0" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#756F64">PUNTO SEGURO PREFERIDO (SAFEZONE)</text>
+            <rect y="12" width="680" height="52" rx="12" fill="#FFFFFF" stroke="#1F3D36"/>
+            <text x="20" y="44" font-family="'Space Grotesk', sans-serif" font-size="15" fill="#1F3D36">📍 Biblioteca Central Jorge Palacios (Ed. 02) ▼</text>
+          </g>
+
+          <!-- Submit Button -->
+          <g transform="translate(0, 450)">
+            <rect width="680" height="68" rx="20" fill="#1F3D36"/>
+            <text x="340" y="42" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#FFFFFF">Publicar Ahora en UniMercs</text>
+          </g>
+        </g>
+      </g>
+    
+</svg>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+
+      <defs>
+        <radialGradient id="s8_bg" cx="50%" cy="50%" r="75%">
+          <stop offset="0%" stop-color="#1F3D36"/>
+          <stop offset="60%" stop-color="#142823"/>
+          <stop offset="100%" stop-color="#0A1310"/>
+        </radialGradient>
+        <linearGradient id="s8_gold" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#FFE4A0"/>
+          <stop offset="50%" stop-color="#C8A96A"/>
+          <stop offset="100%" stop-color="#9E7F40"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="1920" height="1080" fill="url(#s8_bg)"/>
+
+      <!-- Ambient Glow and Rays -->
+      <circle cx="960" cy="460" r="400" fill="#C8A96A" opacity="0.08"/>
+
+      <!-- Big UniMercs Emblem -->
+      <g transform="translate(960, 320)" filter="url(#shadow)">
+        <!-- Outer Gold Ring -->
+        <circle cx="0" cy="0" r="120" fill="#142823" stroke="url(#s8_gold)" stroke-width="8"/>
+        <!-- Stylized 'U' and Shield -->
+        <path d="M -45 -50 L -45 10 C -45 42 45 42 45 10 L 45 -50" fill="none" stroke="url(#s8_gold)" stroke-width="16" stroke-linecap="round"/>
+        <circle cx="0" cy="-25" r="10" fill="#C8A96A"/>
+      </g>
+
+      <!-- Brand Typography -->
+      <g transform="translate(960, 520)">
+        <text x="0" y="0" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="78" fill="#F4EFE6" letter-spacing="-2">unimercs</text>
+        <text x="0" y="45" text-anchor="middle" font-family="'DM Mono', monospace" font-size="22" font-weight="500" fill="#C8A96A" letter-spacing="8">CAMPUS HUSTLE, HANDLED.</text>
+        <text x="0" y="90" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="24" fill="#E8EFE8">El Marketplace Oficial de la Pontificia Universidad Javeriana</text>
+      </g>
+
+      <!-- Interactive Call to Action Bar & QR Box -->
+      <g transform="translate(960, 720)">
+        <!-- Big Gold Button -->
+        <g transform="translate(-280, 0)" filter="url(#shadow)">
+          <rect width="360" height="80" rx="40" fill="url(#s8_gold)"/>
+          <text x="180" y="48" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="22" fill="#16130F">EMPEZAR AHORA</text>
+        </g>
+
+        <!-- Domain Badge -->
+        <g transform="translate(110, 0)">
+          <rect width="250" height="80" rx="40" fill="#16130F" stroke="#C8A96A" stroke-width="2"/>
+          <text x="125" y="48" text-anchor="middle" font-family="'DM Mono', monospace" font-size="20" font-weight="700" fill="#F4EFE6">unimercs.app</text>
+        </g>
+
+        <!-- Subtext: PUJ email requirement -->
+        <text x="0" y="130" text-anchor="middle" font-family="'DM Mono', monospace" font-size="15" fill="#A4B5AC">Inicia sesión con tu correo @javeriana.edu.co · Sin comisiones</text>
+      </g>
+
+      <!-- Scene Meta Header -->
+      <g transform="translate(100, 60)">
+        <text x="0" y="0" font-family="'DM Mono', monospace" font-size="18" font-weight="500" fill="#C8A96A" letter-spacing="4">ESCENA 08 · 00:53 - 01:00</text>
+        <text x="0" y="38" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="36" fill="#F4EFE6">Cierre & Call to Action: Tu Próximo Semestre Empieza Aquí</text>
+      </g>
+    
+</svg>

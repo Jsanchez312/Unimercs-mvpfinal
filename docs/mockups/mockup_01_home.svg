@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" width="1920" height="1200">
+  <defs>
+    <radialGradient id="stage_bg" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#182420"/>
+      <stop offset="60%" stop-color="#0E1513"/>
+      <stop offset="100%" stop-color="#070908"/>
+    </radialGradient>
+    <filter id="device_shadow">
+      <feDropShadow dx="0" dy="30" stdDeviation="40" flood-color="#000000" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#C8A96A" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Studio Stage Background -->
+  <rect width="1920" height="1200" fill="url(#stage_bg)"/>
+
+  <!-- Top Title Header -->
+  <g transform="translate(100, 60)">
+    <rect width="1720" height="60" rx="16" fill="#141C19" stroke="#23312C"/>
+    <text x="30" y="38" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#FFFFFF">01 · PÁGINA DE INICIO (HOME)</text>
+    <rect x="1380" y="14" width="310" height="32" rx="16" fill="#1F3D36"/>
+    <text x="1535" y="35" text-anchor="middle" font-family="'DM Mono', monospace" font-size="12" font-weight="700" fill="#FFE4A0">MOCKUP OFICIAL · PUJ BOGOTÁ</text>
+  </g>
+
+  <!-- MacBook Pro 16" Mockup Frame -->
+  <g transform="translate(140, 150)" filter="url(#device_shadow)">
+    <!-- Aluminum Outer Bezel -->
+    <rect width="1640" height="960" rx="28" fill="#1A201E" stroke="#374540" stroke-width="4"/>
+    
+    <!-- Notch / Camera & Browser Bar -->
+    <rect x="4" y="4" width="1632" height="42" rx="24 24 0 0" fill="#121715"/>
+    <!-- Window Control Buttons -->
+    <circle cx="36" cy="25" r="6" fill="#FF5F56"/>
+    <circle cx="58" cy="25" r="6" fill="#FFBD2E"/>
+    <circle cx="80" cy="25" r="6" fill="#27C93F"/>
+
+    <!-- URL Pill Bar -->
+    <g transform="translate(480, 10)">
+      <rect width="680" height="26" rx="13" fill="#1B2421" stroke="#2D3B36"/>
+      <text x="340" y="17" text-anchor="middle" font-family="'DM Mono', monospace" font-size="11" fill="#A4B5AC">🔒 https://unimercs.javeriana.edu.co/src/test/html/index.html</text>
+    </g>
+
+    <!-- Inner Screen Display Area (1632 x 910) -->
+    <g transform="translate(4, 46)">
+      <rect width="1632" height="910" fill="#F4EFE6"/>
+      <g transform="scale(1.02, 1.0340909090909092)">
+        
+      <!-- Top Announcement -->
+      <rect width="1600" height="38" fill="#1F3D36"/>
+      <text x="800" y="24" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="14" fill="#FFFFFF">
+        🎓 Marketplace exclusivo para la Pontificia Universidad Javeriana · <tspan fill="#C8A96A" font-weight="700">Entregas en SafeZones del Campus</tspan>
+      </text>
+
+      <!-- Nav -->
+      <rect y="38" width="1600" height="74" fill="#FFFFFF" stroke="#E2DBD0"/>
+      <text x="80" y="84" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="28" fill="#1F3D36">unimercs</text>
+      
+      <g transform="translate(420, 52)">
+        <rect width="520" height="46" rx="23" fill="#FFFFFF" stroke="#E2DBD0" stroke-width="1.5"/>
+        <text x="24" y="28" font-size="16">🔍</text>
+        <text x="56" y="28" font-family="'Space Grotesk', sans-serif" font-size="14" fill="#756F64">Buscar libros, calculadoras, tecnología...</text>
+      </g>
+
+      <g transform="translate(1220, 56)">
+        <text x="0" y="25" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#16130F">Explorar</text>
+        <text x="80" y="25" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="15" fill="#16130F">SafeZones</text>
+        <rect x="180" y="-8" width="120" height="42" rx="21" fill="#1F3D36"/>
+        <text x="240" y="19" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="14" fill="#C8A96A">+ Vender</text>
+      </g>
+
+      <!-- Hero Banner -->
+      <g transform="translate(80, 140)">
+        <rect width="1440" height="440" rx="26" fill="#1F3D36"/>
+        <g transform="translate(70, 70)">
+          <text x="0" y="40" font-family="'DM Mono', monospace" font-size="13" font-weight="700" fill="#C8A96A">PONTIFICIA UNIVERSIDAD JAVERIANA</text>
+          <text x="0" y="115" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="54" fill="#FFFFFF">Sell the textbook.<br/><tspan fill="#C8A96A">Keep the ramen money.</tspan></text>
+          <text x="0" y="210" font-family="'Space Grotesk', sans-serif" font-size="18" fill="#E8EFE8">El marketplace universitario para comprar, vender e intercambiar artículos en campus.</text>
+          <rect y="250" width="200" height="54" rx="27" fill="#C8A96A"/>
+          <text x="100" y="283" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="16" fill="#16130F">Empezar a Vender</text>
+        </g>
+        <g transform="translate(980, 60)">
+          <rect width="380" height="320" rx="20" fill="#FFFFFF"/>
+          <text x="190" y="140" text-anchor="middle" font-size="80">📚</text>
+          <text x="30" y="240" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="20" fill="#16130F">Cálculo Stewart 8va Ed.</text>
+          <text x="30" y="285" font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="26" fill="#1F3D36">$45.000 COP</text>
+        </g>
+      </g>
+
+      <!-- Category Pills -->
+      <g transform="translate(80, 620)">
+        <text x="0" y="30" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="24" fill="#16130F">Categorías en Campus</text>
+        <g transform="translate(0, 50)">
+          <rect width="260" height="90" rx="14" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <text x="30" y="55" font-size="30">📖</text>
+          <text x="80" y="46" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#1F3D36">Libros PUJ</text>
+          <text x="80" y="68" font-family="'DM Mono', monospace" font-size="12" fill="#756F64">240+ activos</text>
+
+          <rect x="290" y="0" width="260" height="90" rx="14" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <text x="320" y="55" font-size="30">⚡</text>
+          <text x="370" y="46" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#1F3D36">Tecnología</text>
+          <text x="370" y="68" font-family="'DM Mono', monospace" font-size="12" fill="#756F64">115+ activos</text>
+
+          <rect x="580" y="0" width="260" height="90" rx="14" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <text x="610" y="55" font-size="30">📐</text>
+          <text x="660" y="46" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#1F3D36">Arquitectura</text>
+          <text x="660" y="68" font-family="'DM Mono', monospace" font-size="12" fill="#756F64">85+ activos</text>
+
+          <rect x="870" y="0" width="260" height="90" rx="14" fill="#FFFFFF" stroke="#E2DBD0"/>
+          <text x="900" y="55" font-size="30">🍪</text>
+          <text x="950" y="46" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#1F3D36">Snacks & Hustle</text>
+          <text x="950" y="68" font-family="'DM Mono', monospace" font-size="12" fill="#756F64">92+ del campus</text>
+
+          <rect x="1160" y="0" width="280" height="90" rx="14" fill="#1F3D36"/>
+          <text x="1190" y="55" font-size="30">🛡️</text>
+          <text x="1240" y="46" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="16" fill="#FFE4A0">SafeZones PUJ</text>
+          <text x="1240" y="68" font-family="'DM Mono', monospace" font-size="12" fill="#E8EFE8">Puntos seguros</text>
+        </g>
+      </g>
+    
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,121 @@
+{
+  "backupTimestamp": "2026-09-12T04:08:22.666Z",
+  "generator": "UniMercs Automated Backup Task (RNF-08)",
+  "metrics": {
+    "users": 5,
+    "posts": 4,
+    "reviews": 0,
+    "reports": 0,
+    "auditLogs": 0
+  },
+  "data": {
+    "users": [
+      {
+        "_id": "6a1536987895c89b792c2ff8",
+        "name": "mbappe",
+        "email": "mbappe@javeriana.edu.co",
+        "phone": "3156248879",
+        "university": "",
+        "createdAt": "2026-05-26T05:58:48.717Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a1537347895c89b792c2ffa",
+        "name": "Neymar",
+        "email": "neymar@javeriana.edu.co",
+        "phone": "3156489975",
+        "university": "",
+        "createdAt": "2026-05-26T06:01:24.192Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a1537917895c89b792c2ffc",
+        "name": "Messi",
+        "email": "messi@javeriana.edu.co",
+        "phone": "3156248895",
+        "university": "",
+        "createdAt": "2026-05-26T06:02:57.637Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a1537f47895c89b792c2ffe",
+        "name": "Cristiano",
+        "email": "cristiano@javeriana.edu.co",
+        "phone": "315621198",
+        "university": "",
+        "createdAt": "2026-05-26T06:04:36.127Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a15b007904f827c2900b817",
+        "name": "german",
+        "email": "german@javeriana.edu.co",
+        "phone": "31627111827",
+        "university": "",
+        "createdAt": "2026-05-26T14:36:55.138Z",
+        "__v": 0
+      }
+    ],
+    "posts": [
+      {
+        "_id": "6a1537137895c89b792c2ff9",
+        "sellerId": "6a1536987895c89b792c2ff8",
+        "sellerName": "mbappe",
+        "sellerEmail": "mbappe@javeriana.edu.co",
+        "sellerPhone": "3156248879",
+        "title": "Iphone 17 Pro Max",
+        "category": "electronics",
+        "condition": "new",
+        "price": 4200000,
+        "imageUrl": "/uploads/1779775251768.webp",
+        "createdAt": "2026-05-26T06:00:51.771Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a15374c7895c89b792c2ffb",
+        "sellerId": "6a1537347895c89b792c2ffa",
+        "sellerName": "Neymar",
+        "sellerEmail": "neymar@javeriana.edu.co",
+        "sellerPhone": "3156489975",
+        "title": "MacBook Air M4",
+        "category": "computers",
+        "condition": "barely used",
+        "price": 3500000,
+        "imageUrl": "/uploads/1779775308820.webp",
+        "createdAt": "2026-05-26T06:01:48.821Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a1537a97895c89b792c2ffd",
+        "sellerId": "6a1537917895c89b792c2ffc",
+        "sellerName": "Messi",
+        "sellerEmail": "messi@javeriana.edu.co",
+        "sellerPhone": "3156248895",
+        "title": "Tacos Futbol OG",
+        "category": "fashion",
+        "condition": "used",
+        "price": 140000,
+        "imageUrl": "/uploads/1779775401775.jpg",
+        "createdAt": "2026-05-26T06:03:21.779Z",
+        "__v": 0
+      },
+      {
+        "_id": "6a15381d7895c89b792c2fff",
+        "sellerId": "6a1537f47895c89b792c2ffe",
+        "sellerName": "Cristiano",
+        "sellerEmail": "cristiano@javeriana.edu.co",
+        "sellerPhone": "315621198",
+        "title": "Libro Matematicas",
+        "category": "books",
+        "condition": "barely used",
+        "price": 180000,
+        "imageUrl": "/uploads/1779775517558.jpg",
+        "createdAt": "2026-05-26T06:05:17.560Z",
+        "__v": 0
+      }
+    ],
+    "reviews": [],
+    "reports": [],
+    "auditLogs": []
+  }
+}
