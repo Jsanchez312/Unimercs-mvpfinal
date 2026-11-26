@@ -597,7 +597,7 @@
   <script>
     UniMercs.mount('explore');
 
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = '/api';
     const token = localStorage.getItem('unimercs_token');
     const currentUser = JSON.parse(localStorage.getItem('unimercs_current_user') || 'null');
     const initialQuery = new URLSearchParams(window.location.search);
@@ -698,7 +698,7 @@
       const visibleItems = list.slice(0, visibleProductCount);
       container.innerHTML = visibleItems.map(p => {
         const photos = (Array.isArray(p.images) && p.images.length ? p.images : [p.imageUrl]).filter(Boolean)
-          .map(src => src.startsWith('http') ? src : `http://localhost:5000${src}`);
+          .map(src => src.startsWith('http') ? src : `${src}`);
         const img = photos[0] || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
         const cond = getConditionLabel(p.condition);
 
@@ -757,7 +757,7 @@
       document.getElementById('contactProductTitle').textContent = selectedPost.title;
       document.getElementById('contactProductPrice').textContent = `$${Number(selectedPost.price).toLocaleString('es-CO')} COP`;
       
-      const img = selectedPost.imageUrl ? (selectedPost.imageUrl.startsWith('http') ? selectedPost.imageUrl : `http://localhost:5000${selectedPost.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+      const img = selectedPost.imageUrl ? (selectedPost.imageUrl.startsWith('http') ? selectedPost.imageUrl : `${selectedPost.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
       document.getElementById('contactProductImg').src = img;
       document.getElementById('contactSafeZoneInput').value = selectedPost.safeZone || 'Biblioteca central';
 
@@ -844,7 +844,7 @@
 
         if (results && results.length) {
           exploreAutocompleteBox.innerHTML = results.slice(0, 5).map(item => {
-            const img = item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `http://localhost:5000${item.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+            const img = item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${item.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
             return `
               <div class="autocomplete-item" onclick="selectExploreAutocomplete('${item._id}')">
                 <img class="autocomplete-thumb" src="${img}" alt="${item.title}" />

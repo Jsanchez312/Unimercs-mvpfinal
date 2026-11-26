@@ -1074,7 +1074,7 @@
   <script>
     UniMercs.mount('home');
 
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = '/api';
     let token = localStorage.getItem('unimercs_token');
     let currentUser = JSON.parse(localStorage.getItem('unimercs_current_user') || 'null');
 
@@ -1090,7 +1090,7 @@
       if (token && currentUser) {
         const initials = encodeURIComponent((currentUser.name || 'U').split(' ').map(p => p[0]).slice(0,2).join(''));
         const avatar = currentUser.profilePicture
-          ? (currentUser.profilePicture.startsWith('http') || currentUser.profilePicture.startsWith('data:') ? currentUser.profilePicture : `http://localhost:5000${currentUser.profilePicture}`)
+          ? (currentUser.profilePicture.startsWith('http') || currentUser.profilePicture.startsWith('data:') ? currentUser.profilePicture : `${currentUser.profilePicture}`)
           : `https://ui-avatars.com/api/?name=${initials}&background=5B2EFF&color=fff&bold=true`;
         
         userControls.innerHTML = `<a href="profile.html" title="Mi perfil" style="display:flex;align-items:center;text-decoration:none;"><img class="nav-avatar-img" src="${avatar}" alt="Mi perfil"></a>`;
@@ -1147,7 +1147,7 @@
       }
 
       grid.innerHTML = allPosts.slice(0, 10).map(p => {
-        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${p.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
         const condLabel = getConditionLabel(p.condition);
 
         return `
@@ -1206,7 +1206,7 @@
 
         if (results && results.length) {
           autocompleteBox.innerHTML = results.slice(0, 5).map(item => {
-            const img = item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `http://localhost:5000${item.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+            const img = item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${item.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
             return `
               <div class="autocomplete-item" onclick="selectAutocompleteItem('${item._id}')">
                 <img class="autocomplete-thumb" src="${img}" alt="${item.title}" />
@@ -1264,7 +1264,7 @@
         const sellerStars = '★'.repeat(Math.round(sellerRating)) + '☆'.repeat(5 - Math.round(sellerRating));
         document.getElementById('modalSellerRating').innerHTML = `<span style="color:#F59E0B; font-size:15px; letter-spacing:2px;">${sellerStars}</span> <span style="font-size:12px; color:var(--muted);">(${p.sellerRatingCount || 0} calificaciones)</span>`;
 
-        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${p.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
         document.getElementById('modalProductImg').src = img;
 
         const waBtn = document.getElementById('btnWhatsAppContact');

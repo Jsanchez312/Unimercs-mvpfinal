@@ -863,7 +863,7 @@
   </footer>
 
   <script>
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = '/api';
     let currentPost = null;
     let isSaved = false;
 
@@ -902,7 +902,7 @@
           const pic = user.profilePicture
             ? (user.profilePicture.startsWith('http') || user.profilePicture.startsWith('data:')
                 ? user.profilePicture
-                : `http://localhost:5000${user.profilePicture}`)
+                : `${user.profilePicture}`)
             : `https://ui-avatars.com/api/?name=${initials}&background=C6FF3D&color=120E2B&bold=true`;
           
           navActions.innerHTML = `
@@ -974,7 +974,7 @@
       const fallbackGraphic = document.getElementById('fallbackGraphic');
       const mainContainer = document.getElementById('mainImageContainer');
 
-      const imageUrl = post.imageUrl ? (post.imageUrl.startsWith('http') ? post.imageUrl : `http://localhost:5000${post.imageUrl}`) : null;
+      const imageUrl = post.imageUrl ? (post.imageUrl.startsWith('http') ? post.imageUrl : `${post.imageUrl}`) : null;
 
       if (imageUrl) {
         mainImg.src = imageUrl;
@@ -989,7 +989,7 @@
 
       // Thumbnails setup
       const galleryImages = (Array.isArray(post.images) && post.images.length ? post.images : (imageUrl ? [post.imageUrl] : []))
-        .map(src => src && (src.startsWith('http') ? src : `http://localhost:5000${src}`))
+        .map(src => src && (src.startsWith('http') ? src : `${src}`))
         .filter(Boolean);
       renderThumbnails(galleryImages);
 
@@ -1135,7 +1135,7 @@
       const grid = document.getElementById('relatedGrid');
       grid.innerHTML = posts.map(p => {
         const cond = getConditionLabel(p.condition);
-        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : null;
+        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${p.imageUrl}`) : null;
         
         return `
           <a class="related-card" href="product-detail.html?id=${p._id}">
@@ -1165,7 +1165,7 @@
       document.getElementById('modalMiniPrice').textContent = formatPrice(currentPost.price);
       document.getElementById('contactModalSafePoint').value = currentPost.safeZone || currentPost.campusLocation || 'Biblioteca central';
 
-      const img = currentPost.imageUrl ? (currentPost.imageUrl.startsWith('http') ? currentPost.imageUrl : `http://localhost:5000${currentPost.imageUrl}`) : null;
+      const img = currentPost.imageUrl ? (currentPost.imageUrl.startsWith('http') ? currentPost.imageUrl : `${currentPost.imageUrl}`) : null;
       const miniImg = document.getElementById('modalMiniImg');
       const miniSquircle = document.getElementById('modalMiniSquircle');
       if (img) {

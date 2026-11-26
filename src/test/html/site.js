@@ -678,7 +678,7 @@ const UniMercs = {
                 const pic = user.profilePicture
                   ? (user.profilePicture.startsWith('http') || user.profilePicture.startsWith('data:')
                       ? user.profilePicture
-                      : `http://localhost:5000${user.profilePicture}`)
+                      : `${user.profilePicture}`)
                   : `https://ui-avatars.com/api/?name=${initials}&background=1F3D36&color=C8A96A&bold=true`;
                 return `
                   <a href="profile.html" title="Mi perfil" style="display:flex;align-items:center;text-decoration:none">
@@ -804,7 +804,7 @@ const UniMercs = {
         const items = await res.json();
         if (items && items.length) {
           dropdown.innerHTML = items.slice(0, 5).map(item => {
-            const img = item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `http://localhost:5000${item.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+            const img = item.imageUrl ? (item.imageUrl.startsWith('http') ? item.imageUrl : `${item.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
             return `
               <div class="autocomplete-item" onclick="window.location.href='product-detail.html?id=${item._id}'">
                 <img class="autocomplete-thumb" src="${img}" alt="${item.title}" />

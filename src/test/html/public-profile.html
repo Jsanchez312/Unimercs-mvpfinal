@@ -63,7 +63,7 @@
     const API = 'http://localhost:5000/api';
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
-    const resolve = value => value ? (value.startsWith('http') || value.startsWith('data:') ? value : `http://localhost:5000${value}`) : '';
+    const resolve = value => value ? (value.startsWith('http') || value.startsWith('data:') ? value : `${value}`) : '';
     const escapeHtml = value => String(value || '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
     async function loadProfile() {
       if (!id) { document.getElementById('profileName').textContent = 'Perfil no encontrado'; return; }

@@ -669,7 +669,7 @@
   <script>
     UniMercs.mount('profile');
 
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = '/api';
     const token = localStorage.getItem('unimercs_token');
     let currentUser = JSON.parse(localStorage.getItem('unimercs_current_user') || 'null');
 
@@ -689,7 +689,7 @@
       const pic = currentUser.profilePicture
         ? (currentUser.profilePicture.startsWith('http') || currentUser.profilePicture.startsWith('data:')
             ? currentUser.profilePicture
-            : `http://localhost:5000${currentUser.profilePicture}`)
+            : `${currentUser.profilePicture}`)
         : `https://ui-avatars.com/api/?name=${initials}&background=5B2EFF&color=fff&bold=true`;
       
       document.getElementById('heroAvatar').src = pic;
@@ -730,7 +730,7 @@
       }
 
       grid.innerHTML = myPosts.map(p => {
-        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `http://localhost:5000${p.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
+        const img = p.imageUrl ? (p.imageUrl.startsWith('http') ? p.imageUrl : `${p.imageUrl}`) : 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80';
         const isSold = p.status === 'Vendido';
         const isReserved = p.status === 'Reservado';
         const statusClass = isSold ? 'status-vendida' : (isReserved ? 'status-reservado' : 'status-activa');
